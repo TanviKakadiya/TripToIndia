@@ -1,0 +1,3078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripToIndia - Discover Incredible India</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <style>
+        /* Reset and Base Styles */
+        :root {
+            --primary: #FF9933;
+            --primary-dark: #e67e22;
+            --secondary: #138808;
+            --accent: #f39c12;
+            --dark: #1a1a2e;
+            --light: #f9f9f9;
+            --white: #ffffff;
+            --gray: #666666;
+            --light-gray: #eeeeee;
+            --shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --gradient-primary: linear-gradient(135deg, #FF9933 0%, #f39c12 100%);
+            --gradient-dark: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --border-radius: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(255, 153, 51, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.5s ease;
+            z-index: -1;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(255, 153, 51, 0.4);
+        }
+
+        .btn:hover::before {
+            width: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #222;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background-color: rgba(255, 255, 255, 0.98);
+            padding: 5px 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: sans-serif;
+        }
+
+        .logo span:nth-child(1) {
+            color: var(--primary); /* First part */
+        }
+        
+        .logo span:nth-child(2) {
+            color: green; /* Second part */
+        }
+        
+        .logo span:nth-child(3) {
+            color: #0f172a; /* Third part */
+        }
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+        }
+
+        .nav-item:hover::after {
+            width: 100%;
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-icon {
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-icon:hover {
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        /* Hero Image Section */
+        .hero-image {
+            height: 100vh;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3)), url("https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=2000&auto=format&fit=crop");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            margin-top: 0;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards 0.3s;
+        }
+
+        .hero-title span {
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-title span::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary);
+            border-radius: 5px;
+            opacity: 0.5;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards 0.6s;
+        }
+
+        .search-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            width: 100%;
+            max-width: 700px;
+            margin-top: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards 0.9s;
+        }
+
+        .search-box {
+    /* Optional styling for container */
+    display: inline-block;
+  }
+
+  .search-btn {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    height: 50px;
+  }
+
+  .search-btn:hover {
+    background-color: darkorange;
+  }
+        .search-input {
+            flex: 1;
+            padding: 15px 15px 15px 45px;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 153, 51, 0.2);
+        }
+
+        .search-icon-input {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .search-btn {
+            padding: 0 25px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(255, 153, 51, 0.3);
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(255, 153, 51, 0.4);
+        }
+
+        .search-tabs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .search-tab {
+            padding: 8px 20px;
+            background-color: #ffffff;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            font-weight: 500;
+            color: rgb(0, 0, 99);
+        }
+
+        .search-tab.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 153, 51, 0.3);
+        }
+
+        .search-tab:hover:not(.active) {
+            background-color: #e6e6e6;
+            transform: translateY(-2px);
+        }
+        .search-tabs-2 {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .search-tab-2 {
+            padding: 8px 20px;
+            background-color: #144400;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .search-tab-2.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 153, 51, 0.3);
+        }
+
+        .search-tab:hover:not(.active) {
+            background-color: #e6e6e6;
+            transform: translateY(-2px);
+        }
+
+        /* Destinations Section */
+        .destinations {
+            padding: 100px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .destinations::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FF9933' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .view-all {
+            color: var(--gray);
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .view-all:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .view-all i {
+            font-size: 0.8rem;
+        }
+
+        .destination-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 30px;
+        }
+
+        .destination-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            top: 0;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .destination-img {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .destination-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .destination-card:hover .destination-img img {
+            transform: scale(1.1);
+        }
+
+        .tour-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .destination-content {
+            padding: 20px;
+        }
+
+        .destination-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .location-pin {
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .destination-card:hover .location-pin {
+            transform: scale(1.2);
+        }
+
+        .destination-region {
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .destination-region i {
+            color: var(--primary);
+            font-size: 0.8rem;
+        }
+
+        .destination-desc {
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .destination-meta {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .meta-item {
+            font-size: 0.9rem;
+        }
+
+        .meta-label {
+            font-weight: 600;
+            color: #444;
+        }
+
+        /* Itineraries Section */
+        .itineraries {
+            padding: 80px 0;
+            background-color: #fbab003a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .itineraries::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 153, 51, 0.1) 0%, rgba(255, 153, 51, 0) 70%);
+            border-radius: 50%;
+        }
+
+        .itineraries::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(19, 136, 8, 0.1) 0%, rgba(19, 136, 8, 0) 70%);
+            border-radius: 50%;
+        }
+
+        .itinerary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 30px;
+        }
+
+        .itinerary-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .itinerary-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .itinerary-img {
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .itinerary-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .itinerary-card:hover .itinerary-img img {
+            transform: scale(1.1);
+        }
+
+        .itinerary-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            padding: 20px;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .itinerary-card:hover .itinerary-overlay {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+        }
+
+        .itinerary-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .itinerary-duration {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .price-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .itinerary-content {
+            padding: 20px;
+        }
+
+        .itinerary-desc {
+            margin-bottom: 20px;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .itinerary-places {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .place-tag {
+            background-color: #f1f1f1;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .place-tag:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('https://i.ibb.co/39BgCCBr/m-activities-delhi-red-fort-l-341-817.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: white;
+            text-align: center;
+            position: relative;
+            isolation: isolate; /* Creates a new stacking context */
+        }
+        
+        .features::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 153, 51, 0.3) 0%, rgba(19, 136, 8, 0.3) 100%);
+            z-index: -1; /* Places it behind the content but above the background image */
+            mix-blend-mode: overlay; /* Blends better with the background */
+        }
+        
+        .features-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .features-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .features-subtitle {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 60px;
+            opacity: 0.9;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .feature-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 40px 30px;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+            z-index: -1;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-15px);
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 2rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+            transition: var(--transition);
+        }
+        
+        .feature-icon::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            z-index: -1;
+            animation: pulse 2s infinite;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(10deg);
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .feature-desc {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+        
+        .features .btn {
+            margin-top: 20px;
+            background: white;
+            color: var(--primary);
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .features .btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Newsletter Section */
+        .newsletter {
+            padding: 80px 0;
+            background-color: #fff9f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .newsletter::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: var(--primary);
+            opacity: 0.05;
+            border-radius: 50%;
+        }
+
+        .newsletter::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: var(--secondary);
+            opacity: 0.05;
+            border-radius: 50%;
+        }
+
+        .newsletter-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .newsletter-content {
+            padding-right: 30px;
+        }
+
+        .newsletter-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #222;
+        }
+
+        .newsletter-desc {
+            margin-bottom: 25px;
+            color: var(--gray);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 450px;
+            position: relative;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 15px 15px 15px 45px;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 153, 51, 0.2);
+        }
+
+        .newsletter-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .newsletter-btn {
+            padding: 0 30px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(255, 153, 51, 0.3);
+            height: 50px;
+        }
+
+        .newsletter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(255, 153, 51, 0.4);
+        }
+
+        .newsletter-image {
+            position: relative;
+        }
+
+        .newsletter-image img {
+            width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .newsletter-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100px;
+            height: 100px;
+            background: var(--primary);
+            opacity: 0.1;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .newsletter-image:hover img {
+            transform: scale(1.03);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gradient-dark);
+            color: white;
+            padding: 80px 0 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            z-index: 0;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .footer-logo span:first-child {
+            color: var(--primary);
+        }
+
+        .footer-logo span:last-child {
+            color: #4ade80;
+        }
+
+        .footer-desc {
+            margin-bottom: 25px;
+            opacity: 0.8;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+
+        .social-icon:hover {
+            background-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+            transition: var(--transition);
+        }
+
+        .footer-links a {
+            opacity: 0.8;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .footer-links a i {
+            font-size: 0.8rem;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+
+        .contact-icon {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-top: 3px;
+        }
+
+        .contact-text {
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .footer-newsletter {
+            margin-top: 20px;
+        }
+
+        .footer-form {
+            display: flex;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .footer-input {
+            flex: 1;
+            padding: 12px 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: white;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .footer-input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .footer-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .footer-btn {
+            width: 45px;
+            height: 45px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-btn:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+        }
+
+        .animate-fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .animate-fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 {
+            transition-delay: 0.2s;
+        }
+
+        .delay-2 {
+            transition-delay: 0.4s;
+        }
+
+        .delay-3 {
+            transition-delay: 0.6s;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+
+            .itinerary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-image {
+                height: auto;
+                padding: 120px 20px 80px;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .search-container {
+                padding: 20px;
+            }
+
+            .search-tabs {
+                flex-wrap: wrap;
+            }
+
+            .destination-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .destination-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .search-btn {
+                margin-left: 0;
+                margin-top: 10px;
+                width: 100%;
+                padding: 12px;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        @media (max-width: 992px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 80%;
+            height: 100%;
+            background-color: white;
+            z-index: 1001;
+            padding: 50px 30px;
+            transition: left 0.3s ease;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            left: 0;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #333;
+            transition: var(--transition);
+        }
+
+        .close-menu:hover {
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        .mobile-nav {
+            margin-top: 50px;
+        }
+
+        .mobile-nav-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .mobile-nav-item:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+            backdrop-filter: blur(5px);
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        @media (max-width: 1200px) {
+            .hero-title {
+              font-size: 3.5rem;
+            }
+            
+            .search-container {
+              max-width: 90%;
+            }
+          }
+          
+          @media (max-width: 992px) {
+            /* Fix header layout */
+            .header-container {
+              padding: 10px 0;
+            }
+            
+            .logo {
+              font-size: 1.8rem;
+            }
+            
+            /* Ensure buttons don't shrink too much */
+            .btn {
+              padding: 10px 20px;
+              font-size: 0.95rem;
+              white-space: nowrap;
+            }
+            
+            .hero-title {
+              font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+              font-size: 1.1rem;
+            }
+            
+            .section-title {
+              font-size: 2.2rem;
+            }
+            
+            .itinerary-grid {
+              grid-template-columns: 1fr;
+            }
+            
+            .itinerary-card {
+              max-width: 100%;
+            }
+          }
+          
+          @media (max-width: 768px) {
+            /* Fix header on mobile */
+            .header-container {
+              padding: 10px 15px;
+              justify-content: space-between;
+            }
+            
+            /* Ensure header doesn't collapse */
+            .header-actions {
+              display: flex;
+              align-items: center;
+              gap: 15px;
+            }
+            
+            /* Maintain button size */
+            .header-actions .btn {
+              padding: 8px 15px;
+              font-size: 0.9rem;
+            }
+            
+            .hero-image {
+              height: auto;
+              min-height: 100vh;
+              padding: 120px 20px 80px;
+            }
+            
+            .hero-title {
+              font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+              font-size: 1rem;
+              margin-bottom: 30px;
+            }
+            
+            .search-container {
+              padding: 20px;
+              margin-top: 10px;
+            }
+            
+            .search-tabs {
+              flex-wrap: wrap;
+              gap: 8px;
+              justify-content: center;
+            }
+            
+            .search-tab, .search-tab-2 {
+              padding: 6px 12px;
+              font-size: 0.9rem;
+              flex: 0 0 auto; /* Prevent shrinking */
+            }
+            
+            .destination-grid {
+              grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .features-grid {
+              grid-template-columns: 1fr;
+              gap: 20px;
+            }
+            
+            .feature-card {
+              padding: 30px 20px;
+            }
+            
+            .newsletter-container {
+              grid-template-columns: 1fr;
+            }
+            
+            .newsletter-image {
+              margin-top: 30px;
+            }
+            
+            .footer-container {
+              grid-template-columns: 1fr 1fr;
+              gap: 30px;
+            }
+            
+            .section-header {
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 15px;
+            }
+            
+            .view-all {
+              align-self: flex-end;
+            }
+            
+            /* Fix button sizes */
+            .btn, .search-btn, .newsletter-btn {
+              min-width: auto;
+              padding: 10px 20px;
+              font-size: 0.95rem;
+            }
+          }
+          
+          @media (max-width: 576px) {
+            /* Fix header on small mobile */
+            .header-container {
+              padding: 8px 10px;
+            }
+            
+            .logo {
+              font-size: 1.6rem;
+            }
+            
+            /* Keep the button visible but smaller */
+            .header-actions .btn {
+              padding: 6px 12px;
+              font-size: 0.85rem;
+            }
+            
+            .container {
+              padding: 0 15px;
+            }
+            
+            .hero-title {
+              font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+              font-size: 0.9rem;
+            }
+            
+            .section-title {
+              font-size: 1.8rem;
+            }
+            
+            .section-subtitle {
+              font-size: 0.9rem;
+            }
+            
+            /* Fix search box layout */
+            .search-box {
+              flex-direction: column;
+              gap: 10px;
+            }
+            
+            .search-btn {
+              margin-left: 0;
+              width: 100%;
+              padding: 12px;
+            }
+            
+            .search-input {
+              width: 100%;
+            }
+            
+            .destination-grid {
+              grid-template-columns: 1fr;
+            }
+            
+            .destination-card {
+              max-width: 100%;
+            }
+            
+            .itinerary-title {
+              font-size: 1.5rem;
+            }
+            
+            .newsletter-title {
+              font-size: 1.8rem;
+            }
+            
+            /* Fix newsletter form */
+            .newsletter-form {
+              flex-direction: column;
+              gap: 10px;
+            }
+            
+            .newsletter-btn {
+              margin-left: 0;
+              width: 100%;
+            }
+            
+            .back-to-top {
+              bottom: 20px;
+              right: 20px;
+              width: 40px;
+              height: 40px;
+            }
+            
+            /* Fix footer layout */
+            .footer-container {
+              grid-template-columns: 1fr;
+            }
+          }
+          
+          /* Fix for search tabs on small screens */
+          @media (max-width: 480px) {
+            /* Keep header button visible */
+            .header-actions .btn {
+              display: inline-block;
+              padding: 6px 10px;
+              font-size: 0.8rem;
+            }
+            
+            .search-tabs {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              width: 100%;
+              gap: 8px;
+            }
+            
+            .search-tab, .search-tab-2 {
+              width: 100%;
+              justify-content: center;
+              text-align: center;
+              font-size: 0.8rem;
+              padding: 8px 10px;
+            }
+            
+            .search-tab-2 {
+              grid-column: span 2;
+              margin-top: 8px;
+            }
+          }
+          
+          /* Fix for itinerary cards on small screens */
+          @media (max-width: 576px) {
+            .itinerary-grid {
+              grid-template-columns: 1fr;
+            }
+            
+            .itinerary-card {
+              width: 100%;
+            }
+            
+            .itinerary-img {
+              height: 200px;
+            }
+          }
+          
+          /* Fix for destination meta on small screens */
+          @media (max-width: 400px) {
+            .destination-meta {
+              flex-direction: column;
+              gap: 10px;
+              align-items: flex-start;
+            }
+          }
+          
+          /* Fix for header on very small screens */
+          @media (max-width: 400px) {
+            .header-container {
+              flex-wrap: nowrap;
+              justify-content: space-between;
+            }
+            
+            .logo {
+              font-size: 1.4rem;
+              flex-shrink: 1;
+            }
+            
+            .header-actions {
+              flex-shrink: 0;
+              gap: 10px;
+            }
+            
+            /* Keep button visible but smaller */
+            .header-actions .btn {
+              padding: 5px 8px;
+              font-size: 0.75rem;
+              display: inline-block;
+            }
+            
+            .mobile-menu-btn {
+              font-size: 1.2rem;
+            }
+          }
+          
+          /* Fix for newsletter form on small screens */
+          @media (max-width: 480px) {
+            .newsletter-form {
+              flex-direction: column;
+              gap: 10px;
+            }
+            
+            .newsletter-input {
+              width: 100%;
+            }
+            
+            .newsletter-btn {
+              width: 100%;
+              margin-left: 0;
+            }
+          }
+          
+          /* Fix for footer on small screens */
+          @media (max-width: 480px) {
+            .footer-social {
+              justify-content: center;
+            }
+            
+            .footer-title {
+              text-align: center;
+            }
+            
+            .footer-title::after {
+              left: 50%;
+              transform: translateX(-50%);
+            }
+            
+            .footer-links {
+              text-align: center;
+            }
+            
+            .footer-links a {
+              justify-content: center;
+            }
+            
+            .contact-item {
+              justify-content: center;
+              text-align: center;
+            }
+          }
+          
+          /* Improve mobile menu */
+          @media (max-width: 992px) {
+            .mobile-menu {
+              width: 85%;
+            }
+            
+            .mobile-menu-btn {
+              display: block;
+            }
+          }
+          
+          @media (max-width: 576px) {
+            .mobile-menu {
+              width: 100%;
+            }
+          }
+          
+          /* Fix for mobile menu button */
+          @media (max-width: 992px) {
+            .mobile-menu-btn {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              font-size: 1.5rem;
+              z-index: 1001;
+            }
+          }
+          
+          /* Ensure buttons don't shrink too much */
+          @media (max-width: 768px) {
+            .btn, .search-btn, .newsletter-btn {
+              min-height: 44px; /* Minimum touch target size */
+            }
+            
+            /* Fix for search container on mobile */
+            .search-container {
+              width: 90%;
+            }
+          }
+        .modal-footer {
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        #go-to-destination-btn {
+            background: linear-gradient(to right, #FF8C00, #FFA500, #FF8C00);
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 3px 6px rgba(255, 140, 0, 0.3);
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            white-space: nowrap; /* Ensures text stays in one line */
+            position: relative;
+            overflow: hidden;
+            min-width: 200px; /* Minimum width to contain the text */
+            text-align: center;
+            animation: gradientShift 3s infinite alternate;
+        }
+
+        #go-to-destination-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(255, 140, 0, 0.4);
+            animation: none;
+        }
+
+        #go-to-destination-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(255, 140, 0, 0.3);
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        #go-to-destination-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 40px;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(30deg);
+            transition: all 0.5s ease;
+        }
+
+        #go-to-destination-btn:hover::after {
+            left: 120%;
+        }
+
+        /* Destination Modal Styles */
+        .destination-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .destination-modal-content {
+            position: relative;
+            background-color: #fff;
+            width: 90%;
+            max-width: 800px;
+            margin: 50px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.5s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .destination-header {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .destination-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .destination-header-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            color: white;
+        }
+
+        .destination-header-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .destination-header-location {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .destination-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .destination-close:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            transform: rotate(90deg);
+        }
+
+        .destination-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .destination-info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .destination-info-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .destination-info-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .destination-info-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .destination-body {
+            padding: 30px;
+        }
+
+        .destination-section {
+            margin-bottom: 30px;
+        }
+
+        .destination-section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #333;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .destination-section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+
+        .destination-description {
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .destination-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            border-radius: 10px;
+            overflow: hidden;
+            height: 150px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .destination-cta {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .destination-cta-btn {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-block;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(255, 153, 51, 0.3);
+        }
+
+        .destination-cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 153, 51, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .destination-modal-content {
+                width: 95%;
+                margin: 30px auto;
+            }
+
+            .destination-header {
+                height: 200px;
+            }
+
+            .destination-header-title {
+                font-size: 1.8rem;
+            }
+
+            .destination-info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .destination-header-title {
+                font-size: 1.5rem;
+            }
+
+            .destination-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .destination-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to Top Button -->
+    <div class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <span>Trip</span><span>To</span><span>India</span>
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <i class="fas fa-compass"></i>
+                    <span>Experiences</span>
+                </li>
+                <li class="nav-item">
+                    <i class="fas fa-utensils"></i>
+                    <a href="cuisine.html"><span>Cuisine</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="login.html">
+                    <span>Login/Register</span></a>
+                </li>
+            </ul>
+            <div class="header-actions">
+                <a href="form.html" class="btn">Plan Your Trip</a>
+                <div class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <div class="close-menu">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="mobile-nav">
+            <a href="#" class="mobile-nav-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Destinations</span>
+            </a>
+            <a href="#" class="mobile-nav-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Festivals</span>
+            </a>
+            <a href="#" class="mobile-nav-item">
+                <i class="fas fa-route"></i>
+                <span>Itineraries</span>
+            </a>
+            <a href="#" class="mobile-nav-item">
+                <i class="fas fa-compass"></i>
+                <span>Experiences</span>
+            </a>
+            <a href="#" class="mobile-nav-item">
+                <i class="fas fa-utensils"></i>
+                <span>Cuisine</span>
+            </a>
+            <a href="#" class="mobile-nav-item">
+                <i class="fas fa-user"></i>
+                <span>My Account</span>
+            </a>
+            <a href="#" class="mobile-nav-item">
+                <i class="fas fa-info-circle"></i>
+                <span>About Us</span>
+            </a>
+            <a href="#" class="mobile-nav-item">
+                <i class="fas fa-phone-alt"></i>
+                <span>Contact</span>
+            </a>
+        </div>
+    </div>
+    <div class="overlay"></div>
+
+    <!-- Hero Image Section (Replacing Hero Section) -->
+    <section class="hero-image">
+        <div class="hero-content">
+            <h1 class="hero-title">Discover <span>Incredible</span> India</h1>
+            <p class="hero-subtitle">Explore diverse cultures, breathtaking landscapes, and unforgettable experiences across the Indian subcontinent</p>
+        </div>
+        <div style="display: flex; justify-content: center; margin-top: 50px;">
+  <a href="booking.html">
+    <div class="search-box">
+      <button class="search-btn">
+        <i class="fas fa-route"></i> Book Your Transportation For Your Dream Destination
+      </button>
+    </div>
+  </a>
+</div>
+
+            
+            <!-- <div class="search-tabs">
+                <div class="search-tab active">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Destinations</span>
+                </div>
+                <div class="search-tab">
+                    <i class="fas fa-route"></i>
+                    <span>Itineraries</span>
+                </div>
+                <div class="search-tab-2">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Festivals</span>
+                </div>
+            </div> -->
+    </section>
+
+    <!-- Popular Destinations Section -->
+    <section class="destinations" id="destinations">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title animate-fade-in">Popular Destinations</h2>
+                    <p class="section-subtitle animate-fade-in">Discover India's most beloved travel spots</p>
+                </div>
+                <a href="destination-page.html" class="view-all animate-fade-in">
+                    View All Destinations
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="destination-grid">
+                <!-- Delhi -->
+                <div class="destination-card animate-fade-in">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1587474260584-136574528ed5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="India Gate, Delhi">
+                        <div class="tour-badge">360° Tour</div>
+                    </div>
+                    <div class="destination-content">
+                        <h3 class="destination-title">
+                            Delhi
+                            <i class="fas fa-map-pin location-pin"></i>
+                        </h3>
+                        <p class="destination-region">
+                            <i class="fas fa-map-marker-alt"></i>
+                            North India
+                        </p>
+                        <p class="destination-desc">India's capital and a city of contrasts, where ancient monuments stand alongside modern architecture and bustling markets.</p>
+                        <div class="destination-meta">
+                            <div class="meta-item">
+                                <div class="meta-label">Best time:</div>
+                                <div>October to March</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">Duration:</div>
+                                <div>3-4 days</div>
+                            </div>
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button class="modal-btn" id="go-to-destination-btn" data-destination="delhi"> <i class="fas fa-info-circle"></i> Explore</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jaipur -->
+                <div class="destination-card animate-fade-in delay-1">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1599661046289-e31897846e41?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Hawa Mahal, Jaipur">
+                        <div class="tour-badge">360° Tour</div>
+                    </div>
+                    <div class="destination-content">
+                        <h3 class="destination-title">
+                            Jaipur
+                            <i class="fas fa-map-pin location-pin"></i>
+                        </h3>
+                        <p class="destination-region">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Rajasthan
+                        </p>
+                        <p class="destination-desc">Known as the 'Pink City', Jaipur is famous for its stunning palaces, colorful bazaars, and rich cultural heritage.</p>
+                        <div class="destination-meta">
+                            <div class="meta-item">
+                                <div class="meta-label">Best time:</div>
+                                <div>October to March</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">Duration:</div>
+                                <div>2-3 days</div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="modal-btn" id="go-to-destination-btn" data-destination="jaipur"> <i class="fas fa-info-circle"></i> Explore</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goa -->
+                <div class="destination-card animate-fade-in delay-2">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Beach in Goa">
+                    </div>
+                    <div class="destination-content">
+                        <h3 class="destination-title">
+                            Goa
+                            <i class="fas fa-map-pin location-pin"></i>
+                        </h3>
+                        <p class="destination-region">
+                            <i class="fas fa-map-marker-alt"></i>
+                            West India
+                        </p>
+                        <p class="destination-desc">India's smallest state known for its pristine beaches, vibrant nightlife, and Portuguese-influenced architecture.</p>
+                        <div class="destination-meta">
+                            <div class="meta-item">
+                                <div class="meta-label">Best time:</div>
+                                <div>November to February</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">Duration:</div>
+                                <div>4-5 days</div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="modal-btn" id="go-to-destination-btn" data-destination="goa"> <i class="fas fa-info-circle"></i> Explore</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Varanasi -->
+                <div class="destination-card animate-fade-in delay-3">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1561361058-c24cecae35ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Ghats of Varanasi">
+                    </div>
+                    <div class="destination-content">
+                        <h3 class="destination-title">
+                            Varanasi
+                            <i class="fas fa-map-pin location-pin"></i>
+                        </h3>
+                        <p class="destination-region">
+                            <i class="fas fa-map-marker-alt"></i>
+                            North India
+                        </p>
+                        <p class="destination-desc">One of the world's oldest continuously inhabited cities, and a major religious hub with sacred ghats along the Ganges River.</p>
+                        <div class="destination-meta">
+                            <div class="meta-item">
+                                <div class="meta-label">Best time:</div>
+                                <div>October to March</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">Duration:</div>
+                                <div>2-3 days</div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="modal-btn" id="go-to-destination-btn" data-destination="varanasi"> <i class="fas fa-info-circle"></i> Explore</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Itineraries Section -->
+    <section class="itineraries" id="itineraries">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title animate-fade-in">Plan Your Dream Trip</h2>
+                    <p class="section-subtitle animate-fade-in">Customizable itineraries for every budget and interest</p>
+                </div>
+                <a href="#" class="view-all animate-fade-in">
+                    View All Itineraries
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="itinerary-grid">
+                <!-- Golden Triangle Tour -->
+                <div class="itinerary-card animate-fade-in">
+                    <div class="itinerary-img">
+                        <img src="https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Taj Mahal, Agra">
+                        <div class="itinerary-overlay">
+                            <h3 class="itinerary-title">Golden Triangle Tour</h3>
+                            <div class="itinerary-duration">
+                                <i class="far fa-clock"></i>
+                                <span>7 Days</span>
+                            </div>
+                        </div>
+                        <div class="price-tag">Mid-Range</div>
+                    </div>
+                    <div class="itinerary-content">
+                        <p class="itinerary-desc">Explore the famous Golden Triangle of India covering Delhi, Agra, and Jaipur, with their rich history, architecture, and culture.</p>
+                        <div class="itinerary-places">
+                            <div class="place-tag">Delhi</div>
+                            <div class="place-tag">Agra</div>
+                            <div class="place-tag">Jaipur</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kerala Backwaters Explorer -->
+                <div class="itinerary-card animate-fade-in delay-1">
+                    <div class="itinerary-img">
+                        <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Kerala Backwaters">
+                        <div class="itinerary-overlay">
+                            <h3 class="itinerary-title">Kerala Backwaters Explorer</h3>
+                            <div class="itinerary-duration">
+                                <i class="far fa-clock"></i>
+                                <span>5 Days</span>
+                            </div>
+                        </div>
+                        <div class="price-tag">Mid-Range</div>
+                    </div>
+                    <div class="itinerary-content">
+                        <p class="itinerary-desc">Discover the serene backwaters, lush hill stations, and pristine beaches of God's Own Country, Kerala.</p>
+                        <div class="itinerary-places">
+                            <div class="place-tag">Kochi</div>
+                            <div class="place-tag">Alleppey</div>
+                            <div class="place-tag">Munnar</div>
+                            <div class="place-tag">Kovalam</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter" id="newsletter">
+        <div class="container">
+            <div class="newsletter-container">
+                <div class="newsletter-content animate-fade-in">
+                    <h2 class="newsletter-title">Ready for your Indian adventure?</h2>
+                    <p class="newsletter-desc">Let's plan your trip – your adventure starts here!</p>
+                    <a href="form.html"><button type="submit" class="newsletter-btn">Let's Plan Your Trip</button></a>
+                </div>
+                <div class="newsletter-image animate-fade-in delay-1">
+                    <img src="https://i.ibb.co/5XL5xQN9/image.png" alt="Taj Mahal">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <span>Trip</span><span>ToIndia</span>
+                    </div>
+                    <p class="footer-desc">Discover the incredible diversity of India with our comprehensive travel guides, itineraries, and booking services.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Destinations</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Itineraries</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Festivals</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Experiences</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Cuisine</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3 class="footer-title">Contact Us</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="contact-text">123 Travel Street, New Delhi, 110001</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                        <div class="contact-text">+91 98765 43210</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="contact-text">info@triptoindia.com</div>
+                    </div>
+                </div>
+                <div class="footer-newsletter">
+                    <h3 class="footer-title">Newsletter</h3>
+                    <p>Subscribe to our newsletter for the latest travel updates and offers.</p>
+                    <form class="footer-form">
+                        <input type="email" class="footer-input" placeholder="Your Email">
+                        <button type="submit" class="footer-btn"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TripToIndia. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Destination Modals -->
+    <!-- Delhi Modal -->
+    <div class="destination-modal" id="delhi-modal">
+        <div class="destination-modal-content">
+            <div class="destination-close"><i class="fas fa-times"></i></div>
+            <div class="destination-header">
+                <img src="https://images.unsplash.com/photo-1587474260584-136574528ed5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Delhi">
+                <div class="destination-header-content">
+                    <h2 class="destination-header-title">Delhi</h2>
+                    <p class="destination-header-location">North India, India</p>
+                </div>
+            </div>
+            <div class="destination-info-grid">
+                <div class="destination-info-item">
+                    <div class="destination-info-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="destination-info-label">Best Time to Visit</div>
+                    <div class="destination-info-value">October to March</div>
+                </div>
+                <div class="destination-info-item">
+                    <div class="destination-info-icon"><i class="fas fa-clock"></i></div>
+                    <div class="destination-info-label">Recommended Duration</div>
+                    <div class="destination-info-value">3-4 days</div>
+                </div>
+                <div class="destination-info-item">
+                    <div class="destination-info-icon"><i class="fas fa-sun"></i></div>
+                    <div class="destination-info-label">Climate</div>
+                    <div class="destination-info-value">Hot Semi-arid</div>
+                </div>
+                <div class="destination-info-item">
+                    <div class="destination-info-icon"><i class="fas fa-language"></i></div>
+                    <div class="destination-info-label">Languages</div>
+                    <div class="destination-info-value">Hindi, English</div>
+                </div>
+            </div>
+            <div class="destination-body">
+                <div class="destination-section">
+                    <h3 class="destination-section-title">About</h3>
+                    <p class="destination-description">Delhi is a city of contrasts where ancient monuments stand alongside modern architecture. As India's capital, it offers visitors a unique glimpse into the country's rich history and vibrant present. From the majestic Red Fort to the bustling markets of Chandni Chowk, Delhi has something for every traveler.</p>
+                    <p class="destination-description">The city has a population of approximately 20 million and is growing as a popular tourist destination. Delhi serves as the perfect starting point for exploring North India, including the famous Golden Triangle route.</p>
+                </div>
+                <div class="destination-section">
+                    <h3 class="destination-section-title">Photo Gallery</h3>
+                    <div class="destination-gallery">
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1587474260584-136574528ed5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="India Gate">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1585136917228-92c27589e6b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Red Fort">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1592639296346-560c37a0f711?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Qutub Minar">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Humayun's Tomb">
+                        </div>
+                    </div>
+                </div>
+                <div class="destination-cta">
+                    <a href="map.html" class="destination-cta-btn">Go To Your Dream Destination</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jaipur Modal -->
+    <div class="destination-modal" id="jaipur-modal">
+        <div class="destination-modal-content">
+            <div class="destination-close"><i class="fas fa-times"></i></div>
+            <div class="destination-header">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-vhL3x1heqXw9BGeb5oGV7KxqMKght2.png" alt="Jaipur">
+                <div class="destination-header-content">
+                    <h2 class="destination-header-title">Jaipur</h2>
+                    <p class="destination-header-location">Rajasthan, North India, India</p>
+                </div>
+            </div>
+            <div class="destination-info-grid">
+                <div class="destination-info-item">
+                    <div class="destination-info-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="destination-info-label">Best Time to Visit</div>
+                    <div class="destination-info-value">October to March</div>
+                </div>
+                <div class="destination-info-item">
+                    <div class="destination-info-icon"><i class="fas fa-clock"></i></div>
+                    <div class="destination-info-label">Recommended Duration</div>
+                    <div class="destination-info-value">4-5 days</div>
+                </div>
+                <div class="destination-info-item">
+                    <div class="destination-info-icon"><i class="fas fa-sun"></i></div>
+                    <div class="destination-info-label">Climate</div>
+                    <div class="destination-info-value">Hot Semi-arid</div>
+                </div>
+                <div class="destination-info-item">
+                    <div class="destination-info-icon"><i class="fas fa-language"></i></div>
+                    <div class="destination-info-label">Languages</div>
+                    <div class="destination-info-value">Hindi, Rajasthani</div>
+                </div>
+            </div>
+            <div class="destination-body">
+                <div class="destination-section">
+                    <h3 class="destination-section-title">About</h3>
+                    <p class="destination-description">Jaipur is a captivating city located in Rajasthan, North India. It offers visitors a unique glimpse into Indian culture with its blend of historical landmarks, vibrant markets, and delicious local cuisine. The city has a rich heritage that reflects in its architecture, festivals, and traditions. Whether you're interested in exploring ancient temples, enjoying the local food scene, or experiencing the warm hospitality of the locals, Jaipur has something special to offer every traveler.</p>
+                    <p class="destination-description">The city has a population of approximately 3.1 million and is growing as a popular tourist destination.</p>
+                </div>
+                <div class="destination-section">
+                    <h3 class="destination-section-title">Photo Gallery</h3>
+                    <div class="destination-gallery">
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1599661046289-e31897846e41?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Hawa Mahal">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Amber Fort">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1603262110263-fb0112e7cc33?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="City Palace">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1565018054866-968e244671af?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Jal Mahal">
+                        </div>
+                    </div>
+                </div>
+                <div class="destination-cta">
+                    <a href="map.html" class="destination-cta-btn">Go To Your Dream Destination</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Goa Modal -->
+    <div class="destination-modal" id="goa-modal">
+        <div class="destination-modal-content">
+            <div class="destination-close"><i class="fas fa-times"></i></div>
+            <div class="destination-header">
+                <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Goa">
+                <div class="destination-header-content">
+                    <h2 class="destination-header-title">Goa</h2>
+                    <p class="destination-header-location">West India, India</p>
+                </div>
+            </div>
+            <div class="destination-info-grid">
+                <div class="destination-info-item">
+                    <div class="destination-info-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="destination-info-label">Best Time to Visit</div>
+                    <div class="destination-info-value">November to February</div>
+                </div>
+                <div class="destination-info-item">
+                    <div class="destination-info-icon"><i class="fas fa-clock"></i></div>
+                    <div class="destination-info-label">Recommended Duration</div>
+                    <div class="destination-info-value">4-5 days</div>
+                </div>
+                <div class="destination-info-item">
+                    <div class="destination-info-icon"><i class="fas fa-sun"></i></div>
+                    <div class="destination-info-label">Climate</div>
+                    <div class="destination-info-value">Tropical</div>
+                </div>
+                <div class="destination-info-item">
+                    <div class="destination-info-icon"><i class="fas fa-language"></i></div>
+                    <div class="destination-info-label">Languages</div>
+                    <div class="destination-info-value">Konkani, English</div>
+                </div>
+            </div>
+            <div class="destination-body">
+                <div class="destination-section">
+                    <h3 class="destination-section-title">About</h3>
+                    <p class="destination-description">Goa is India's smallest state but one of its most popular tourist destinations. Known for its pristine beaches, vibrant nightlife, and Portuguese-influenced architecture, Goa offers a unique blend of Indian and European cultures. From relaxing on sandy shores to exploring historic churches and forts, Goa has something for every type of traveler.</p>
+                    <p class="destination-description">The state has a population of approximately 1.5 million and is famous for its laid-back atmosphere and beach culture.</p>
+                </div>
+                <div class="destination-section">
+                    <h3 class="destination-section-title">Photo Gallery</h3>
+                    <div class="destination-gallery">
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Goa Beach">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1582972236019-ea4af5ffe587?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Basilica of Bom Jesus">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1614082242765-7c98ca0f3df3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Dudhsagar Falls">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1580253397315-c5adb3a801fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Fort Aguada">
+                        </div>
+                    </div>
+                </div>
+                <div class="destination-cta">
+                    <a href="map.html" class="destination-cta-btn">Go To Your Dream Destination</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Varanasi Modal -->
+    <div class="destination-modal" id="varanasi-modal">
+        <div class="destination-modal-content">
+            <div class="destination-close"><i class="fas fa-times"></i></div>
+            <div class="destination-header">
+                <img src="https://images.unsplash.com/photo-1561361058-c24cecae35ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Varanasi">
+                <div class="destination-header-content">
+                    <h2 class="destination-header-title">Varanasi</h2>
+                    <p class="destination-header-location">North India, India</p>
+                </div>
+            </div>
+            <div class="destination-info-grid">
+                <div class="destination-info-item">
+                    <div class="destination-info-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="destination-info-label">Best Time to Visit</div>
+                    <div class="destination-info-value">October to March</div>
+                </div>
+                <div class="destination-info-item">
+                    <div class="destination-info-icon"><i class="fas fa-clock"></i></div>
+                    <div class="destination-info-label">Recommended Duration</div>
+                    <div class="destination-info-value">2-3 days</div>
+                </div>
+                <div class="destination-info-item">
+                    <div class="destination-info-icon"><i class="fas fa-sun"></i></div>
+                    <div class="destination-info-label">Climate</div>
+                    <div class="destination-info-value">Humid Subtropical</div>
+                </div>
+                <div class="destination-info-item">
+                    <div class="destination-info-icon"><i class="fas fa-language"></i></div>
+                    <div class="destination-info-label">Languages</div>
+                    <div class="destination-info-value">Hindi, Bhojpuri</div>
+                </div>
+            </div>
+            <div class="destination-body">
+                <div class="destination-section">
+                    <h3 class="destination-section-title">About</h3>
+                    <p class="destination-description">Varanasi is one of the world's oldest continuously inhabited cities and a major religious hub in India. Situated on the banks of the sacred Ganges River, it's considered one of the holiest cities in Hinduism. The city is known for its ghats (steps leading to the river), where pilgrims perform ritual ablutions and cremation ceremonies take place.</p>
+                    <p class="destination-description">With a population of approximately 1.2 million, Varanasi attracts both religious pilgrims and tourists seeking to experience India's spiritual traditions.</p>
+                </div>
+                <div class="destination-section">
+                    <h3 class="destination-section-title">Photo Gallery</h3>
+                    <div class="destination-gallery">
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1561361058-c24cecae35ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Varanasi Ghats">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1571536802807-30451e3955d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Evening Aarti">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1627301517152-11505d049286?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kashi Vishwanath Temple">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1644095977097-9abf417a9374?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Boat Ride on Ganges">
+                        </div>
+                    </div>
+                </div>
+                <div class="destination-cta">
+                    <a href="map.html" class="destination-cta-btn">Go To Your Dream Destination</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AOS Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    
+    <script>
+        // Initialize AOS Animation Library
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize AOS
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+            
+            // Mobile Menu Toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const closeMenuBtn = document.querySelector('.close-menu');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const overlay = document.querySelector('.overlay');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            closeMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+
+            overlay.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+
+            // Search Tabs
+            const searchTabs = document.querySelectorAll('.search-tab');
+            searchTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    searchTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                });
+            });
+
+            // Scroll Animation for Elements
+            const animateElements = document.querySelectorAll('.animate-fade-in');
+            
+            const checkIfInView = () => {
+                animateElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementTop < windowHeight - 100) {
+                        element.classList.add('active');
+                    }
+                });
+            };
+
+            // Run on load
+            checkIfInView();
+            
+            // Run on scroll
+            window.addEventListener('scroll', checkIfInView);
+
+            // Header Scroll Effect
+            const header = document.getElementById('header');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // Back to Top Button
+            const backToTopBtn = document.querySelector('.back-to-top');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.add('active');
+                } else {
+                    backToTopBtn.classList.remove('active');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Destination Cards Hover Effect with Parallax
+            const destinationCards = document.querySelectorAll('.destination-card');
+            
+            destinationCards.forEach(card => {
+                const img = card.querySelector('img');
+                
+                card.addEventListener('mouseenter', () => {
+                    img.style.transform = 'scale(1.1)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    img.style.transform = 'scale(1)';
+                });
+            });
+
+            // Smooth Scroll for Navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Form Submission Animation
+            const forms = document.querySelectorAll('form');
+            
+            forms.forEach(form => {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    
+                    const button = form.querySelector('button');
+                    const originalText = button.innerHTML;
+                    
+                    button.innerHTML = '<i class="fas fa-check"></i> Subscribed!';
+                    button.style.backgroundColor = '#4CAF50';
+                    
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.style.backgroundColor = '';
+                        form.reset();
+                    }, 2000);
+                });
+            });
+
+            // Image Lazy Loading
+            const lazyImages = document.querySelectorAll('img');
+            
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.src = img.src; // Trigger load if not already loaded
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                });
+                
+                lazyImages.forEach(img => {
+                    imageObserver.observe(img);
+                });
+            }
+
+            // Preloader Animation (simulate loading)
+            const body = document.body;
+            body.style.overflow = 'hidden';
+            
+            setTimeout(() => {
+                body.style.overflow = 'auto';
+            }, 500);
+
+            // Destination Modal Functionality
+            const exploreButtons = document.querySelectorAll('[data-destination]');
+            const destinationModals = document.querySelectorAll('.destination-modal');
+            const closeButtons = document.querySelectorAll('.destination-close');
+
+            // Open modal when clicking Explore button
+            exploreButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const destinationName = button.getAttribute('data-destination');
+                    const modal = document.getElementById(`${destinationName}-modal`);
+                    if (modal) {
+                        modal.style.display = 'block';
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            });
+
+            // Close modal when clicking close button
+            closeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const modal = button.closest('.destination-modal');
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                });
+            });
+
+            // Close modal when clicking outside the content
+            destinationModals.forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    destinationModals.forEach(modal => {
+                        modal.style.display = 'none';
+                    });
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Gallery image click to enlarge (optional enhancement)
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            galleryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const img = item.querySelector('img');
+                    const src = img.src;
+                    
+                    // Create a lightbox effect
+                    const lightbox = document.createElement('div');
+                    lightbox.style.position = 'fixed';
+                    lightbox.style.top = '0';
+                    lightbox.style.left = '0';
+                    lightbox.style.width = '100%';
+                    lightbox.style.height = '100%';
+                    lightbox.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+                    lightbox.style.display = 'flex';
+                    lightbox.style.alignItems = 'center';
+                    lightbox.style.justifyContent = 'center';
+                    lightbox.style.zIndex = '3000';
+                    lightbox.style.cursor = 'pointer';
+                    
+                    const lightboxImg = document.createElement('img');
+                    lightboxImg.src = src.replace('w=600', 'w=1200'); // Load higher quality if available
+                    lightboxImg.style.maxWidth = '90%';
+                    lightboxImg.style.maxHeight = '90%';
+                    lightboxImg.style.borderRadius = '5px';
+                    lightboxImg.style.boxShadow = '0 5px 30px rgba(0, 0, 0, 0.3)';
+                    
+                    lightbox.appendChild(lightboxImg);
+                    document.body.appendChild(lightbox);
+                    
+                    lightbox.addEventListener('click', () => {
+                        document.body.removeChild(lightbox);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

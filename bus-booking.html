@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Booking - Trip to India</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Trip to India</h1>
+            <p>Discover the incredible</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="flight-booking.html">Flights</a></li>
+                <li><a href="train-booking.html">Trains</a></li>
+                <li><a href="car-booking.html">Cars</a></li>
+                <li><a href="bus-booking.html" class="active">Buses</a></li>
+                <li><a href="#">Destinations</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+
+    <section class="page-banner" style="background-image: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YnVzJTIwdHJhdmVsfGVufDB8fDB8fHww&w=1000&q=80');">
+        <div class="banner-content">
+            <h1>Bus Booking</h1>
+            <p>Explore India's scenic routes by bus</p>
+        </div>
+    </section>
+
+    <section class="booking-section">
+        <div class="booking-container">
+            <div class="booking-tabs">
+                <button class="tab-btn active" data-tab="one-way">One Way</button>
+                <button class="tab-btn" data-tab="round-trip">Round Trip</button>
+            </div>
+            
+            <div class="booking-form-container">
+                <form id="bus-form" class="booking-form" action="transport-option-list.html" method="GET">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="from-city">From</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" id="from-city" placeholder="Departure City" required>
+                            </div>
+                        </div>
+                        <div class="swap-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="form-group">
+                            <label for="to-city">To</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" id="to-city" placeholder="Arrival City" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="departure-date">Departure Date</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                                <input type="date" id="departure-date" required>
+                            </div>
+                        </div>
+                        <div class="form-group return-date">
+                            <label for="return-date">Return Date</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                                <input type="date" id="return-date">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bus-type">Bus Type</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-bus"></i>
+                                <select id="bus-type">
+                                    <option value="all">All Types</option>
+                                    <option value="ac">AC</option>
+                                    <option value="non-ac">Non-AC</option>
+                                    <option value="sleeper">Sleeper</option>
+                                    <option value="volvo">Volvo</option>
+                                    <option value="luxury">Luxury</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="passengers">Passengers</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user-friends"></i>
+                                <select id="passengers">
+                                    <option value="1">1 Passenger</option>
+                                    <option value="2">2 Passengers</option>
+                                    <option value="3">3 Passengers</option>
+                                    <option value="4">4 Passengers</option>
+                                    <option value="5">5 Passengers</option>
+                                    <option value="6">6+ Passengers</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+    <a href="transpot-option-list.html" class="search-btn">
+        <i class="fas fa-search"></i> Search Bus
+    </a>
+</div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="popular-routes">
+        <h2>Popular Bus Routes</h2>
+        <div class="routes-container">
+            <div class="route-card">
+                <div class="route-image" style="background-image: url('https://images.unsplash.com/photo-1587474260584-136574528ed5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8a29sa2F0YXxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80');"></div>
+                <div class="route-content">
+                    <h3>Delhi to Manali</h3>
+                    <div class="route-details">
+                        <div class="route-info">
+                            <i class="fas fa-bus"></i>
+                            <span>Volvo AC</span>
+                        </div>
+                        <div class="route-info">
+                            <i class="fas fa-clock"></i>
+                            <span>14h 30m</span>
+                        </div>
+                        <div class="route-info">
+                            <i class="fas fa-rupee-sign"></i>
+                            <span>From ₹1,200</span>
+                        </div>
+                    </div>
+                    <button class="route-btn">Book Now</button>
+                </div>
+            </div>
+            <div class="route-card">
+                <div class="route-image" style="background-image: url('https://images.unsplash.com/photo-1566552881560-0be862a7c445?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bXVtYmFpfGVufDB8fDB8fHww&w=1000&q=80');"></div>
+                <div class="route-content">
+                    <h3>Mumbai to Goa</h3>
+                    <div class="route-details">
+                        <div class="route-info">
+                            <i class="fas fa-bus"></i>
+                            <span>Sleeper AC</span>
+                        </div>
+                        <div class="route-info">
+                            <i class="fas fa-clock"></i>
+                            <span>12h 00m</span>
+                        </div>
+                        <div class="route-info">
+                            <i class="fas fa-rupee-sign"></i>
+                            <span>From ₹1,100</span>
+                        </div>
+                    </div>
+                    <button class="route-btn">Book Now</button>
+                </div>
+            </div>
+            <div class="route-card">
+                <div class="route-image" style="background-image: url('https://images.unsplash.com/photo-1558431382-27e303142255?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmFuZ2Fsb3JlfGVufDB8fDB8fHww&w=1000&q=80');"></div>
+                <div class="route-content">
+                    <h3>Bangalore to Mysore</h3>
+                    <div class="route-details">
+                        <div class="route-info">
+                            <i class="fas fa-bus"></i>
+                            <span>Luxury AC</span>
+                        </div>
+                        <div class="route-info">
+                            <i class="fas fa-clock"></i>
+                            <span>3h 30m</span>
+                        </div>
+                        <div class="route-info">
+                            <i class="fas fa-rupee-sign"></i>
+                            <span>From ₹450</span>
+                        </div>
+                    </div>
+                    <button class="route-btn">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bus-types">
+        <h2>Types of Buses</h2>
+        <div class="bus-types-container">
+            <div class="bus-type-card">
+                <div class="bus-type-icon">
+                    <i class="fas fa-bus"></i>
+                </div>
+                <h3>Volvo AC</h3>
+                <ul class="bus-features">
+                    <li><i class="fas fa-check"></i> Reclining Seats</li>
+                    <li><i class="fas fa-check"></i> Air Conditioning</li>
+                    <li><i class="fas fa-check"></i> Entertainment System</li>
+                    <li><i class="fas fa-check"></i> Charging Points</li>
+                    <li><i class="fas fa-check"></i> Blankets Available</li>
+                </ul>
+                <div class="bus-type-price">Starting from ₹800</div>
+            </div>
+            <div class="bus-type-card">
+                <div class="bus-type-icon">
+                    <i class="fas fa-bed"></i>
+                </div>
+                <h3>Sleeper AC</h3>
+                <ul class="bus-features">
+                    <li><i class="fas fa-check"></i> Flat Beds</li>
+                    <li><i class="fas fa-check"></i> Air Conditioning</li>
+                    <li><i class="fas fa-check"></i> Reading Lights</li>
+                    <li><i class="fas fa-check"></i> Charging Points</li>
+                    <li><i class="fas fa-check"></i> Privacy Curtains</li>
+                </ul>
+                <div class="bus-type-price">Starting from ₹1,200</div>
+            </div>
+            <div class="bus-type-card">
+                <div class="bus-type-icon">
+                    <i class="fas fa-couch"></i>
+                </div>
+                <h3>Luxury Coach</h3>
+                <ul class="bus-features">
+                    <li><i class="fas fa-check"></i> Extra Legroom</li>
+                    <li><i class="fas fa-check"></i> Premium Interiors</li>
+                    <li><i class="fas fa-check"></i> Onboard Refreshments</li>
+                    <li><i class="fas fa-check"></i> WiFi Available</li>
+                    <li><i class="fas fa-check"></i> Attendant Service</li>
+                </ul>
+                <div class="bus-type-price">Starting from ₹1,500</div>
+            </div>
+            <div class="bus-type-card">
+                <div class="bus-type-icon">
+                    <i class="fas fa-bus-alt"></i>
+                </div>
+                <h3>Non-AC Seater</h3>
+                <ul class="bus-features">
+                    <li><i class="fas fa-check"></i> Comfortable Seats</li>
+                    <li><i class="fas fa-check"></i> Economical Option</li>
+                    <li><i class="fas fa-check"></i> Regular Stops</li>
+                    <li><i class="fas fa-check"></i> Luggage Space</li>
+                    <li><i class="fas fa-check"></i> Wide Coverage</li>
+                </ul>
+                <div class="bus-type-price">Starting from ₹300</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bus-tours">
+        <h2>Special Bus Tour Packages</h2>
+        <div class="tours-container">
+            <div class="tour-card">
+                <div class="tour-image" style="background-image: url('https://images.unsplash.com/photo-1506461883276-594a9d6add46?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGVofGVufDB8fDB8fHww&w=1000&q=80');"></div>
+                <div class="tour-content">
+                    <div class="tour-badge">Popular</div>
+                    <h3>Himalayan Explorer</h3>
+                    <p>Delhi - Shimla - Manali - Dharamshala - Dalhousie</p>
+                    <div class="tour-details">
+                        <div class="tour-info">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>10 Days / 9 Nights</span>
+                        </div>
+                        <div class="tour-info">
+                            <i class="fas fa-hotel"></i>
+                            <span>3-Star Hotels</span>
+                        </div>
+                        <div class="tour-info">
+                            <i class="fas fa-utensils"></i>
+                            <span>All Meals</span>
+                        </div>
+                    </div>
+                    <div class="tour-price">
+                        <span class="price">₹24,999</span> per person
+                    </div>
+                    <button class="tour-btn">View Details</button>
+                </div>
+            </div>
+            <div class="tour-card">
+                <div class="tour-image" style="background-image: url('https://images.unsplash.com/photo-1567157577867-05ccb1388e66?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8amFpcHVyfGVufDB8fDB8fHww&w=1000&q=80');"></div>
+                <div class="tour-content">
+                    <div class="tour-badge">Best Seller</div>
+                    <h3>Rajasthan Heritage</h3>
+                    <p>Delhi - Jaipur - Jodhpur - Udaipur - Jaisalmer</p>
+                    <div class="tour-details">
+                        <div class="tour-info">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>8 Days / 7 Nights</span>
+                        </div>
+                        <div class="tour-info">
+                            <i class="fas fa-hotel"></i>
+                            <span>Heritage Hotels</span>
+                        </div>
+                        <div class="tour-info">
+                            <i class="fas fa-utensils"></i>
+                            <span>Breakfast & Dinner</span>
+                        </div>
+                    </div>
+                    <div class="tour-price">
+                        <span class="price">₹18,500</span> per person
+                    </div>
+                    <button class="tour-btn">View Details</button>
+                </div>
+            </div>
+            <div class="tour-card">
+                <div class="tour-image" style="background-image: url('https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8a2VyYWxhJTIwYmFja3dhdGVyc3xlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80');"></div>
+                <div class="tour-content">
+                    <div class="tour-badge">New</div>
+                    <h3>South India Delight</h3>
+                    <p>Chennai - Pondicherry - Madurai - Munnar - Alleppey</p>
+                    <div class="tour-details">
+                        <div class="tour-info">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>9 Days / 8 Nights</span>
+                        </div>
+                        <div class="tour-info">
+                            <i class="fas fa-hotel"></i>
+                            <span>4-Star Hotels</span>
+                        </div>
+                        <div class="tour-info">
+                            <i class="fas fa-utensils"></i>
+                            <span>All Meals</span>
+                        </div>
+                    </div>
+                    <div class="tour-price">
+                        <span class="price">₹22,999</span> per person
+                    </div>
+                    <button class="tour-btn">View Details</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-choose-us">
+        <h2>Why Book Bus Tickets With Us</h2>
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-ticket-alt"></i>
+                <h3>Instant Confirmation</h3>
+                <p>Get instant confirmation and e-tickets directly to your email.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-map-marked-alt"></i>
+                <h3>Extensive Network</h3>
+                <p>Access to over 3,000 bus operators covering 100,000+ routes across India.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-hand-holding-usd"></i>
+                <h3>Best Prices</h3>
+                <p>Guaranteed best prices with regular discounts and offers.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-headset"></i>
+                <h3>24/7 Support</h3>
+                <p>Round-the-clock customer service for all your travel needs.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Trip to India</h3>
+                <p>Your ultimate travel companion for exploring the wonders of India.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="flight-booking.html">Flight Booking</a></li>
+                    <li><a href="train-booking.html">Train Booking</a></li>
+                    <li><a href="car-booking.html">Car Rental</a></li>
+                    <li><a href="bus-booking.html">Bus Booking</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Travel Street, New Delhi, India</p>
+                <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                <p><i class="fas fa-envelope"></i> info@triptoindia.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Trip to India. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,2285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripToIndia - Transportation Options</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Styles - Matching the provided image */
+header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 15px 0;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 28px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.logo-trip {
+    color: #FF9933; /* Orange color for "Trip" */
+}
+
+.logo-to-india {
+    color: #138808; /* Green color for "ToIndia" */
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #FF9933;
+}
+
+.plan-trip-btn {
+    background-color: #FF9933;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.plan-trip-btn:hover {
+    background-color: #e67e22;
+}
+
+/* Hero Section */
+.hero {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=2000');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+    margin-bottom: 40px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero p {
+    font-size: 20px;
+    max-width: 800px;
+    margin: 0 auto 30px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Navigation Tabs */
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+}
+
+.tab {
+    padding: 18px 30px;
+    cursor: pointer;
+    font-weight: 600;
+    text-align: center;
+    flex: 1;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    z-index: 1;
+}
+
+.tab:hover {
+    background-color: #f9f9f9;
+}
+
+.tab.active {
+    color: white;
+}
+
+.tab-slider {
+    position: absolute;
+    height: 100%;
+    background-color: #FF9933;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    z-index: 0;
+}
+
+.tab-icon {
+    font-size: 20px;
+}
+
+/* Filter Section */
+.filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.search-container {
+    flex: 1;
+    max-width: 400px;
+    position: relative;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.search-container input:focus {
+    outline: none;
+    border-color: #FF9933;
+    box-shadow: 0 0 0 2px rgba(255, 153, 51, 0.2);
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+.filter-options {
+    display: flex;
+    gap: 15px;
+}
+
+.filter-select {
+    padding: 12px 20px;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    background-color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #FF9933;
+}
+
+/* Content Sections */
+.content-section {
+    display: none;
+    padding: 20px 0;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.section-title {
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #333;
+    position: relative;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background-color: #FF9933;
+    border-radius: 2px;
+}
+
+/* Vehicle Cards */
+.vehicle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.vehicle-card {
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.vehicle-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.vehicle-image {
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.availability-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 1;
+}
+
+.available {
+    background-color: rgba(46, 204, 113, 0.9);
+    color: white;
+}
+
+.unavailable {
+    background-color: rgba(231, 76, 60, 0.9);
+    color: white;
+}
+
+.vehicle-details {
+    padding: 25px;
+}
+
+.vehicle-name {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.vehicle-type {
+    color: #777;
+    font-size: 16px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.vehicle-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 15px;
+}
+
+.info-icon {
+    margin-right: 10px;
+    color: #FF9933;
+    width: 20px;
+    text-align: center;
+}
+
+.vehicle-description {
+    margin: 20px 0;
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.vehicle-specs {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.spec-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.spec-title i {
+    color: #FF9933;
+}
+
+.spec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.spec-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.spec-label {
+    color: #777;
+}
+
+.spec-value {
+    font-weight: 500;
+    color: #333;
+}
+
+.driver-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.driver-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.driver-details {
+    flex: 1;
+}
+
+.driver-name {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.driver-experience {
+    font-size: 14px;
+    color: #777;
+}
+
+.vehicle-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-top: 1px solid #eee;
+    background-color: #fcfcfc;
+}
+
+.vehicle-price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+}
+
+.price-period {
+    font-size: 14px;
+    color: #777;
+    font-weight: normal;
+}
+
+.book-button {
+    padding: 12px 25px;
+    background-color: #FF9933;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.book-button:hover {
+    background-color: #e67e22;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 153, 51, 0.3);
+}
+
+.book-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Rating Stars */
+.rating {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.stars {
+    color: #FFD700;
+    margin-right: 10px;
+    letter-spacing: 2px;
+}
+
+.rating-value {
+    font-size: 15px;
+    color: #555;
+    font-weight: 500;
+}
+
+.review-count {
+    color: #777;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+/* Features List */
+.features-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.feature-tag {
+    background-color: #f0f0f0;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 13px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.feature-tag i {
+    color: #FF9933;
+}
+
+/* No Results Message */
+.no-results {
+    text-align: center;
+    padding: 60px 0;
+    color: #777;
+    font-size: 18px;
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(135deg, #FF9933 0%, #FF9933 33%, #FFFFFF 33%, #FFFFFF 66%, #138808 66%, #138808 100%);
+    color: #333;
+    padding: 40px 0 20px;
+    margin-top: 80px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.footer-column h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #333;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.footer-column h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: #FF9933;
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #555;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-links a:hover {
+    color: #FF9933;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    background-color: #FF9933;
+    color: white;
+    transform: translateY(-3px);
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background-color: white;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 12px;
+    overflow: hidden;
+    transform: translateY(50px);
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active .modal {
+    transform: translateY(0);
+}
+
+.modal-header {
+    padding: 20px;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-title {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #777;
+    transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+    color: #FF9933;
+}
+
+.modal-body {
+    padding: 30px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.vehicle-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.gallery-image:hover {
+    transform: scale(1.05);
+}
+
+.modal-section {
+    margin-bottom: 25px;
+}
+
+.modal-section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modal-section-title i {
+    color: #FF9933;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .vehicle-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .hero h1 {
+        font-size: 36px;
+    }
+    
+    .hero p {
+        font-size: 18px;
+    }
+    
+    .tabs {
+        flex-direction: column;
+    }
+    
+    .tab-slider {
+        display: none;
+    }
+    
+    .tab.active {
+        background-color: #FF9933;
+    }
+    
+    .filters {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .search-container {
+        max-width: 100%;
+    }
+    
+    .filter-options {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .filter-select {
+        flex: 1;
+    }
+    
+    .vehicle-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .spec-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .vehicle-gallery {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .vehicle-footer {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .book-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <span class="logo-trip">Trip</span><span class="logo-to-india">ToIndia</span>
+                </a>
+                <div class="nav-links">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-compass"></i>
+                        Experiences
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-utensils"></i>
+                        Cuisine
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        Login/Register
+                    </a>
+                    <button class="plan-trip-btn">Plan Your Trip</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="container">
+            <h1>Discover India's Best Transportation Options</h1>
+            <p>Explore the beauty and diversity of India with our premium selection of cars, flights, and buses tailored for your perfect journey.</p>
+            <button class="plan-trip-btn">Find Your Ride Now</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" data-tab="car">
+                <i class="fas fa-car tab-icon"></i>
+                <span>Cars & Taxis</span>
+            </div>
+            <div class="tab" data-tab="flight">
+                <i class="fas fa-plane tab-icon"></i>
+                <span>Flights</span>
+            </div>
+            <div class="tab" data-tab="bus">
+                <i class="fas fa-bus tab-icon"></i>
+                <span>Buses & Coaches</span>
+            </div>
+            <div class="tab-slider"></div>
+        </div>
+
+        <div class="filters">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="search-input" placeholder="Search by name, route or vehicle number...">
+            </div>
+            <div class="filter-options">
+                <select class="filter-select" id="availability-filter">
+                    <option value="all">All Options</option>
+                    <option value="available">Available Only</option>
+                </select>
+                <select class="filter-select" id="sort-filter">
+                    <option value="default">Default Sorting</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating">Rating: High to Low</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Car Section -->
+        <div class="content-section active" id="car-section">
+            <h2 class="section-title">Premium Car Transportation</h2>
+            <div class="vehicle-grid" id="car-grid"></div>
+        </div>
+
+        <!-- Flight Section -->
+        <div class="content-section" id="flight-section">
+            <h2 class="section-title">Flight Transportation Options</h2>
+            <div class="vehicle-grid" id="flight-grid"></div>
+        </div>
+
+        <!-- Bus Section -->
+        <div class="content-section" id="bus-section">
+            <h2 class="section-title">Bus & Coach Transportation</h2>
+            <div class="vehicle-grid" id="bus-grid"></div>
+        </div>
+    </div>
+
+    <!-- Modal for vehicle details -->
+    <div class="modal-overlay" id="vehicle-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">Vehicle Details</h3>
+                <button class="close-modal" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About TripToIndia</h3>
+                    <p>We provide premium transportation services across India, helping tourists and travelers explore the beauty and diversity of this incredible country.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Services</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Destinations</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Tourism Street, New Delhi, India</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +91 98765 43210</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@triptoindia.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+                <p>&copy; 2025 TripToIndia - All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Transportation Data with enhanced details
+const transportationData = {
+  car: [
+    {
+      id: 1,
+      name: "Rajasthan Royal Tour",
+      type: "Toyota Fortuner SUV",
+      route: "Delhi - Jaipur - Udaipur - Jodhpur - Jaisalmer",
+      duration: "10 Days",
+      price: 25000,
+      priceDisplay: "₹25,000",
+      rating: 4.7,
+      reviewCount: 128,
+      available: true,
+      image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1000",
+      description:
+        "Experience the royal heritage of Rajasthan in comfort with our premium Toyota Fortuner SUV, driven by an experienced local guide who knows all the hidden gems of this colorful state.",
+      vehicleDetails: {
+        make: "Toyota",
+        model: "Fortuner 4x4",
+        year: 2023,
+        color: "Pearl White",
+        seats: 7,
+        ac: "Dual-zone climate control",
+        fuel: "Diesel",
+        mileage: "14 km/l",
+        vehicleNumber: "DL 01 AB 1234",
+        features: ["GPS Navigation", "Leather Seats", "Bluetooth Audio", "Sunroof", "360° Camera", "Luggage Carrier"],
+      },
+      driver: {
+        name: "Rajesh Singh",
+        experience: "15 years of experience",
+        languages: "Hindi, English, French",
+        licenseNumber: "DL-0123456789",
+        phone: "+91 98765 43210",
+        image: "https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1000",
+        "https://images.unsplash.com/photo-1542640244-7e672d6cef4e?q=80&w=1000",
+        "https://images.unsplash.com/photo-1542296332-2e4473faf563?q=80&w=1000",
+        "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=1000",
+        "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=1000",
+        "https://images.unsplash.com/photo-1513584684374-8bab748fbf90?q=80&w=1000",
+      ],
+    },
+    {
+      id: 2,
+      name: "Kerala Backwaters Drive",
+      type: "Honda Accord Sedan",
+      route: "Kochi - Alleppey - Kumarakom - Kovalam",
+      duration: "7 Days",
+      price: 18000,
+      priceDisplay: "₹18,000",
+      rating: 4.5,
+      reviewCount: 94,
+      available: true,
+      image: "https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=1000",
+      description:
+        "Explore the serene backwaters and lush landscapes of Kerala in our comfortable Honda Accord sedan with panoramic sunroof for the best views of God's Own Country.",
+      vehicleDetails: {
+        make: "Honda",
+        model: "Accord Hybrid",
+        year: 2022,
+        color: "Platinum Silver",
+        seats: 5,
+        ac: "Automatic Climate Control",
+        fuel: "Hybrid (Petrol + Electric)",
+        mileage: "22 km/l",
+        vehicleNumber: "KL 07 CD 5678",
+        features: [
+          "Panoramic Sunroof",
+          "Premium Audio",
+          "Leather Seats",
+          "Wireless Charging",
+          "Apple CarPlay",
+          "Android Auto",
+        ],
+      },
+      driver: {
+        name: "Anoop Thomas",
+        experience: "12 years of experience",
+        languages: "Malayalam, English, Tamil",
+        licenseNumber: "KL-9876543210",
+        phone: "+91 95678 12345",
+        image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=1000",
+        "https://images.unsplash.com/photo-1605774337664-7a846e9cdf17?q=80&w=1000",
+        "https://images.unsplash.com/photo-1580674285054-bed31e145f59?q=80&w=1000",
+        "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?q=80&w=1000",
+        "https://images.unsplash.com/photo-1580674285054-bed31e145f59?q=80&w=1000",
+        "https://images.unsplash.com/photo-1580974928064-f0aeef70895a?q=80&w=1000",
+      ],
+    },
+    {
+      id: 3,
+      name: "Himalayan Adventure",
+      type: "Mahindra Thar 4x4",
+      route: "Delhi - Shimla - Manali - Dharamshala - Dalhousie",
+      duration: "12 Days",
+      price: 32000,
+      priceDisplay: "₹32,000",
+      rating: 4.8,
+      reviewCount: 156,
+      available: true,
+      image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=1000",
+      description:
+        "Conquer the mighty Himalayas in our rugged Mahindra Thar 4x4, specially equipped for mountain terrain with an experienced driver who knows every curve of these majestic mountains.",
+      vehicleDetails: {
+        make: "Mahindra",
+        model: "Thar 4x4 LX",
+        year: 2023,
+        color: "Rocky Beige",
+        seats: 4,
+        ac: "Manual Climate Control",
+        fuel: "Diesel",
+        mileage: "12 km/l",
+        vehicleNumber: "HP 03 EF 9012",
+        features: [
+          "4x4 Drive",
+          "All-Terrain Tires",
+          "Roof Carrier",
+          "Winch",
+          "Touchscreen Infotainment",
+          "Hardtop Convertible",
+        ],
+      },
+      driver: {
+        name: "Sonam Wangchuk",
+        experience: "18 years of mountain driving",
+        languages: "Hindi, English, Tibetan, Nepali",
+        licenseNumber: "HP-1234567890",
+        phone: "+91 94567 89012",
+        image: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=1000",
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1000",
+        "https://images.unsplash.com/photo-1455156218388-5e61b526818b?q=80&w=1000",
+        "https://images.unsplash.com/photo-1506974210756-8e1b8985d348?q=80&w=1000",
+        "https://images.unsplash.com/photo-1626108870272-ebe5fa7f6a38?q=80&w=1000",
+        "https://images.unsplash.com/photo-1626108870272-ebe5fa7f6a38?q=80&w=1000",
+      ],
+    },
+    {
+      id: 4,
+      name: "Golden Triangle Self-Drive",
+      type: "Hyundai Creta SUV",
+      route: "Delhi - Agra - Jaipur - Delhi",
+      duration: "5 Days",
+      price: 15000,
+      priceDisplay: "₹15,000",
+      rating: 4.3,
+      reviewCount: 87,
+      available: false,
+      image: "https://images.unsplash.com/photo-1464219789935-c2d9d9aba644?q=80&w=1000",
+      description:
+        "Explore India's famous Golden Triangle at your own pace with our self-drive Hyundai Creta SUV, equipped with GPS navigation and 24/7 roadside assistance.",
+      vehicleDetails: {
+        make: "Hyundai",
+        model: "Creta SX",
+        year: 2022,
+        color: "Galaxy Blue",
+        seats: 5,
+        ac: "Automatic Climate Control",
+        fuel: "Petrol",
+        mileage: "18 km/l",
+        vehicleNumber: "DL 05 GH 3456",
+        features: [
+          "Panoramic Sunroof",
+          "Bose Sound System",
+          "Ventilated Seats",
+          '10.25" Touchscreen',
+          "BlueLink Connected Car",
+          "360° Camera",
+        ],
+      },
+      driver: {
+        name: "Self-Drive",
+        experience: "No driver included",
+        languages: "N/A",
+        licenseNumber: "N/A",
+        phone: "24/7 Roadside Assistance: +91 1800 123 4567",
+        image: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1464219789935-c2d9d9aba644?q=80&w=1000",
+        "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?q=80&w=1000",
+        "https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=1000",
+        "https://images.unsplash.com/photo-1532509774891-141d37f25ae9?q=80&w=1000",
+        "https://images.unsplash.com/photo-1526495124232-a04e1849168c?q=80&w=1000",
+        "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=1000",
+      ],
+    },
+    {
+      id: 5,
+      name: "Goa Beach Explorer",
+      type: "Mini Cooper Convertible",
+      route: "North Goa - South Goa",
+      duration: "3 Days",
+      price: 12000,
+      priceDisplay: "₹12,000",
+      rating: 4.6,
+      reviewCount: 112,
+      available: true,
+      image: "https://images.unsplash.com/photo-1471479917193-f00955256257?q=80&w=1000",
+      description:
+        "Feel the ocean breeze in your hair as you cruise between Goa's beautiful beaches in our stylish Mini Cooper Convertible, perfect for couples and beach lovers.",
+      vehicleDetails: {
+        make: "Mini",
+        model: "Cooper S Convertible",
+        year: 2023,
+        color: "Chili Red",
+        seats: 4,
+        ac: "Automatic Climate Control",
+        fuel: "Petrol",
+        mileage: "14 km/l",
+        vehicleNumber: "GA 08 IJ 7890",
+        features: [
+          "Convertible Soft Top",
+          "Harman Kardon Audio",
+          "Sport Mode",
+          "LED Headlights",
+          "Leather Upholstery",
+          "Ambient Lighting",
+        ],
+      },
+      driver: {
+        name: "Carlos Fernandes",
+        experience: "10 years of experience",
+        languages: "English, Portuguese, Hindi, Konkani",
+        licenseNumber: "GA-0987654321",
+        phone: "+91 97531 24680",
+        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1471479917193-f00955256257?q=80&w=1000",
+        "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?q=80&w=1000",
+        "https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1000",
+        "https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=1000",
+        "https://images.unsplash.com/photo-1520454974749-611b7248ffdb?q=80&w=1000",
+        "https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=1000",
+      ],
+    },
+    {
+      id: 6,
+      name: "Tamil Nadu Temple Tour",
+      type: "Mercedes-Benz E-Class",
+      route: "Chennai - Mahabalipuram - Pondicherry - Thanjavur",
+      duration: "8 Days",
+      price: 22000,
+      priceDisplay: "₹22,000",
+      rating: 4.4,
+      reviewCount: 76,
+      available: false,
+      image: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=1000",
+      description:
+        "Travel in luxury through the cultural heritage of Tamil Nadu in our premium Mercedes-Benz E-Class sedan with professional chauffeur and guided temple tours included.",
+      vehicleDetails: {
+        make: "Mercedes-Benz",
+        model: "E 350d",
+        year: 2022,
+        color: "Obsidian Black",
+        seats: 5,
+        ac: "3-zone Climate Control",
+        fuel: "Diesel",
+        mileage: "16 km/l",
+        vehicleNumber: "TN 09 KL 1234",
+        features: [
+          "Burmester Surround Sound",
+          "Panoramic Sunroof",
+          "Massage Seats",
+          "MBUX Infotainment",
+          "Ambient Lighting",
+          "Driver Assistance Package",
+        ],
+      },
+      driver: {
+        name: "Venkatesh Raman",
+        experience: "14 years of luxury chauffeur experience",
+        languages: "Tamil, English, Telugu, Malayalam",
+        licenseNumber: "TN-5678901234",
+        phone: "+91 98765 01234",
+        image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=1000",
+        "https://images.unsplash.com/photo-1583267746897-2cf415887172?q=80&w=1000",
+        "https://images.unsplash.com/photo-1609326005487-d3fb2c40d5d6?q=80&w=1000",
+        "https://images.unsplash.com/photo-1601362840469-51e4d8d58785?q=80&w=1000",
+        "https://images.unsplash.com/photo-1582639510494-c80b5de9f148?q=80&w=1000",
+        "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=1000",
+      ],
+    },
+  ],
+  flight: [
+    {
+      id: 1,
+      name: "Golden Triangle Air Package",
+      type: "Private Cessna Citation CJ3",
+      route: "Delhi - Jaipur - Agra - Delhi",
+      duration: "5 Days",
+      price: 350000,
+      priceDisplay: "₹3,50,000",
+      rating: 4.7,
+      reviewCount: 42,
+      available: true,
+      image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1000",
+      description:
+        "Experience India's Golden Triangle in ultimate luxury with our private jet service, including VIP airport transfers, luxury accommodations, and private guided tours.",
+      vehicleDetails: {
+        make: "Cessna",
+        model: "Citation CJ3",
+        year: 2020,
+        color: "White/Gold",
+        seats: 8,
+        range: "3,778 km",
+        cruiseSpeed: "770 km/h",
+        altitude: "45,000 feet",
+        registrationNumber: "VT-ABC",
+        features: [
+          "Leather Interior",
+          "Satellite Phone",
+          "Wi-Fi",
+          "Refreshment Center",
+          "Entertainment System",
+          "Private Lavatory",
+        ],
+      },
+      pilot: {
+        name: "Capt. Vikram Sharma",
+        experience: "12,000+ flight hours",
+        certifications: "DGCA ATPL, Type Rating: Citation CJ3",
+        licenseNumber: "ATPL-IN-12345",
+        phone: "+91 98765 43210",
+        image: "https://images.unsplash.com/photo-1583979365152-173a8f14181b?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1000",
+        "https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=1000",
+        "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=1000",
+        "https://images.unsplash.com/photo-1575029644286-efb9039cac46?q=80&w=1000",
+        "https://images.unsplash.com/photo-1587019158091-1a103c5dd17f?q=80&w=1000",
+        "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1000",
+      ],
+    },
+    {
+      id: 2,
+      name: "Northeast Explorer",
+      type: "Embraer Phenom 300",
+      route: "Kolkata - Guwahati - Shillong - Tawang - Kaziranga",
+      duration: "8 Days",
+      price: 420000,
+      priceDisplay: "₹4,20,000",
+      rating: 4.8,
+      reviewCount: 36,
+      available: true,
+      image: "https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?q=80&w=1000",
+      description:
+        "Discover India's remote northeast with our premium private jet service, accessing hard-to-reach destinations with ease and comfort while enjoying spectacular aerial views.",
+      vehicleDetails: {
+        make: "Embraer",
+        model: "Phenom 300",
+        year: 2021,
+        color: "Pearl White/Blue",
+        seats: 9,
+        range: "3,650 km",
+        cruiseSpeed: "834 km/h",
+        altitude: "45,000 feet",
+        registrationNumber: "VT-DEF",
+        features: [
+          "Oval Windows",
+          "Gourmet Galley",
+          "Satellite Communications",
+          "Bose Headsets",
+          "Enclosed Lavatory",
+          "Enhanced Avionics",
+        ],
+      },
+      pilot: {
+        name: "Capt. Arjun Khanna",
+        experience: "15,000+ flight hours",
+        certifications: "DGCA ATPL, Type Rating: Phenom 300",
+        licenseNumber: "ATPL-IN-67890",
+        phone: "+91 98123 45678",
+        image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?q=80&w=1000",
+        "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=1000",
+        "https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?q=80&w=1000",
+        "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?q=80&w=1000",
+        "https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?q=80&w=1000",
+        "https://images.unsplash.com/photo-1494022299300-899b96e49893?q=80&w=1000",
+      ],
+    },
+    {
+      id: 3,
+      name: "Island Hopper",
+      type: "Beechcraft King Air 350i",
+      route: "Chennai - Port Blair - Havelock Island - Neil Island",
+      duration: "6 Days",
+      price: 385000,
+      priceDisplay: "₹3,85,000",
+      rating: 4.9,
+      reviewCount: 28,
+      available: true,
+      image: "https://images.unsplash.com/photo-1507812984078-917a274065be?q=80&w=1000",
+      description:
+        "Hop between the pristine Andaman Islands with our specialized island-hopping aircraft, avoiding long ferry rides and maximizing your time on the beautiful beaches.",
+      vehicleDetails: {
+        make: "Beechcraft",
+        model: "King Air 350i",
+        year: 2019,
+        color: "White/Turquoise",
+        seats: 11,
+        range: "2,797 km",
+        cruiseSpeed: "578 km/h",
+        altitude: "35,000 feet",
+        registrationNumber: "VT-GHI",
+        features: [
+          "Spacious Cabin",
+          "Air Conditioning",
+          "Noise Reduction",
+          "Leather Seating",
+          "Power Outlets",
+          "Enhanced Baggage Capacity",
+        ],
+      },
+      pilot: {
+        name: "Capt. Meera Nair",
+        experience: "9,000+ flight hours",
+        certifications: "DGCA CPL, Type Rating: King Air 350",
+        licenseNumber: "CPL-IN-54321",
+        phone: "+91 97654 32109",
+        image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1507812984078-917a274065be?q=80&w=1000",
+        "https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=1000",
+        "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=1000",
+        "https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=1000",
+        "https://images.unsplash.com/photo-1468818438311-4bab781ab9b8?q=80&w=1000",
+        "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?q=80&w=1000",
+      ],
+    },
+    {
+      id: 4,
+      name: "Spiritual Journey",
+      type: "Pilatus PC-12 NG",
+      route: "Delhi - Varanasi - Bodhgaya - Khajuraho - Varanasi",
+      duration: "7 Days",
+      price: 400000,
+      priceDisplay: "₹4,00,000",
+      rating: 4.6,
+      reviewCount: 32,
+      available: false,
+      image: "https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?q=80&w=1000",
+      description:
+        "Visit India's most sacred sites with our specialized spiritual journey aircraft package, including meditation sessions, spiritual guides, and access to exclusive temple ceremonies.",
+      vehicleDetails: {
+        make: "Pilatus",
+        model: "PC-12 NG",
+        year: 2020,
+        color: "White/Gold",
+        seats: 9,
+        range: "3,417 km",
+        cruiseSpeed: "528 km/h",
+        altitude: "30,000 feet",
+        registrationNumber: "VT-JKL",
+        features: [
+          "Executive Interior",
+          "Large Cargo Door",
+          "Quiet Cabin",
+          "Air Conditioning",
+          "Refreshment Center",
+          "Entertainment System",
+        ],
+      },
+      pilot: {
+        name: "Capt. Rahul Mehta",
+        experience: "11,000+ flight hours",
+        certifications: "DGCA CPL, Type Rating: PC-12",
+        licenseNumber: "CPL-IN-98765",
+        phone: "+91 96543 21098",
+        image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?q=80&w=1000",
+        "https://images.unsplash.com/photo-1579451487601-8c66b50b708c?q=80&w=1000",
+        "https://images.unsplash.com/photo-1470043201067-764120126eb4?q=80&w=1000",
+        "https://images.unsplash.com/photo-1604998103924-89e012e5265a?q=80&w=1000",
+        "https://images.unsplash.com/photo-1470116945706-e6bf5d5a53ca?q=80&w=1000",
+        "https://images.unsplash.com/photo-1470093851219-69951fcbb533?q=80&w=1000",
+      ],
+    },
+    {
+      id: 5,
+      name: "Western India Explorer",
+      type: "Gulfstream G280",
+      route: "Mumbai - Ahmedabad - Udaipur - Jodhpur - Jaisalmer",
+      duration: "9 Days",
+      price: 450000,
+      priceDisplay: "₹4,50,000",
+      rating: 4.5,
+      reviewCount: 24,
+      available: true,
+      image: "https://images.unsplash.com/photo-1542296332-2e4473faf563?q=80&w=1000",
+      description:
+        "Discover the vibrant culture and heritage of Western India in ultimate luxury with our Gulfstream private jet, featuring personalized service and exclusive access to historical sites.",
+      vehicleDetails: {
+        make: "Gulfstream",
+        model: "G280",
+        year: 2021,
+        color: "Pearl White/Navy",
+        seats: 10,
+        range: "6,667 km",
+        cruiseSpeed: "850 km/h",
+        altitude: "45,000 feet",
+        registrationNumber: "VT-MNO",
+        features: [
+          "100% Fresh Air System",
+          "Gourmet Galley",
+          "14 Panoramic Windows",
+          "Satellite Phone",
+          "Wi-Fi",
+          "Entertainment System",
+        ],
+      },
+      pilot: {
+        name: "Capt. Sanjay Malhotra",
+        experience: "18,000+ flight hours",
+        certifications: "DGCA ATPL, Type Rating: Gulfstream G280",
+        licenseNumber: "ATPL-IN-24680",
+        phone: "+91 98765 09876",
+        image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1542296332-2e4473faf563?q=80&w=1000",
+        "https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=1000",
+        "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=1000",
+        "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?q=80&w=1000",
+        "https://images.unsplash.com/photo-1587019158091-1a103c5dd17f?q=80&w=1000",
+        "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1000",
+      ],
+    },
+    {
+      id: 6,
+      name: "South India Highlights",
+      type: "Dassault Falcon 2000LXS",
+      route: "Bangalore - Mysore - Coorg - Kochi - Munnar",
+      duration: "10 Days",
+      price: 480000,
+      priceDisplay: "₹4,80,000",
+      rating: 4.7,
+      reviewCount: 22,
+      available: false,
+      image: "https://images.unsplash.com/photo-1517479956053-b93b1be3fdb3?q=80&w=1000",
+      description:
+        "Experience the diverse landscapes and cultures of South India with our premium Falcon jet service, featuring gourmet South Indian cuisine onboard and luxury accommodations.",
+      vehicleDetails: {
+        make: "Dassault",
+        model: "Falcon 2000LXS",
+        year: 2022,
+        color: "White/Blue",
+        seats: 10,
+        range: "7,410 km",
+        cruiseSpeed: "862 km/h",
+        altitude: "47,000 feet",
+        registrationNumber: "VT-PQR",
+        features: [
+          "FalconCabin HD+",
+          "Satellite Communications",
+          "Gourmet Galley",
+          "Falcon Cabin Management",
+          "LED Lighting",
+          "Enhanced Sound Proofing",
+        ],
+      },
+      pilot: {
+        name: "Capt. Priya Krishnan",
+        experience: "14,000+ flight hours",
+        certifications: "DGCA ATPL, Type Rating: Falcon 2000",
+        licenseNumber: "ATPL-IN-13579",
+        phone: "+91 97531 24680",
+        image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1517479956053-b93b1be3fdb3?q=80&w=1000",
+        "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=1000",
+        "https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?q=80&w=1000",
+        "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?q=80&w=1000",
+        "https://images.unsplash.com/photo-1587019158091-1a103c5dd17f?q=80&w=1000",
+        "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1000",
+      ],
+    },
+  ],
+  bus: [
+    {
+      id: 1,
+      name: "North India Explorer",
+      type: "Volvo 9400 Luxury Coach",
+      route: "Delhi - Agra - Jaipur - Amritsar - Dharamshala",
+      duration: "10 Days",
+      price: 12500,
+      priceDisplay: "₹12,500",
+      rating: 4.4,
+      reviewCount: 156,
+      available: true,
+      image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1000",
+      description:
+        "Experience the highlights of North India in our premium Volvo coach with reclining seats, entertainment system, and onboard refreshments for a comfortable group tour experience.",
+      vehicleDetails: {
+        make: "Volvo",
+        model: "9400 XL Multi-Axle",
+        year: 2022,
+        color: "Silver",
+        seats: 45,
+        ac: "Dual Zone Climate Control",
+        fuel: "Diesel",
+        mileage: "4 km/l",
+        vehicleNumber: "DL 01 ST 1234",
+        features: [
+          "Reclining Seats",
+          "Individual USB Ports",
+          "Entertainment System",
+          "Onboard Toilet",
+          "WiFi",
+          "Refrigerator",
+        ],
+      },
+      driver: {
+        name: "Gurpreet Singh",
+        experience: "16 years of experience",
+        languages: "Hindi, English, Punjabi",
+        licenseNumber: "DL-HGV-987654",
+        phone: "+91 98765 43210",
+        image: "https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?q=80&w=200",
+      },
+      tourGuide: {
+        name: "Aditya Sharma",
+        experience: "12 years as North India specialist",
+        languages: "Hindi, English, French, German",
+        phone: "+91 97654 32109",
+        image: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1000",
+        "https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?q=80&w=1000",
+        "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=1000",
+        "https://images.unsplash.com/photo-1514475026272-1bbd6a4ae718?q=80&w=1000",
+        "https://images.unsplash.com/photo-1532664189809-02133fee698d?q=80&w=1000",
+        "https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=1000",
+      ],
+    },
+    {
+      id: 2,
+      name: "South India Temple Tour",
+      type: "Mercedes-Benz Tourismo Coach",
+      route: "Chennai - Mahabalipuram - Pondicherry - Thanjavur - Madurai",
+      duration: "8 Days",
+      price: 9800,
+      priceDisplay: "₹9,800",
+      rating: 4.5,
+      reviewCount: 132,
+      available: true,
+      image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=1000",
+      description:
+        "Explore the ancient temples and colonial heritage of South India in our comfortable Mercedes-Benz coach with expert guides specializing in temple architecture and history.",
+      vehicleDetails: {
+        make: "Mercedes-Benz",
+        model: "Tourismo 15 RHD",
+        year: 2021,
+        color: "White",
+        seats: 40,
+        ac: "Automatic Climate Control",
+        fuel: "Diesel",
+        mileage: "4.5 km/l",
+        vehicleNumber: "TN 01 BC 5678",
+        features: [
+          "Ergonomic Seats",
+          "Panoramic Windows",
+          "Advanced Entertainment",
+          "Onboard Kitchen",
+          "WiFi",
+          "Charging Ports",
+        ],
+      },
+      driver: {
+        name: "Murugan Krishnan",
+        experience: "14 years of experience",
+        languages: "Tamil, English, Malayalam",
+        licenseNumber: "TN-HGV-123456",
+        phone: "+91 98765 12345",
+        image: "https://images.unsplash.com/photo-1566753323558-f4e0952af115?q=80&w=200",
+      },
+      tourGuide: {
+        name: "Dr. Lakshmi Subramaniam",
+        experience: "PhD in Temple Architecture, 10 years guiding experience",
+        languages: "Tamil, English, French, German, Japanese",
+        phone: "+91 97654 56789",
+        image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=1000",
+        "https://images.unsplash.com/photo-1583267746897-2cf415887172?q=80&w=1000",
+        "https://images.unsplash.com/photo-1609326005487-d3fb2c40d5d6?q=80&w=1000",
+        "https://images.unsplash.com/photo-1601362840469-51e4d8d58785?q=80&w=1000",
+        "https://images.unsplash.com/photo-1582639510494-c80b5de9f148?q=80&w=1000",
+        "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=1000",
+      ],
+    },
+    {
+      id: 3,
+      name: "Gujarat Cultural Circuit",
+      type: "Scania Metrolink Coach",
+      route: "Ahmedabad - Bhuj - Dwarka - Somnath - Gir",
+      duration: "9 Days",
+      price: 10500,
+      priceDisplay: "₹10,500",
+      rating: 4.3,
+      reviewCount: 98,
+      available: true,
+      image: "https://images.unsplash.com/photo-1569420067112-b57b4f024595?q=80&w=1000",
+      description:
+        "Discover the rich cultural heritage and wildlife of Gujarat in our premium Scania coach with special cultural performances and craft demonstrations onboard between destinations.",
+      vehicleDetails: {
+        make: "Scania",
+        model: "Metrolink 14.5m HD",
+        year: 2022,
+        color: "Blue & White",
+        seats: 36,
+        ac: "Multi-Zone Climate Control",
+        fuel: "Diesel",
+        mileage: "4.2 km/l",
+        vehicleNumber: "GJ 01 DE 9012",
+        features: [
+          "Premium Leather Seats",
+          "Individual Entertainment",
+          "Onboard Cafe",
+          "Observation Deck",
+          "WiFi",
+          "Ambient Lighting",
+        ],
+      },
+      driver: {
+        name: "Prakash Patel",
+        experience: "18 years of experience",
+        languages: "Gujarati, Hindi, English",
+        licenseNumber: "GJ-HGV-567890",
+        phone: "+91 98765 67890",
+        image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200",
+      },
+      tourGuide: {
+        name: "Meena Desai",
+        experience: "15 years specializing in Gujarat culture",
+        languages: "Gujarati, Hindi, English, German",
+        phone: "+91 97654 09876",
+        image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1569420067112-b57b4f024595?q=80&w=1000",
+        "https://images.unsplash.com/photo-1566041510639-8d95a2490bfb?q=80&w=1000",
+        "https://images.unsplash.com/photo-1623091410901-00e2d268901f?q=80&w=1000",
+        "https://images.unsplash.com/photo-1626108870272-ebe5fa7f6a38?q=80&w=1000",
+        "https://images.unsplash.com/photo-1626108870272-ebe5fa7f6a38?q=80&w=1000",
+        "https://images.unsplash.com/photo-1626108870272-ebe5fa7f6a38?q=80&w=1000",
+      ],
+    },
+    {
+      id: 4,
+      name: "Goa Beach Hopper",
+      type: "Hop-on Hop-off Open Deck Bus",
+      route: "North Goa - South Goa Beaches",
+      duration: "Flexible",
+      price: 1200,
+      priceDisplay: "₹1,200",
+      rating: 4.6,
+      reviewCount: 215,
+      available: false,
+      image: "https://images.unsplash.com/photo-1468818438311-4bab781ab9b8?q=80&w=1000",
+      description:
+        "Explore Goa's beautiful beaches at your own pace with our hop-on hop-off beach bus service, running every 30 minutes between all major beaches with unlimited rides for the duration of your pass.",
+      vehicleDetails: {
+        make: "Ashok Leyland",
+        model: "Oyster Open Deck",
+        year: 2023,
+        color: "Turquoise & Yellow",
+        seats: 45,
+        ac: "Open Air Upper Deck, AC Lower Deck",
+        fuel: "CNG",
+        mileage: "5 km/kg",
+        vehicleNumber: "GA 08 FG 3456",
+        features: [
+          "Open Top Deck",
+          "Beach Equipment Storage",
+          "Onboard Bar",
+          "Shower Facilities",
+          "WiFi",
+          "Bluetooth Audio",
+        ],
+      },
+      driver: {
+        name: "Rotating Drivers",
+        experience: "All drivers have 10+ years experience",
+        languages: "English, Hindi, Konkani, Portuguese",
+        licenseNumber: "Multiple",
+        phone: "+91 98765 34567",
+        image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=200",
+      },
+      tourGuide: {
+        name: "Beach Ambassadors",
+        experience: "Local Goan guides with extensive knowledge",
+        languages: "English, Hindi, Konkani, Portuguese, Russian, German",
+        phone: "+91 97654 45678",
+        image: "https://images.unsplash.com/photo-1522556189639-b150ed9c4330?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1468818438311-4bab781ab9b8?q=80&w=1000",
+        "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?q=80&w=1000",
+        "https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1000",
+        "https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=1000",
+        "https://images.unsplash.com/photo-1520454974749-611b7248ffdb?q=80&w=1000",
+        "https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=1000",
+      ],
+    },
+    {
+      id: 5,
+      name: "Himalayan Budget Explorer",
+      type: "Tata Starbus Ultra Coach",
+      route: "Delhi - Shimla - Manali - Dharamshala",
+      duration: "7 Days",
+      price: 8500,
+      priceDisplay: "₹8,500",
+      rating: 4.2,
+      reviewCount: 178,
+      available: true,
+      image: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=1000",
+      description:
+        "Explore the beautiful Himalayan hill stations on a budget with our comfortable coach service, including guided hikes, local food experiences, and cultural performances.",
+      vehicleDetails: {
+        make: "Tata",
+        model: "Starbus Ultra 36+D BS6",
+        year: 2021,
+        color: "White & Green",
+        seats: 36,
+        ac: "Standard Air Conditioning",
+        fuel: "Diesel",
+        mileage: "5 km/l",
+        vehicleNumber: "HP 01 HI 7890",
+        features: [
+          "Comfortable Seating",
+          "Large Windows",
+          "Luggage Storage",
+          "First Aid Kit",
+          "Mountain Driving Capability",
+          "Heating System",
+        ],
+      },
+      driver: {
+        name: "Ramesh Thakur",
+        experience: "20 years of mountain driving experience",
+        languages: "Hindi, English, Pahari",
+        licenseNumber: "HP-HGV-345678",
+        phone: "+91 98765 78901",
+        image: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?q=80&w=200",
+      },
+      tourGuide: {
+        name: "Vikram Negi",
+        experience: "Local Himalayan guide with 12 years experience",
+        languages: "Hindi, English, Pahari, Tibetan",
+        phone: "+91 97654 67890",
+        image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=1000",
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1000",
+        "https://images.unsplash.com/photo-1455156218388-5e61b526818b?q=80&w=1000",
+        "https://images.unsplash.com/photo-1506974210756-8e1b8985d348?q=80&w=1000",
+        "https://images.unsplash.com/photo-1626108870272-ebe5fa7f6a38?q=80&w=1000",
+        "https://images.unsplash.com/photo-1626108870272-ebe5fa7f6a38?q=80&w=1000",
+      ],
+    },
+    {
+      id: 6,
+      name: "Kerala Express",
+      type: "Volvo 9400 Sleeper Coach",
+      route: "Kochi - Munnar - Thekkady - Alleppey - Kovalam",
+      duration: "6 Days",
+      price: 11000,
+      priceDisplay: "₹11,000",
+      rating: 4.7,
+      reviewCount: 145,
+      available: false,
+      image: "https://images.unsplash.com/photo-1509650926597-25eead3b6ca9?q=80&w=1000",
+      description:
+        "Travel in comfort through the scenic landscapes of Kerala in our luxury sleeper coach, allowing you to rest overnight while traveling between destinations to maximize your time.",
+      vehicleDetails: {
+        make: "Volvo",
+        model: "9400 B11R Sleeper",
+        year: 2022,
+        color: "White & Green",
+        seats: "30 berths (15 lower + 15 upper)",
+        ac: "Individual Climate Control",
+        fuel: "Diesel",
+        mileage: "4.2 km/l",
+        vehicleNumber: "KL 07 JK 1234",
+        features: [
+          "Individual Sleeper Berths",
+          "Privacy Curtains",
+          "Reading Lights",
+          "USB Charging",
+          "Snack Service",
+          "Onboard Entertainment",
+        ],
+      },
+      driver: {
+        name: "Thomas Kurian",
+        experience: "16 years of experience",
+        languages: "Malayalam, English, Tamil",
+        licenseNumber: "KL-HGV-789012",
+        phone: "+91 98765 90123",
+        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200",
+      },
+      tourGuide: {
+        name: "Anita Menon",
+        experience: "14 years as Kerala tourism specialist",
+        languages: "Malayalam, English, Hindi, German, French",
+        phone: "+91 97654 78901",
+        image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200",
+      },
+      gallery: [
+        "https://images.unsplash.com/photo-1509650926597-25eead3b6ca9?q=80&w=1000",
+        "https://images.unsplash.com/photo-1605774337664-7a846e9cdf17?q=80&w=1000",
+        "https://images.unsplash.com/photo-1580674285054-bed31e145f59?q=80&w=1000",
+        "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?q=80&w=1000",
+        "https://images.unsplash.com/photo-1580674285054-bed31e145f59?q=80&w=1000",
+        "https://images.unsplash.com/photo-1580974928064-f0aeef70895a?q=80&w=1000",
+      ],
+    },
+  ],
+}
+
+// DOM Elements
+const tabs = document.querySelectorAll(".tab")
+const contentSections = document.querySelectorAll(".content-section")
+const searchInput = document.getElementById("search-input")
+const availabilityFilter = document.getElementById("availability-filter")
+const sortFilter = document.getElementById("sort-filter")
+const carGrid = document.getElementById("car-grid")
+const flightGrid = document.getElementById("flight-grid")
+const busGrid = document.getElementById("bus-grid")
+const vehicleModal = document.getElementById("vehicle-modal")
+const modalTitle = document.getElementById("modal-title")
+const modalBody = document.getElementById("modal-body")
+const closeModal = document.getElementById("close-modal")
+
+// Current active tab
+let activeTab = "car"
+
+// Initialize the page
+function init() {
+  renderVehicles("car")
+  renderVehicles("flight")
+  renderVehicles("bus")
+
+  // Set up tab slider position
+  updateTabSlider()
+
+  // Set up event listeners
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const tabId = tab.getAttribute("data-tab")
+      switchTab(tabId)
+    })
+  })
+
+  searchInput.addEventListener("input", filterVehicles)
+  availabilityFilter.addEventListener("change", filterVehicles)
+  sortFilter.addEventListener("change", filterVehicles)
+
+  // Modal close button
+  closeModal.addEventListener("click", () => {
+    vehicleModal.classList.remove("active")
+    document.body.style.overflow = "auto"
+  })
+
+  // Close modal when clicking outside
+  vehicleModal.addEventListener("click", (e) => {
+    if (e.target === vehicleModal) {
+      vehicleModal.classList.remove("active")
+      document.body.style.overflow = "auto"
+    }
+  })
+
+  // Window resize event for tab slider
+  window.addEventListener("resize", updateTabSlider)
+}
+
+// Update tab slider position
+function updateTabSlider() {
+  const activeTabElement = document.querySelector(`.tab[data-tab="${activeTab}"]`)
+  const tabSlider = document.querySelector(".tab-slider")
+
+  if (activeTabElement && tabSlider && window.innerWidth >= 768) {
+    const tabRect = activeTabElement.getBoundingClientRect()
+    const tabsRect = document.querySelector(".tabs").getBoundingClientRect()
+
+    tabSlider.style.width = `${tabRect.width}px`
+    tabSlider.style.left = `${tabRect.left - tabsRect.left}px`
+  }
+}
+
+// Switch between tabs
+function switchTab(tabId) {
+  activeTab = tabId
+
+  // Update active tab
+  tabs.forEach((tab) => {
+    if (tab.getAttribute("data-tab") === tabId) {
+      tab.classList.add("active")
+    } else {
+      tab.classList.remove("active")
+    }
+  })
+
+  // Update active content section
+  contentSections.forEach((section) => {
+    if (section.id === `${tabId}-section`) {
+      section.classList.add("active")
+    } else {
+      section.classList.remove("active")
+    }
+  })
+
+  // Update tab slider
+  updateTabSlider()
+}
+
+// Render vehicles for a specific type
+function renderVehicles(type) {
+  const grid = document.getElementById(`${type}-grid`)
+  grid.innerHTML = ""
+
+  const vehicles = filterAndSortVehicles(type)
+
+  if (vehicles.length === 0) {
+    grid.innerHTML = '<div class="no-results">No transportation options found matching your criteria.</div>'
+    return
+  }
+
+  vehicles.forEach((vehicle) => {
+    const card = createVehicleCard(vehicle, type)
+    grid.appendChild(card)
+  })
+}
+
+// Create a vehicle card element
+function createVehicleCard(vehicle, type) {
+  const card = document.createElement("div")
+  card.className = "vehicle-card"
+
+  // Generate rating stars
+  const fullStars = Math.floor(vehicle.rating)
+  const hasHalfStar = vehicle.rating % 1 >= 0.5
+  let starsHTML = ""
+
+  for (let i = 0; i < fullStars; i++) {
+    starsHTML += "★"
+  }
+
+  if (hasHalfStar) {
+    starsHTML += "☆"
+  }
+
+  // Generate features list
+  let featuresHTML = ""
+  if (vehicle.vehicleDetails && vehicle.vehicleDetails.features) {
+    featuresHTML = '<div class="features-list">'
+    vehicle.vehicleDetails.features.slice(0, 3).forEach((feature) => {
+      featuresHTML += `<span class="feature-tag"><i class="fas fa-check-circle"></i> ${feature}</span>`
+    })
+    featuresHTML += "</div>"
+  }
+
+  card.innerHTML = `
+        <div class="vehicle-image" style="background-image: url('${vehicle.image}')">
+            <div class="availability-badge ${vehicle.available ? "available" : "unavailable"}">
+                ${vehicle.available ? "Available" : "Not Available"}
+            </div>
+        </div>
+        <div class="vehicle-details">
+            <h3 class="vehicle-name">${vehicle.name}</h3>
+            <p class="vehicle-type"><i class="fas fa-${type === "car" ? "car" : type === "flight" ? "plane" : "bus"}"></i> ${vehicle.type}</p>
+            <div class="vehicle-info">
+                <i class="fas fa-map-marker-alt info-icon"></i>
+                <span>${vehicle.route}</span>
+            </div>
+            <div class="vehicle-info">
+                <i class="fas fa-calendar-alt info-icon"></i>
+                <span>${vehicle.duration}</span>
+            </div>
+            <div class="rating">
+                <span class="stars">${starsHTML}</span>
+                <span class="rating-value">${vehicle.rating}/5</span>
+                <span class="review-count">(${vehicle.reviewCount} reviews)</span>
+            </div>
+            ${featuresHTML}
+        </div>
+        <div class="vehicle-footer">
+            <div class="vehicle-price">${vehicle.priceDisplay}<span class="price-period">/${vehicle.duration.includes("Day") ? "package" : "day"}</span></div>
+            <button class="book-button" ${!vehicle.available ? "disabled" : ""}>
+                <i class="fas fa-${vehicle.available ? "bookmark" : "times-circle"}"></i>
+                ${vehicle.available ? "Book Now" : "Unavailable"}
+            </button>
+        </div>
+    `
+
+  // Add click event to show details modal
+  card.addEventListener("click", () => {
+    showVehicleDetails(vehicle, type)
+  })
+
+  return card
+}
+
+// Show vehicle details in modal
+function showVehicleDetails(vehicle, type) {
+  modalTitle.textContent = vehicle.name
+
+  // Create modal content based on vehicle type
+  let modalContent = `
+        <div class="vehicle-gallery">
+            ${vehicle.gallery.map((img) => `<img src="${img}" alt="${vehicle.name}" class="gallery-image">`).join("")}
+        </div>
+        
+        <div class="modal-section">
+            <h4 class="modal-section-title"><i class="fas fa-info-circle"></i> Description</h4>
+            <p>${vehicle.description}</p>
+        </div>
+        
+        <div class="modal-section">
+            <h4 class="modal-section-title"><i class="fas fa-route"></i> Route Details</h4>
+            <p><strong>Route:</strong> ${vehicle.route}</p>
+            <p><strong>Duration:</strong> ${vehicle.duration}</p>
+        </div>
+        
+        <div class="modal-section">
+            <h4 class="modal-section-title"><i class="fas fa-${type === "car" ? "car" : type === "flight" ? "plane" : "bus"}"></i> Vehicle Specifications</h4>
+            <div class="spec-grid">
+                <div class="spec-item">
+                    <span class="spec-label">Make:</span>
+                    <span class="spec-value">${vehicle.vehicleDetails.make}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Model:</span>
+                    <span class="spec-value">${vehicle.vehicleDetails.model}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Year:</span>
+                    <span class="spec-value">${vehicle.vehicleDetails.year}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Color:</span>
+                    <span class="spec-value">${vehicle.vehicleDetails.color}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Seats:</span>
+                    <span class="spec-value">${vehicle.vehicleDetails.seats}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">${type === "flight" ? "Range:" : "AC:"}</span>
+                    <span class="spec-value">${type === "flight" ? vehicle.vehicleDetails.range : vehicle.vehicleDetails.ac}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">${type === "flight" ? "Cruise Speed:" : "Fuel:"}</span>
+                    <span class="spec-value">${type === "flight" ? vehicle.vehicleDetails.cruiseSpeed : vehicle.vehicleDetails.fuel}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">${type === "flight" ? "Max Altitude:" : "Mileage:"}</span>
+                    <span class="spec-value">${type === "flight" ? vehicle.vehicleDetails.altitude : vehicle.vehicleDetails.mileage}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Registration:</span>
+                    <span class="spec-value">${type === "flight" ? vehicle.vehicleDetails.registrationNumber : vehicle.vehicleDetails.vehicleNumber}</span>
+                </div>
+            </div>
+        </div>
+    `
+
+  // Add driver/pilot information
+  if (type === "flight") {
+    modalContent += `
+            <div class="modal-section">
+                <h4 class="modal-section-title"><i class="fas fa-user-tie"></i> Pilot Information</h4>
+                <div class="driver-info">
+                    <img src="${vehicle.pilot.image}" alt="${vehicle.pilot.name}" class="driver-avatar">
+                    <div class="driver-details">
+                        <div class="driver-name">${vehicle.pilot.name}</div>
+                        <div class="driver-experience">${vehicle.pilot.experience}</div>
+                        <div class="driver-experience">Certifications: ${vehicle.pilot.certifications}</div>
+                        <div class="driver-experience">License: ${vehicle.pilot.licenseNumber}</div>
+                        <div class="driver-experience">Contact: ${vehicle.pilot.phone}</div>
+                    </div>
+                </div>
+            </div>
+        `
+  } else {
+    modalContent += `
+            <div class="modal-section">
+                <h4 class="modal-section-title"><i class="fas fa-user-tie"></i> Driver Information</h4>
+                <div class="driver-info">
+                    <img src="${vehicle.driver.image}" alt="${vehicle.driver.name}" class="driver-avatar">
+                    <div class="driver-details">
+                        <div class="driver-name">${vehicle.driver.name}</div>
+                        <div class="driver-experience">${vehicle.driver.experience}</div>
+                        <div class="driver-experience">Languages: ${vehicle.driver.languages}</div>
+                        <div class="driver-experience">License: ${vehicle.driver.licenseNumber}</div>
+                        <div class="driver-experience">Contact: ${vehicle.driver.phone}</div>
+                    </div>
+                </div>
+            </div>
+        `
+  }
+
+  // Add tour guide information for buses
+  if (type === "bus" && vehicle.tourGuide) {
+    modalContent += `
+            <div class="modal-section">
+                <h4 class="modal-section-title"><i class="fas fa-user-friends"></i> Tour Guide</h4>
+                <div class="driver-info">
+                    <img src="${vehicle.tourGuide.image}" alt="${vehicle.tourGuide.name}" class="driver-avatar">
+                    <div class="driver-details">
+                        <div class="driver-name">${vehicle.tourGuide.name}</div>
+                        <div class="driver-experience">${vehicle.tourGuide.experience}</div>
+                        <div class="driver-experience">Languages: ${vehicle.tourGuide.languages}</div>
+                        <div class="driver-experience">Contact: ${vehicle.tourGuide.phone}</div>
+                    </div>
+                </div>
+            </div>
+        `
+  }
+
+  // Add features section
+  modalContent += `
+        <div class="modal-section">
+            <h4 class="modal-section-title"><i class="fas fa-star"></i> Features</h4>
+            <div class="features-list">
+                ${vehicle.vehicleDetails.features
+                  .map((feature) => `<span class="feature-tag"><i class="fas fa-check-circle"></i> ${feature}</span>`)
+                  .join("")}
+            </div>
+        </div>
+        
+        <div class="modal-section">
+            <h4 class="modal-section-title"><i class="fas fa-tag"></i> Pricing</h4>
+            <p><strong>Price:</strong> ${vehicle.priceDisplay} for the entire ${vehicle.duration.includes("Day") ? "package" : "day"}</p>
+            <p><strong>Availability:</strong> ${vehicle.available ? "Available for booking" : "Currently unavailable"}</p>
+        </div>
+    `
+
+  modalBody.innerHTML = modalContent
+
+  // Show modal
+  vehicleModal.classList.add("active")
+  document.body.style.overflow = "hidden"
+
+  // Add click event to gallery images
+  const galleryImages = modalBody.querySelectorAll(".gallery-image")
+  galleryImages.forEach((img) => {
+    img.addEventListener("click", () => {
+      window.open(img.src, "_blank")
+    })
+  })
+}
+
+// Filter and sort vehicles based on user input
+function filterAndSortVehicles(type) {
+  let vehicles = [...transportationData[type]]
+  const searchTerm = searchInput.value.toLowerCase()
+  const availabilityValue = availabilityFilter.value
+  const sortValue = sortFilter.value
+
+  // Apply search filter
+  if (searchTerm) {
+    vehicles = vehicles.filter(
+      (vehicle) =>
+        vehicle.name.toLowerCase().includes(searchTerm) ||
+        vehicle.route.toLowerCase().includes(searchTerm) ||
+        (vehicle.vehicleDetails &&
+          vehicle.vehicleDetails.vehicleNumber &&
+          vehicle.vehicleDetails.vehicleNumber.toLowerCase().includes(searchTerm)),
+    )
+  }
+
+  // Apply availability filter
+  if (availabilityValue === "available") {
+    vehicles = vehicles.filter((vehicle) => vehicle.available)
+  }
+
+  // Apply sorting
+  switch (sortValue) {
+    case "price-low":
+      vehicles.sort((a, b) => a.price - b.price)
+      break
+    case "price-high":
+      vehicles.sort((a, b) => b.price - a.price)
+      break
+    case "rating":
+      vehicles.sort((a, b) => b.rating - a.rating)
+      break
+    default:
+      // Default sorting (by ID)
+      vehicles.sort((a, b) => a.id - b.id)
+  }
+
+  return vehicles
+}
+
+// Filter vehicles based on search and filter inputs
+function filterVehicles() {
+  renderVehicles("car")
+  renderVehicles("flight")
+  renderVehicles("bus")
+}
+
+// Initialize the page when DOM is loaded
+document.addEventListener("DOMContentLoaded", init)
+
+    </script>
+</body>
+</html>

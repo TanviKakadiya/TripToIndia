@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Transport - TripToIndia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap">
+    <style>
+        /* Reset and Base Styles */
+        :root {
+            --saffron: #FF9933;
+            --white: #FFFFFF;
+            --green: #138808;
+            --navy: #000080;
+            --dark: #1a1a2e;
+            --light: #f9f9f9;
+            --gray: #666666;
+            --light-gray: #eeeeee;
+            --shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --gradient-saffron: linear-gradient(135deg, #FF9933 0%, #f39c12 100%);
+            --gradient-green: linear-gradient(135deg, #138808 0%, #0d6e06 100%);
+            --gradient-blue: linear-gradient(135deg, #000080 0%, #1e3c72 100%);
+            --gradient-red: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            --gradient-dark: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --border-radius: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: var(--gradient-saffron);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(255, 153, 51, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.5s ease;
+            z-index: -1;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(255, 153, 51, 0.4);
+        }
+
+        .btn:hover::before {
+            width: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-blue {
+            background: var(--gradient-blue);
+            box-shadow: 0 4px 15px rgba(0, 0, 128, 0.3);
+        }
+
+        .btn-blue:hover {
+            box-shadow: 0 7px 20px rgba(0, 0, 128, 0.4);
+        }
+
+        .btn-green {
+            background: var(--gradient-green);
+            box-shadow: 0 4px 15px rgba(19, 136, 8, 0.3);
+        }
+
+        .btn-green:hover {
+            box-shadow: 0 7px 20px rgba(19, 136, 8, 0.4);
+        }
+
+        .btn-red {
+            background: var(--gradient-red);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-red:hover {
+            box-shadow: 0 7px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        /* Header Styles */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background-color: rgba(255, 255, 255, 0.98);
+            padding: 5px 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: sans-serif;
+        }
+
+        .logo span:nth-child(1) {
+            color: var(--saffron);
+        }
+        
+        .logo span:nth-child(2) {
+            color: var(--green);
+        }
+        
+        .logo span:nth-child(3) {
+            color: var(--navy);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--saffron);
+            transition: width 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--saffron);
+        }
+
+        .nav-item:hover::after {
+            width: 100%;
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 50vh;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images.unsplash.com/photo-1599661046289-e31897846e41?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            margin-top: 0;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3));
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-title span {
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-title span.saffron {
+            color: var(--saffron);
+        }
+
+        .hero-title span.white {
+            color: white;
+        }
+
+        .hero-title span.green {
+            color: #4ade80;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 80px 0;
+            position: relative;
+            background-color: var(--light);
+        }
+
+        /* Tricolor Stripe */
+        .tricolor-stripe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stripe-saffron {
+            height: 2px;
+            background-color: var(--saffron);
+        }
+
+        .stripe-white {
+            height: 2px;
+            background-color: var(--white);
+        }
+
+        .stripe-green {
+            height: 2px;
+            background-color: var(--green);
+        }
+
+        /* Transport Options */
+        .transport-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: -100px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .transport-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .transport-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .transport-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .transport-icon.flight {
+            background: var(--gradient-blue);
+        }
+
+        .transport-icon.train {
+            background: var(--gradient-saffron);
+        }
+
+        .transport-icon.bus {
+            background: var(--gradient-green);
+        }
+
+        .transport-icon.car {
+            background: var(--gradient-red);
+        }
+
+        .transport-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .transport-desc {
+            color: var(--gray);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        /* Popular Routes */
+        .popular-routes {
+            margin-top: 50px;
+            padding: 30px 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--saffron);
+        }
+
+        .routes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .route-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .route-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .route-img {
+            height: 180px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .route-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .route-card:hover .route-img img {
+            transform: scale(1.1);
+        }
+
+        .route-content {
+            padding: 20px;
+        }
+
+        .route-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .route-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .route-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--saffron);
+            margin-bottom: 15px;
+        }
+
+        .route-price span {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #666;
+        }
+
+        .route-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .route-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+        }
+
+        .route-rating i {
+            color: #ffc107;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gradient-dark);
+            color: white;
+            padding: 60px 0 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-logo span:first-child {
+            color: var(--saffron);
+        }
+
+        .footer-logo span:last-child {
+            color: #4ade80;
+        }
+
+        .footer-desc {
+            margin-bottom: 25px;
+            opacity: 0.8;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+
+        .social-icon:hover {
+            background-color: var(--saffron);
+            transform: translateY(-5px);
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--saffron);
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+            transition: var(--transition);
+        }
+
+        .footer-links a {
+            opacity: 0.8;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--saffron);
+            transform: translateX(5px);
+        }
+
+        .footer-links a i {
+            font-size: 0.8rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .transport-options {
+                margin-top: -50px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                height: 40vh;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .routes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .transport-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        @media (max-width: 992px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <span>Trip</span><span>To</span><span>India</span>
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </li>
+                <li class="nav-item">
+                    <i class="fas fa-info-circle"></i>
+                    <span>About</span>
+                </li>
+                <li class="nav-item">
+                    <i class="fas fa-headset"></i>
+                    <span>Contact</span>
+                </li>
+            </ul>
+            <div class="header-actions">
+                <a href="#" class="btn">My Bookings</a>
+                <div class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="saffron">Explore</span> 
+                <span class="white">India</span> 
+                <span class="green">Seamlessly</span>
+            </h1>
+            <p class="hero-subtitle">Choose your preferred mode of transport and book with ease</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="main-content">
+        <div class="tricolor-stripe">
+            <div class="stripe-saffron"></div>
+            <div class="stripe-white"></div>
+            <div class="stripe-green"></div>
+        </div>
+        <div class="container">
+            <!-- Transport Options -->
+            <div class="transport-options">
+                <a href="flight-booking.html" class="transport-card">
+                    <div class="transport-icon flight">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <h3 class="transport-title">Flights</h3>
+                    <p class="transport-desc">Book domestic and international flights at best prices</p>
+                    <button class="btn btn-blue">Book Flight</button>
+                </a>
+                
+                <a href="train-booking.html" class="transport-card">
+                    <div class="transport-icon train">
+                        <i class="fas fa-train"></i>
+                    </div>
+                    <h3 class="transport-title">Trains</h3>
+                    <p class="transport-desc">Reserve your train tickets across India</p>
+                    <button class="btn">Book Train</button>
+                </a>
+                
+                <a href="bus-booking.html" class="transport-card">
+                    <div class="transport-icon bus">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <h3 class="transport-title">Buses</h3>
+                    <p class="transport-desc">Find buses for all routes with comfortable options</p>
+                    <button class="btn btn-green">Book Bus</button>
+                </a>
+                
+                <a href="car-booking.html" class="transport-card">
+                    <div class="transport-icon car">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3 class="transport-title">Car Rentals</h3>
+                    <p class="transport-desc">Rent cars with or without drivers for your trips</p>
+                    <button class="btn btn-red">Rent Car</button>
+                </a>
+            </div>
+
+            
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <span>Trip</span><span>ToIndia</span>
+                    </div>
+                    <p class="footer-desc">Your one-stop solution for all travel bookings across India. We provide the best prices and options for flights, trains, buses and car rentals.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3 class="footer-title">Transport</h3>
+                    <ul>
+                        <li><a href="flight-booking.html"><i class="fas fa-chevron-right"></i> Flights</a></li>
+                        <li><a href="train-booking.html"><i class="fas fa-chevron-right"></i> Trains</a></li>
+                        <li><a href="bus-booking.html"><i class="fas fa-chevron-right"></i> Buses</a></li>
+                        <li><a href="car-booking.html"><i class="fas fa-chevron-right"></i> Car Rentals</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3 class="footer-title">Contact Us</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Travel Street, New Delhi</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +91 98765 43210</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@triptoindia.com</a></li>
+                        <li><a href="#"><i class="fas fa-headset"></i> 24/7 Customer Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TripToIndia. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Header Scroll Effect
+            const header = document.getElementById('header');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // Mobile Menu Toggle (placeholder - would need implementation)
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            mobileMenuBtn.addEventListener('click', () => {
+                alert('Mobile menu would open here');
+            });
+        });
+    </script>
+</body>
+</html>

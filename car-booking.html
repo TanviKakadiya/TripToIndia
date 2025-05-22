@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Rental - Trip to India</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Trip to India</h1>
+            <p>Discover the incredible</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="flight-booking.html">Flights</a></li>
+                <li><a href="train-booking.html">Trains</a></li>
+                <li><a href="car-booking.html" class="active">Cars</a></li>
+                <li><a href="bus-booking.html">Bus</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+
+    <section class="page-banner" style="background-image: url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZHJpdmluZyUyMGNhcnxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80');">
+        <div class="banner-content">
+            <h1>Car Rental</h1>
+            <p>Explore India at your own pace</p>
+        </div>
+    </section>
+
+    <section class="booking-section">
+        <div class="booking-container">
+            <div class="booking-tabs">
+                <button class="tab-btn active" data-tab="self-drive">Self Drive</button>
+                <button class="tab-btn" data-tab="with-driver">With Driver</button>
+                <button class="tab-btn" data-tab="airport-transfer">Airport Transfer</button>
+            </div>
+            
+            <div class="booking-form-container">
+                <form id="car-form" class="booking-form" action="transport-option-list.html" method="GET">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pickup-location">Pickup Location</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" id="pickup-location" placeholder="City, Airport, or Address" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dropoff-location">Drop-off Location</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" id="dropoff-location" placeholder="City, Airport, or Address" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pickup-date">Pickup Date</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                                <input type="date" id="pickup-date" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pickup-time">Pickup Time</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-clock"></i>
+                                <input type="time" id="pickup-time" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dropoff-date">Drop-off Date</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                                <input type="date" id="dropoff-date" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dropoff-time">Drop-off Time</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-clock"></i>
+                                <input type="time" id="dropoff-time" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="car-type">Car Type</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-car"></i>
+                                <select id="car-type">
+                                    <option value="economy">Economy</option>
+                                    <option value="compact">Compact</option>
+                                    <option value="midsize">Midsize</option>
+                                    <option value="suv">SUV</option>
+                                    <option value="luxury">Luxury</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group driver-age">
+                            <label for="driver-age">Driver's Age</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-id-card"></i>
+                                <select id="driver-age">
+                                    <option value="18-24">18-24</option>
+                                    <option value="25-65" selected>25-65</option>
+                                    <option value="66+">66+</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+    <a href="transpot-option-list.html" class="search-btn">
+        <i class="fas fa-search"></i> Search Cars
+    </a>
+</div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="car-options">
+        <h2>Popular Car Options</h2>
+        <div class="car-container">
+            <div class="car-card">
+                <div class="car-image" style="background-image: url('https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c21hbGwlMjBjYXJ8ZW58MHx8MHx8fDA%3D&w=1000&q=80');"></div>
+                <div class="car-content">
+                    <h3>Economy</h3>
+                    <div class="car-details">
+                        <div class="car-feature">
+                            <i class="fas fa-user"></i>
+                            <span>4 Seats</span>
+                        </div>
+                        <div class="car-feature">
+                            <i class="fas fa-suitcase"></i>
+                            <span>2 Bags</span>
+                        </div>
+                        <div class="car-feature">
+                            <i class="fas fa-snowflake"></i>
+                            <span>A/C</span>
+                        </div>
+                        <div class="car-feature">
+                            <i class="fas fa-gas-pump"></i>
+                            <span>Fuel Efficient</span>
+                        </div>
+                    </div>
+                    <div class="car-price">
+                        <span class="price">₹1,200</span> per day
+                    </div>
+                    <button class="car-btn">Book Now</button>
+                </div>
+            </div>
+            <div class="car-card">
+                <div class="car-image" style="background-image: url('https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c3V2fGVufDB8fDB8fHww&w=1000&q=80');"></div>
+                <div class="car-content">
+                    <h3>SUV</h3>
+                    <div class="car-details">
+                        <div class="car-feature">
+                            <i class="fas fa-user"></i>
+                            <span>7 Seats</span>
+                        </div>
+                        <div class="car-feature">
+                            <i class="fas fa-suitcase"></i>
+                            <span>4 Bags</span>
+                        </div>
+                        <div class="car-feature">
+                            <i class="fas fa-snowflake"></i>
+                            <span>A/C</span>
+                        </div>
+                        <div class="car-feature">
+                            <i class="fas fa-mountain"></i>
+                            <span>All Terrain</span>
+                        </div>
+                    </div>
+                    <div class="car-price">
+                        <span class="price">₹2,800</span> per day
+                    </div>
+                    <button class="car-btn">Book Now</button>
+                </div>
+            </div>
+            <div class="car-card">
+                <div class="car-image" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bHV4dXJ5JTIwY2FyfGVufDB8fDB8fHww&w=1000&q=80');"></div>
+                <div class="car-content">
+                    <h3>Luxury</h3>
+                    <div class="car-details">
+                        <div class="car-feature">
+                            <i class="fas fa-user"></i>
+                            <span>5 Seats</span>
+                        </div>
+                        <div class="car-feature">
+                            <i class="fas fa-suitcase"></i>
+                            <span>3 Bags</span>
+                        </div>
+                        <div class="car-feature">
+                            <i class="fas fa-snowflake"></i>
+                            <span>Climate Control</span>
+                        </div>
+                        <div class="car-feature">
+                            <i class="fas fa-wifi"></i>
+                            <span>Wi-Fi</span>
+                        </div>
+                    </div>
+                    <div class="car-price">
+                        <span class="price">₹4,500</span> per day
+                    </div>
+                    <button class="car-btn">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="road-trips">
+        <h2>Popular Road Trips in India</h2>
+        <div class="trips-container">
+            <div class="trip-card">
+                <div class="trip-image" style="background-image: url('https://images.unsplash.com/photo-1506461883276-594a9d6add46?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGVofGVufDB8fDB8fHww&w=1000&q=80');"></div>
+                <div class="trip-content">
+                    <h3>Delhi to Leh</h3>
+                    <p>Experience the breathtaking Himalayan landscapes</p>
+                    <div class="trip-details">
+                        <div class="trip-info">
+                            <i class="fas fa-road"></i>
+                            <span>1,000 km</span>
+                        </div>
+                        <div class="trip-info">
+                            <i class="fas fa-clock"></i>
+                            <span>7-10 days</span>
+                        </div>
+                        <div class="trip-info">
+                            <i class="fas fa-mountain"></i>
+                            <span>High Altitude</span>
+                        </div>
+                    </div>
+                    <button class="trip-btn">View Itinerary</button>
+                </div>
+            </div>
+            <div class="trip-card">
+                <div class="trip-image" style="background-image: url('https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z29hJTIwYmVhY2h8ZW58MHx8MHx8fDA%3D&w=1000&q=80');"></div>
+                <div class="trip-content">
+                    <h3>Mumbai to Goa</h3>
+                    <p>Coastal drive along the Arabian Sea</p>
+                    <div class="trip-details">
+                        <div class="trip-info">
+                            <i class="fas fa-road"></i>
+                            <span>590 km</span>
+                        </div>
+                        <div class="trip-info">
+                            <i class="fas fa-clock"></i>
+                            <span>2-3 days</span>
+                        </div>
+                        <div class="trip-info">
+                            <i class="fas fa-water"></i>
+                            <span>Coastal</span>
+                        </div>
+                    </div>
+                    <button class="trip-btn">View Itinerary</button>
+                </div>
+            </div>
+            <div class="trip-card">
+                <div class="trip-image" style="background-image: url('https://images.unsplash.com/photo-1567157577867-05ccb1388e66?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8amFpcHVyfGVufDB8fDB8fHww&w=1000&q=80');"></div>
+                <div class="trip-content">
+                    <h3>Golden Triangle</h3>
+                    <p>Delhi, Agra, and Jaipur circuit</p>
+                    <div class="trip-details">
+                        <div class="trip-info">
+                            <i class="fas fa-road"></i>
+                            <span>720 km</span>
+                        </div>
+                        <div class="trip-info">
+                            <i class="fas fa-clock"></i>
+                            <span>4-6 days</span>
+                        </div>
+                        <div class="trip-info">
+                            <i class="fas fa-landmark"></i>
+                            <span>Cultural</span>
+                        </div>
+                    </div>
+                    <button class="trip-btn">View Itinerary</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Trip to India</h3>
+                <p>Your ultimate travel companion for exploring the wonders of India.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="flight-booking.html">Flight Booking</a></li>
+                    <li><a href="train-booking.html">Train Booking</a></li>
+                    <li><a href="car-booking.html">Car Rental</a></li>
+                    <li><a href="#">Destinations</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Travel Street, New Delhi, India</p>
+                <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                <p><i class="fas fa-envelope"></i> info@triptoindia.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Trip to India. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

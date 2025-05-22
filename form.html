@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Tourism - Passenger Information</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --saffron: #FF9933;
+    --white: #FFFFFF;
+    --green: #138808;
+    --navy-blue: #000080;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --border-radius: 8px;
+}
+
+body {
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.573), rgba(255, 255, 255, 0.732)),url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-container {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    position: relative;
+    border-top: 4px solid var(--saffron);
+    border-bottom: 4px solid var(--green);
+}
+
+.login-status {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.login-btn {
+    background-color: var(--green);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+    background-color: #0c6e06;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #333;
+}
+
+.user-info i {
+    color: var(--green);
+}
+
+.hidden {
+    display: none;
+}
+
+.form-header {
+    padding: 20px;
+    text-align: center;
+}
+
+.form-header h2 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 24px;
+}
+
+.flag-colors {
+    display: flex;
+    height: 6px;
+    width: 100%;
+    margin: 0 auto;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.color {
+    flex: 1;
+    height: 100%;
+}
+
+.saffron {
+    background-color: var(--saffron);
+}
+
+.white {
+    background-color: var(--white);
+    position: relative;
+}
+
+.white::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    border: 1px solid var(--navy-blue);
+    border-radius: 50%;
+}
+
+.green {
+    background-color: var(--green);
+}
+
+form {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"] {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 0 2px rgba(19, 136, 8, 0.2);
+}
+
+/* Custom select */
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.select-selected {
+    background-color: white;
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+
+.select-selected:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    border: solid #666;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.select-selected.select-arrow-active:after {
+    transform: translateY(-50%) rotate(-135deg);
+}
+
+.select-items {
+    position: absolute;
+    background-color: white;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.select-hide {
+    display: none;
+}
+
+.select-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.select-item:hover {
+    background-color: #f1f1f1;
+}
+
+.submit-btn {
+    background-color: var(--saffron);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #e88a2a;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .form-container {
+        border-radius: 0;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    .select-selected {
+        padding: 10px 10px 10px 36px;
+        font-size: 14px;
+    }
+    
+    .input-group i {
+        left: 10px;
+    }
+    
+    .submit-btn {
+        padding: 10px 20px;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <form id="passengerForm">
+                <!-- Name field -->
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                    </div>
+                </div>
+                
+                <!-- Number of passengers -->
+                <div class="form-group">
+                    <label for="passengers">Number of Passengers</label>
+                    <div class="input-group">
+                        <i class="fas fa-users"></i>
+                        <input type="number" id="passengers" name="passengers" min="1" max="10" value="1" required>
+                    </div>
+                </div>
+                
+                <!-- Place type dropdown -->
+                <div class="form-group">
+    <label for="placeType">Preferred Place Type</label>
+    <div class="custom-select">
+        <div class="select-selected" id="selectedPlace">Select place type</div>
+        <div class="select-items select-hide" id="placeOptions">
+            <div class="select-item" data-value="Sea Beach">Sea Beach</div>
+            <div class="select-item" data-value="Mountains">Mountains</div>
+            <div class="select-item" data-value="Forest">Forest</div>
+            <div class="select-item" data-value="Adventure">Adventure</div>
+            <div class="select-item" data-value="Historical">Historical</div>
+            <div class="select-item" data-value="Wildlife">Wildlife</div>
+        </div>
+        <input type="hidden" id="placeType" name="placeType" required>
+    </div>
+</div>
+                
+                <!-- Contact details -->
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <div class="input-group">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" placeholder="10-digit mobile number">
+                    </div>
+                </div>
+                
+                <!-- Submit button -->
+                <div class="form-group">
+                    <button type="submit" class="submit-btn">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Form elements
+    const form = document.getElementById('passengerForm');
+    const nameInput = document.getElementById('name');
+    const passengersInput = document.getElementById('passengers');
+    const placeTypeInput = document.getElementById('placeType');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    
+    // Login elements
+    const loginBtn = document.getElementById('loginBtn');
+    const userInfo = document.getElementById('userInfo');
+    const userName = document.getElementById('userName');
+    
+    // Dropdown elements
+    const selectedPlace = document.getElementById('selectedPlace');
+    const placeOptions = document.getElementById('placeOptions');
+    const placeItems = document.querySelectorAll('.select-item');
+    
+    // Check if user is already logged in
+    checkLoginStatus();
+    
+    // Handle dropdown functionality
+    selectedPlace.addEventListener('click', function() {
+        placeOptions.classList.toggle('select-hide');
+        this.classList.toggle('select-arrow-active');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.custom-select')) {
+            placeOptions.classList.add('select-hide');
+            selectedPlace.classList.remove('select-arrow-active');
+        }
+    });
+    
+    // Handle place selection
+    placeItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const value = this.getAttribute('data-value');
+            selectedPlace.textContent = value;
+            placeTypeInput.value = value;
+            placeOptions.classList.add('select-hide');
+        });
+    });
+    
+    // Simulate login
+    loginBtn.addEventListener('click', function() {
+        simulateLogin();
+    });
+    
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Validate place type is selected
+        if (!placeTypeInput.value) {
+            alert('Please select a preferred place type');
+            return;
+        }
+        
+        // Collect form data
+        const formData = {
+            name: nameInput.value,
+            passengers: passengersInput.value,
+            placeType: placeTypeInput.value,
+            email: emailInput.value,
+            phone: phoneInput.value
+        };
+        
+        // Save user data to localStorage
+        localStorage.setItem('userData', JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone
+        }));
+        
+        // Show success message
+        alert('Form submitted successfully!\n' + JSON.stringify(formData, null, 2));
+        
+        // Update login status
+        checkLoginStatus();
+    });
+    
+    // Function to check login status
+    function checkLoginStatus() {
+        const userData = localStorage.getItem('userData');
+        
+        if (userData) {
+            const parsedData = JSON.parse(userData);
+            
+            // Update UI to show logged in state
+            loginBtn.classList.add('hidden');
+            userInfo.classList.remove('hidden');
+            userName.textContent = parsedData.name;
+            
+            // Pre-fill form with user data
+            nameInput.value = parsedData.name || '';
+            emailInput.value = parsedData.email || '';
+            phoneInput.value = parsedData.phone || '';
+        } else {
+            // Show login button
+            loginBtn.classList.remove('hidden');
+            userInfo.classList.add('hidden');
+        }
+    }
+    
+    // Function to simulate login
+    function simulateLogin() {
+        const mockUserData = {
+            name: 'Rahul Sharma',
+            email: 'rahul.sharma@example.com',
+            phone: '9876543210'
+        };
+        
+        localStorage.setItem('userData', JSON.stringify(mockUserData));
+        
+        // Update form with mock data
+        nameInput.value = mockUserData.name;
+        emailInput.value = mockUserData.email;
+        phoneInput.value = mockUserData.phone;
+        
+        // Update login status
+        checkLoginStatus();
+    }
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const selectedPlace = document.getElementById('selectedPlace');
+    const placeOptions = document.getElementById('placeOptions');
+    const placeTypeInput = document.getElementById('placeType');
+    const selectItems = document.querySelectorAll('.select-item');
+
+    // Toggle dropdown visibility
+    selectedPlace.addEventListener('click', function() {
+        placeOptions.classList.toggle('select-hide');
+    });
+
+    // Handle item selection
+    selectItems.forEach(item => {
+        item.addEventListener('click', function() {
+            selectedPlace.textContent = this.textContent;
+            placeTypeInput.value = this.getAttribute('data-value');
+            placeOptions.classList.add('select-hide');
+        });
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.custom-select')) {
+            placeOptions.classList.add('select-hide');
+        }
+    });
+});
+    </script>
+</body>
+</html>

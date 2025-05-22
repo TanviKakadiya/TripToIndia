@@ -1,0 +1,2111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>India Travel Route Planner</title>
+    <!-- TomTom Maps SDK -->
+    <link rel='stylesheet' type='text/css' href='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.23.0/maps/maps.css'>
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.23.0/maps/maps-web.min.js"></script>
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.23.0/services/services-web.min.js"></script>
+    <style>
+        /* Indian Flag Colors */
+        :root {
+            --saffron: #FF9933;
+            --white: #FFFFFF;
+            --green: #138808;
+            --dark-text: #333333;
+            --light-gray: #f5f5f5;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --google-blue: #4285F4;
+            --google-route: #0F9D58;
+            --google-alt-route: #4285F4;
+            --google-bg: #F8F9FA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--google-bg);
+            color: var(--dark-text);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Main Content */
+        .container {
+            display: flex;
+            flex: 1;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Left Side - Travel Details */
+        .travel-details {
+            flex: 0 0 35%;
+            background-color: var(--white);
+            padding: 0;
+            overflow-y: auto;
+            box-shadow: var(--box-shadow);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-container {
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .search-container h2 {
+            color: var(--dark-text);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .input-group {
+            margin-bottom: 1.2rem;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-text);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.9rem;
+            padding-left: 2.5rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--google-blue);
+            box-shadow: 0 1px 3px rgba(66, 133, 244, 0.3);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 10px;
+            top: 38px;
+            width: 20px;
+            height: 20px;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .start-icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230F9D58'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z'/%3E%3C/svg%3E");
+        }
+
+        .dest-icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23DB4437'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z'/%3E%3C/svg%3E");
+        }
+
+        #search-btn {
+            background-color: var(--google-blue);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        #search-btn:hover {
+            background-color: #3367D6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        #search-btn:active {
+            transform: translateY(0);
+        }
+
+        .route-summary {
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .route-summary h3 {
+            color: var(--dark-text);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .route-summary p {
+            color: #5f6368;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .route-stats {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background-color: #f1f3f4;
+            border-radius: 8px;
+        }
+
+        .route-stats-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 1rem;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234285F4'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z'/%3E%3C/svg%3E");
+        }
+
+        .route-stats-details {
+            flex: 1;
+        }
+
+        .route-stats-details h4 {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .route-stats-details p {
+            font-size: 0.8rem;
+            color: #5f6368;
+            margin: 0;
+        }
+
+        .travel-options {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .travel-options h4 {
+            color: var(--dark-text);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .travel-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: #f1f3f4;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .travel-option:hover {
+            background-color: #e8f0fe;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--google-blue);
+        }
+
+        .travel-option.active {
+            background-color: #e8f0fe;
+            border-left: 4px solid var(--google-blue);
+        }
+
+        .travel-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 60%;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .bus-icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234285F4'%3E%3Cpath d='M4 16c0 1.1.9 2 2 2h1v1c0 .55.45 1 1 1s1-.45 1-1v-1h6v1c0 .55.45 1 1 1s1-.45 1-1v-1h1c1.1 0 2-.9 2-2v-5H4v5zm16-11H4c-1.1 0-2 .9-2 2v4h20V7c0-1.1-.9-2-2-2zm-7 5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-4 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z'/%3E%3C/svg%3E");
+        }
+
+        .train-icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230F9D58'%3E%3Cpath d='M12 2c-4 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20v1h12v-1l-1.5-1c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-3.58-4-8-4zm0 2c3.71 0 5.13.46 5.67 1H6.43c.6-.52 2.05-1 5.57-1zM6 7h5v3H6V7zm12 8.5c0 .83-.67 1.5-1.5 1.5h-9c-.83 0-1.5-.67-1.5-1.5V12h12v3.5zm0-5.5h-5V7h5v3z'/%3E%3C/svg%3E");
+        }
+
+        .car-icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23DB4437'%3E%3Cpath d='M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.08 3.11H5.77L6.85 7zM19 17H5v-5h14v5z'/%3E%3Ccircle cx='7.5' cy='14.5' r='1.5'/%3E%3Ccircle cx='16.5' cy='14.5' r='1.5'/%3E%3C/svg%3E");
+        }
+
+        .flight-icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F4B400'%3E%3Cpath d='M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z'/%3E%3C/svg%3E");
+        }
+
+        .travel-details-content {
+            flex: 1;
+        }
+
+        .travel-option-details {
+            flex: 1;
+        }
+
+        .travel-option-details h5 {
+            color: var(--dark-text);
+            margin-bottom: 0.3rem;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .travel-option-details p {
+            color: #5f6368;
+            margin-bottom: 0.2rem;
+            font-size: 0.9rem;
+        }
+
+        .directions-container {
+            padding: 1.5rem;
+        }
+
+        .directions-container h4 {
+            color: var(--dark-text);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .direction-step {
+            display: flex;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .direction-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 30px;
+            bottom: -10px;
+            width: 2px;
+            background-color: #dadce0;
+        }
+
+        .direction-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 1rem;
+            background-size: contain;
+            background-repeat: no-repeat;
+            flex-shrink: 0;
+        }
+
+        .direction-start {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230F9D58'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z'/%3E%3C/svg%3E");
+        }
+
+        .direction-end {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23DB4437'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z'/%3E%3C/svg%3E");
+        }
+
+        .direction-straight {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234285F4'%3E%3Cpath d='M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z'/%3E%3C/svg%3E");
+        }
+
+        .direction-right {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234285F4'%3E%3Cpath d='M22 12l-4-4v3H3v2h15v3z'/%3E%3C/svg%3E");
+        }
+
+        .direction-left {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234285F4'%3E%3Cpath d='M2 12l4-4v3h15v2H6v3z'/%3E%3C/svg%3E");
+        }
+
+        .direction-content {
+            flex: 1;
+        }
+
+        .direction-content h5 {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+            color: var(--dark-text);
+        }
+
+        .direction-content p {
+            font-size: 0.8rem;
+            color: #5f6368;
+        }
+
+        .attractions-container {
+            padding: 1.5rem;
+            background-color: #f1f3f4;
+        }
+
+        .attractions-container h4 {
+            color: var(--dark-text);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .attractions-list {
+            list-style-type: none;
+        }
+
+        .attraction-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            padding: 0.8rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .attraction-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 1rem;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F4B400'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z'/%3E%3C/svg%3E");
+        }
+
+        /* Right Side - Map */
+        .map-container {
+            flex: 1;
+            position: relative;
+            height: 100%;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .map-controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 1000;
+        }
+
+        .map-controls button {
+            width: 40px;
+            height: 40px;
+            background-color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .map-controls button:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Loading indicator */
+        .loading-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+            font-weight: 500;
+            color: var(--dark-text);
+        }
+
+        .loading-indicator.active {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(66, 133, 244, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--google-blue);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Route path styling */
+        .route-path {
+            stroke-dasharray: 8, 4;
+            animation: dash 30s linear infinite;
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -1000;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .travel-details, .map-container {
+                flex: none;
+                width: 100%;
+            }
+            
+            .map-container {
+                height: 500px;
+                position: relative;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .travel-details {
+                padding: 0;
+            }
+            
+            .map-container {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-container,
+            .route-summary,
+            .travel-options,
+            .directions-container,
+            .attractions-container {
+                padding: 1rem;
+            }
+            
+            .map-container {
+                height: 350px;
+            }
+            
+            .travel-option {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .travel-icon {
+                margin-bottom: 0.8rem;
+                margin-right: 0;
+            }
+        }
+         .book-transport-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: orange;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      z-index: 1000;
+    }
+
+    .book-transport-btn:hover {
+      background-color: darkorange;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="travel-details">
+            <div class="search-container">
+                <h2>Plan Your Journey</h2>
+                
+                <div class="input-group">
+                    <label for="start-point">Start Point</label>
+                    <div class="input-icon start-icon"></div>
+                    <input type="text" id="start-point" placeholder="Enter starting point" value="Rajkot">
+                </div>
+                
+                <div class="input-group">
+                    <label for="destination">Destination</label>
+                    <div class="input-icon dest-icon"></div>
+                    <input type="text" id="destination" placeholder="Enter destination" value="Delhi">
+                </div>
+                
+                <button id="search-btn">Find Routes</button>
+            </div>
+            
+            <div class="travel-details-content">
+                <div class="route-summary">
+                    <h3 id="destination-title">Rajkot to Delhi</h3>
+                    <p id="distance">1,258 km</p>
+                    
+                    <div class="route-stats">
+                        <div class="route-stats-icon"></div>
+                        <div class="route-stats-details">
+                            <h4>Best route now due to traffic conditions</h4>
+                            <p>This route has tolls</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="travel-options">
+                    <h4>Travel Options</h4>
+                    
+                    <div class="travel-option active" data-mode="car">
+                        <div class="travel-icon car-icon"></div>
+                        <div class="travel-option-details">
+                            <h5>Car</h5>
+                            <p>₹ <span id="car-cost">6290</span> - ₹ <span id="car-cost-max">12580</span></p>
+                            <p><span id="car-time">20.9</span> hours</p>
+                        </div>
+                    </div>
+                    
+                    <div class="travel-option" data-mode="train">
+                        <div class="travel-icon train-icon"></div>
+                        <div class="travel-option-details">
+                            <h5>Train</h5>
+                            <p>₹ <span id="train-cost">2516</span> - ₹ <span id="train-cost-max">7548</span></p>
+                            <p><span id="train-time">15.7</span> hours</p>
+                        </div>
+                    </div>
+                    
+                    <div class="travel-option" data-mode="bus">
+                        <div class="travel-icon bus-icon"></div>
+                        <div class="travel-option-details">
+                            <h5>Bus</h5>
+                            <p>₹ <span id="bus-cost">1887</span> - ₹ <span id="bus-cost-max">4403</span></p>
+                            <p><span id="bus-time">31.4</span> hours</p>
+                        </div>
+                    </div>
+                    
+                    <div class="travel-option" data-mode="flight">
+                        <div class="travel-icon flight-icon"></div>
+                        <div class="travel-option-details">
+                            <h5>Flight</h5>
+                            <p>₹ <span id="flight-cost">18870</span> - ₹ <span id="flight-cost-max">37740</span></p>
+                            <p><span id="flight-time">3.0</span> hours</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="directions-container">
+                    <h4>Directions</h4>
+                    
+                    <div id="directions-list">
+                        <div class="direction-step">
+                            <div class="direction-icon direction-start"></div>
+                            <div class="direction-content">
+                                <h5>Start from Rajkot</h5>
+                                <p>Head east on Kalavad Road</p>
+                            </div>
+                        </div>
+                        
+                        <div class="direction-step">
+                            <div class="direction-icon direction-right"></div>
+                            <div class="direction-content">
+                                <h5>Turn right onto NH 27</h5>
+                                <p>Follow NH 27 for 85 km</p>
+                            </div>
+                        </div>
+                        
+                        <div class="direction-step">
+                            <div class="direction-icon direction-straight"></div>
+                            <div class="direction-content">
+                                <h5>Continue onto NH 48</h5>
+                                <p>Follow NH 48 for 320 km</p>
+                            </div>
+                        </div>
+                        
+                        <div class="direction-step">
+                            <div class="direction-icon direction-left"></div>
+                            <div class="direction-content">
+                                <h5>Turn left onto NH 48</h5>
+                                <p>Follow NH 48 for 450 km</p>
+                            </div>
+                        </div>
+                        
+                        <div class="direction-step">
+                            <div class="direction-icon direction-right"></div>
+                            <div class="direction-content">
+                                <h5>Turn right onto NH 48</h5>
+                                <p>Follow NH 48 for 280 km</p>
+                            </div>
+                        </div>
+                        
+                        <div class="direction-step">
+                            <div class="direction-icon direction-left"></div>
+                            <div class="direction-content">
+                                <h5>Turn left onto Delhi Ring Road</h5>
+                                <p>Follow Delhi Ring Road for 15 km</p>
+                            </div>
+                        </div>
+                        
+                        <div class="direction-step">
+                            <div class="direction-icon direction-end"></div>
+                            <div class="direction-content">
+                                <h5>Arrive at Delhi</h5>
+                                <p>Your destination is on the right</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="attractions-container">
+                    <h4>Popular Attractions in Delhi</h4>
+                    <div class="attractions-list" id="attractions-list">
+                        <div class="attraction-item">
+                            <div class="attraction-icon"></div>
+                            <span>Red Fort</span>
+                        </div>
+                        <div class="attraction-item">
+                            <div class="attraction-icon"></div>
+                            <span>India Gate</span>
+                        </div>
+                        <div class="attraction-item">
+                            <div class="attraction-icon"></div>
+                            <span>Qutub Minar</span>
+                        </div>
+                        <div class="attraction-item">
+                            <div class="attraction-icon"></div>
+                            <span>Humayun's Tomb</span>
+                        </div>
+                        <div class="attraction-item">
+                            <div class="attraction-icon"></div>
+                            <span>Lotus Temple</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="map-container">
+            <div id="map"></div>
+            <div class="loading-indicator">
+                <div class="loading-spinner"></div>
+                <span>Finding best route...</span>
+            </div>
+            <div class="map-controls">
+                <button id="zoom-in">+</button>
+                <button id="zoom-out">-</button>
+            </div>
+        </div>
+        
+        
+    </div>
+    <div>
+                <a href="booking.html">
+                <button class="book-transport-btn">Book Transport</button></a>
+        </div>
+
+    <script>
+        // TomTom API Key
+        const API_KEY = 'lFqnGk3L9P6mwP8la8FgdXoiqQnMvXg4';
+
+        // Default coordinates for India (centered on Delhi)
+        const DEFAULT_LAT = 28.6139;
+        const DEFAULT_LNG = 77.2090;
+
+        // Initialize the map
+        let map;
+        let mapLoaded = false;
+        let markers = [];
+        let routeLayer = null;
+        let routeSource = null;
+        let currentRouteData = null;
+        let directionsData = [];
+        
+        // City data for fallback
+        const CITY_DATA = {
+            'Delhi': {
+                coords: [77.2090, 28.6139],
+                attractions: ['Red Fort', 'India Gate', 'Qutub Minar', 'Humayun\'s Tomb', 'Lotus Temple']
+            },
+            'Mumbai': {
+                coords: [72.8777, 19.0760],
+                attractions: ['Gateway of India', 'Marine Drive', 'Elephanta Caves', 'Chhatrapati Shivaji Terminus', 'Juhu Beach']
+            },
+            'Kolkata': {
+                coords: [88.3639, 22.5726],
+                attractions: ['Victoria Memorial', 'Howrah Bridge', 'Park Street', 'Indian Museum', 'Dakshineswar Kali Temple']
+            },
+            'Chennai': {
+                coords: [80.2707, 13.0827],
+                attractions: ['Marina Beach', 'Kapaleeshwarar Temple', 'Fort St. George', 'Government Museum', 'Elliot\'s Beach']
+            },
+            'Bengaluru': {
+                coords: [77.5946, 12.9716],
+                attractions: ['Lalbagh Botanical Garden', 'Bangalore Palace', 'Cubbon Park', 'ISKCON Temple', 'Wonderla']
+            },
+            'Hyderabad': {
+                coords: [78.4867, 17.3850],
+                attractions: ['Charminar', 'Golconda Fort', 'Hussain Sagar', 'Ramoji Film City', 'Salar Jung Museum']
+            },
+            'Ahmedabad': {
+                coords: [72.5714, 23.0225],
+                attractions: ['Sabarmati Ashram', 'Kankaria Lake', 'Jama Masjid', 'Adalaj Stepwell', 'ISKCON Temple']
+            },
+            'Pune': {
+                coords: [73.8567, 18.5204],
+                attractions: ['Aga Khan Palace', 'Shaniwar Wada', 'Dagdusheth Halwai Ganpati Temple', 'Sinhagad Fort', 'Osho Ashram']
+            },
+            'Jaipur': {
+                coords: [75.7873, 26.9124],
+                attractions: ['Amber Fort', 'Hawa Mahal', 'City Palace', 'Jantar Mantar', 'Jal Mahal']
+            },
+            'Lucknow': {
+                coords: [80.9462, 26.8467],
+                attractions: ['Bara Imambara', 'Chota Imambara', 'Rumi Darwaza', 'Hazratganj', 'Ambedkar Memorial Park']
+            },
+            'Kanpur': {
+                coords: [80.3319, 26.4499],
+                attractions: ['JK Temple', 'Allen Forest Zoo', 'Moti Jheel', 'Kanpur Memorial Church', 'Phool Bagh']
+            },
+            'Nagpur': {
+                coords: [79.0882, 21.1458],
+                attractions: ['Deekshabhoomi', 'Dragon Palace Temple', 'Ambazari Lake', 'Futala Lake', 'Maharajbagh Zoo']
+            },
+            'Indore': {
+                coords: [75.8577, 22.7196],
+                attractions: ['Rajwada Palace', 'Lal Bagh Palace', 'Sarafa Bazaar', 'Patalpani Waterfall', 'Kanch Mandir']
+            },
+            'Thane': {
+                coords: [72.9780, 19.2183],
+                attractions: ['Upvan Lake', 'Yeoor Hills', 'Kelwa Beach', 'Kopineshwar Temple', 'Sanjay Gandhi National Park']
+            },
+            'Bhopal': {
+                coords: [77.4126, 23.2599],
+                attractions: ['Upper Lake', 'Van Vihar National Park', 'Bhojpur Temple', 'Bhimbetka Rock Shelters', 'Taj-ul-Masajid']
+            },
+            'Visakhapatnam': {
+                coords: [83.2185, 17.6868],
+                attractions: ['Kailasagiri', 'Ramakrishna Beach', 'Submarine Museum', 'Araku Valley', 'Borra Caves']
+            },
+            'Patna': {
+                coords: [85.1376, 25.5941],
+                attractions: ['Golghar', 'Patna Museum', 'Mahatma Gandhi Setu', 'Buddha Smriti Park', 'Takht Sri Patna Sahib']
+            },
+            'Vadodara': {
+                coords: [73.1812, 22.3072],
+                attractions: ['Laxmi Vilas Palace', 'Sayaji Gardens', 'Champaner-Pavagadh Archaeological Park', 'Sursagar Lake', 'Kirti Mandir']
+            },
+            'Ghaziabad': {
+                coords: [77.4538, 28.6692],
+                attractions: ['Swarna Jayanti Park', 'Shipra Mall', 'Mohan Nagar Temple', 'City Forest', 'Drizzling Land Water Park']
+            },
+            'Ludhiana': {
+                coords: [75.8573, 30.9010],
+                attractions: ['Punjab Agricultural University Museum', 'Maharaja Ranjit Singh War Museum', 'Nehru Rose Garden', 'Gurudwara Nanaksar', 'Lodhi Fort']
+            },
+            'Agra': {
+                coords: [78.0081, 27.1767],
+                attractions: ['Taj Mahal', 'Agra Fort', 'Fatehpur Sikri', 'Mehtab Bagh', 'Itimad-ud-Daulah']
+            },
+            'Nashik': {
+                coords: [73.7898, 19.9975],
+                attractions: ['Trimbakeshwar Temple', 'Sula Vineyards', 'Pandavleni Caves', 'Kalaram Temple', 'Someshwar Waterfall']
+            },
+            'Faridabad': {
+                coords: [77.3178, 28.4089],
+                attractions: ['Badkhal Lake', 'Raja Nahar Singh Palace', 'Surajkund Crafts Mela', 'Aravalli Biodiversity Park', 'Dhauj Lake']
+            },
+            'Meerut': {
+                coords: [77.7064, 28.9845],
+                attractions: ['Shahpeer Sahib Dargah', 'Augarnath Temple', 'St. John\'s Church', 'Jama Masjid', 'Martyr\'s Memorial']
+            },
+            'Rajkot': {
+                coords: [70.8022, 22.3039],
+                attractions: ['Kaba Gandhi No Delo', 'Watson Museum', 'Rotary Dolls Museum', 'Aji Dam', 'Race Course']
+            },
+            'Varanasi': {
+                coords: [83.0066, 25.3176],
+                attractions: ['Kashi Vishwanath Temple', 'Dashashwamedh Ghat', 'Sarnath', 'Ramnagar Fort', 'Assi Ghat']
+            },
+            'Srinagar': {
+                coords: [74.7973, 34.0837],
+                attractions: ['Dal Lake', 'Mughal Gardens', 'Shankaracharya Temple', 'Hazratbal Shrine', 'Pari Mahal']
+            },
+            'Dhanbad': {
+                coords: [86.4304, 23.7957],
+                attractions: ['Birsa Munda Park', 'Jharia Coal Field', 'Bhatinda Fall', 'Topchanchi Lake', 'Shakti Mandir']
+            },
+            'Amritsar': {
+                coords: [74.8723, 31.6340],
+                attractions: ['Golden Temple', 'Jallianwala Bagh', 'Wagah Border', 'Durgiana Temple', 'Maharaja Ranjit Singh Museum']
+            },
+            'Udaipur': {
+                coords: [73.7125, 24.5854],
+                attractions: ['City Palace', 'Lake Pichola', 'Jag Mandir', 'Fateh Sagar Lake', 'Saheliyon Ki Bari']
+            },
+            'Gandhinagar': {
+                coords: [72.6369, 23.2156],
+                attractions: ['Akshardham Temple', 'Indroda Nature Park', 'Sarita Udyan', 'Children\'s Park', 'Adalaj Stepwell']
+            }
+        };
+
+        // Highway data for major Indian highways
+        const HIGHWAY_DATA = {
+            'NH 1': { name: 'Delhi-Amritsar Highway' },
+            'NH 2': { name: 'Delhi-Kolkata Highway' },
+            'NH 3': { name: 'Agra-Mumbai Highway' },
+            'NH 4': { name: 'Mumbai-Chennai Highway' },
+            'NH 5': { name: 'Chennai-Kolkata Highway' },
+            'NH 6': { name: 'Kolkata-Hazira Highway' },
+            'NH 7': { name: 'Varanasi-Kanyakumari Highway' },
+            'NH 8': { name: 'Delhi-Mumbai Highway' },
+            'NH 9': { name: 'Pune-Vijayawada Highway' },
+            'NH 10': { name: 'Delhi-Fazilka Highway' },
+            'NH 11': { name: 'Agra-Bikaner Highway' },
+            'NH 12': { name: 'Jaipur-Jabalpur Highway' },
+            'NH 15': { name: 'Pathankot-Samakhiali Highway' },
+            'NH 16': { name: 'Kolkata-Vijaywada Highway' },
+            'NH 17': { name: 'Panvel-Kanyakumari Highway' },
+            'NH 19': { name: 'Delhi-Kolkata Highway' },
+            'NH 27': { name: 'Porbandar-Silchar Highway' },
+            'NH 44': { name: 'Srinagar-Kanyakumari Highway' },
+            'NH 48': { name: 'Delhi-Chennai Highway' },
+            'NH 53': { name: 'Hajira-Odisha Highway' },
+            'NH 66': { name: 'Panvel-Kanyakumari Highway' }
+        };
+
+        // Predefined routes with waypoints for major Indian routes
+        const PREDEFINED_ROUTES = {
+            // Rajkot to Delhi route
+            'Rajkot-Delhi': [
+                { lat: 22.3039, lng: 70.8022 }, // Rajkot
+                { lat: 23.0225, lng: 72.5714 }, // Ahmedabad
+                { lat: 24.5854, lng: 73.7125 }, // Udaipur
+                { lat: 26.9124, lng: 75.7873 }, // Jaipur
+                { lat: 28.6139, lng: 77.2090 }  // Delhi
+            ],
+            // Delhi to Mumbai route
+            'Delhi-Mumbai': [
+                { lat: 28.6139, lng: 77.2090 }, // Delhi
+                { lat: 26.9124, lng: 75.7873 }, // Jaipur
+                { lat: 24.5854, lng: 73.7125 }, // Udaipur
+                { lat: 23.0225, lng: 72.5714 }, // Ahmedabad
+                { lat: 19.0760, lng: 72.8777 }  // Mumbai
+            ],
+            // Mumbai to Chennai route
+            'Mumbai-Chennai': [
+                { lat: 19.0760, lng: 72.8777 }, // Mumbai
+                { lat: 18.5204, lng: 73.8567 }, // Pune
+                { lat: 17.3850, lng: 78.4867 }, // Hyderabad
+                { lat: 12.9716, lng: 77.5946 }, // Bengaluru
+                { lat: 13.0827, lng: 80.2707 }  // Chennai
+            ],
+            // Delhi to Kolkata route
+            'Delhi-Kolkata': [
+                { lat: 28.6139, lng: 77.2090 }, // Delhi
+                { lat: 26.8467, lng: 80.9462 }, // Lucknow
+                { lat: 25.3176, lng: 83.0066 }, // Varanasi
+                { lat: 25.5941, lng: 85.1376 }, // Patna
+                { lat: 22.5726, lng: 88.3639 }  // Kolkata
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if there's a selected destination in localStorage
+            const selectedDestination = localStorage.getItem('selectedDestination');
+            if (selectedDestination) {
+                // Set the destination input value
+                document.getElementById('destination').value = selectedDestination;
+                
+                // Clear localStorage to avoid reusing the same destination on page refresh
+                localStorage.removeItem('selectedDestination');
+            }
+            
+            initializeMap();
+            setupEventListeners();
+        });
+
+        function initializeMap() {
+            try {
+                // Create a map instance with Google Maps-like styling
+                map = tt.map({
+                    key: API_KEY,
+                    container: 'map',
+                    center: [DEFAULT_LNG, DEFAULT_LAT],
+                    zoom: 5,
+                    style: 'https://api.tomtom.com/style/1/style/21.2.1-*/?map=basic_main'
+                });
+                
+                // Wait for the map to be fully loaded before adding routes
+                map.on('load', function() {
+                    console.log('Map loaded successfully');
+                    mapLoaded = true;
+                    
+                    // Show default route on initial load
+                    const startPoint = document.getElementById('start-point').value || 'Rajkot';
+                    const destination = document.getElementById('destination').value || 'Delhi';
+                    calculateAndDisplayRoute(startPoint, destination);
+                });
+                
+                // Add controls to the map
+                map.addControl(new tt.FullscreenControl());
+                map.addControl(new tt.NavigationControl());
+            } catch (error) {
+                console.error('Error initializing map:', error);
+                alert('Error initializing map. Please refresh the page and try again.');
+            }
+        }
+
+        function setupEventListeners() {
+            // Search button click
+            document.getElementById('search-btn').addEventListener('click', function() {
+                const startPoint = document.getElementById('start-point').value || 'Rajkot';
+                const destination = document.getElementById('destination').value || 'Delhi';
+                
+                calculateAndDisplayRoute(startPoint, destination);
+            });
+            
+            // Zoom controls
+            document.getElementById('zoom-in').addEventListener('click', function() {
+                if (map) map.zoomIn();
+            });
+            
+            document.getElementById('zoom-out').addEventListener('click', function() {
+                if (map) map.zoomOut();
+            });
+            
+            // Travel mode selection
+            document.querySelectorAll('.travel-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove active class from all options
+                    document.querySelectorAll('.travel-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked option
+                    this.classList.add('active');
+                    
+                    // Update route display based on selected mode
+                    const mode = this.getAttribute('data-mode');
+                    if (currentRouteData) {
+                        updateRouteForMode(mode);
+                    }
+                });
+            });
+        }
+
+        function calculateAndDisplayRoute(startPoint, destination) {
+            if (!mapLoaded) {
+                console.log('Map not fully loaded yet. Please wait...');
+                return;
+            }
+            
+            // Show loading indicator
+            document.querySelector('.loading-indicator').classList.add('active');
+            
+            // Update the UI
+            document.getElementById('destination-title').textContent = `${startPoint} to ${destination}`;
+            
+            // First, geocode the locations to get coordinates
+            Promise.all([
+                geocodeLocation(startPoint),
+                geocodeLocation(destination)
+            ]).then(([startCoords, destCoords]) => {
+                if (!startCoords || !destCoords) {
+                    alert('Could not find one or both locations. Please try again with different city names.');
+                    document.querySelector('.loading-indicator').classList.remove('active');
+                    return;
+                }
+                
+                console.log('Start coordinates:', startCoords);
+                console.log('Destination coordinates:', destCoords);
+                
+                // Check if we have a predefined route
+                const routeKey = `${startPoint}-${destination}`;
+                const reverseRouteKey = `${destination}-${startPoint}`;
+                
+                if (PREDEFINED_ROUTES[routeKey]) {
+                    // Use predefined route
+                    displayPredefinedRoute(PREDEFINED_ROUTES[routeKey], startPoint, destination);
+                } else if (PREDEFINED_ROUTES[reverseRouteKey]) {
+                    // Use reversed predefined route
+                    const reversedRoute = [...PREDEFINED_ROUTES[reverseRouteKey]].reverse();
+                    displayPredefinedRoute(reversedRoute, startPoint, destination);
+                } else {
+                    // Try to calculate route using TomTom's routing API
+                    calculateRouteUsingTomTom(startCoords, destCoords, startPoint, destination);
+                }
+            }).catch(error => {
+                console.error('Error in route calculation process:', error);
+                alert('Error calculating route. Please try again.');
+                document.querySelector('.loading-indicator').classList.remove('active');
+            });
+        }
+
+        function displayPredefinedRoute(routePoints, startPoint, destination) {
+            console.log('Using predefined route with', routePoints.length, 'points');
+            
+            // Convert route points to the format expected by the map
+            const formattedPoints = routePoints.map(point => [point.lng, point.lat]);
+            
+            // Calculate total distance
+            let totalDistance = 0;
+            for (let i = 0; i < formattedPoints.length - 1; i++) {
+                const p1 = formattedPoints[i];
+                const p2 = formattedPoints[i + 1];
+                totalDistance += calculateDistance(p1[1], p1[0], p2[1], p2[0]);
+            }
+            
+            // Create route data object
+            const routeData = {
+                distance: totalDistance,
+                travelTimes: {
+                    car: totalDistance / 60,
+                    bus: totalDistance / 40,
+                    train: totalDistance / 80,
+                    flight: totalDistance / 500 + 0.5
+                },
+                costs: {
+                    bus: {
+                        min: Math.round(totalDistance * 1.5),
+                        max: Math.round(totalDistance * 3.5)
+                    },
+                    train: {
+                        min: Math.round(totalDistance * 2),
+                        max: Math.round(totalDistance * 6)
+                    },
+                    car: {
+                        min: Math.round(totalDistance * 5),
+                        max: Math.round(totalDistance * 10)
+                    },
+                    flight: {
+                        min: Math.round(totalDistance * 15),
+                        max: Math.round(totalDistance * 30)
+                    }
+                },
+                coordinates: [formattedPoints[0], formattedPoints[formattedPoints.length - 1]],
+                routePoints: formattedPoints,
+                waypoints: routePoints
+            };
+            
+            // Display the route on the map
+            currentRouteData = routeData;
+            displayRouteOnMap(routeData);
+            updateTravelInfo(routeData);
+            generateDirections(startPoint, destination, routeData);
+            updateAttractions(destination);
+            
+            document.querySelector('.loading-indicator').classList.remove('active');
+        }
+
+        function calculateRouteUsingTomTom(startCoords, destCoords, startPoint, destination) {
+            // Generate intermediate waypoints for a more realistic route
+            const waypoints = generateIntermediateWaypoints(startCoords, destCoords);
+            
+            // Format coordinates for TomTom API
+            const startLatLng = `${startCoords[1]},${startCoords[0]}`;
+            const destLatLng = `${destCoords[1]},${destCoords[0]}`;
+            
+            // Build waypoints string for the API
+            let waypointsStr = '';
+            if (waypoints.length > 0) {
+                waypointsStr = waypoints.map(wp => `${wp[1]},${wp[0]}`).join(':');
+                waypointsStr = `:${waypointsStr}:`;
+            }
+            
+            // Make the API request
+            fetch(`https://api.tomtom.com/routing/1/calculateRoute/${startLatLng}${waypointsStr}${destLatLng}/json?key=${API_KEY}&routeType=fastest&traffic=false&travelMode=car&computeBestOrder=false&routeRepresentation=polyline&sectionType=travelMode&instructionsType=text&language=en-US`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (!data || !data.routes || data.routes.length === 0) {
+                        throw new Error('No route found');
+                    }
+                    
+                    const route = data.routes[0];
+                    const summary = route.summary;
+                    
+                    // Get the distance in kilometers
+                    const distance = Math.round(summary.lengthInMeters / 1000);
+                    
+                    // Extract the route geometry (polyline)
+                    let routePoints = [];
+                    let instructions = [];
+                    
+                    if (route.legs && route.legs.length > 0) {
+                        route.legs.forEach(leg => {
+                            if (leg.points && leg.points.length > 0) {
+                                leg.points.forEach(point => {
+                                    routePoints.push([point.longitude, point.latitude]);
+                                });
+                            }
+                            
+                            // Extract instructions
+                            if (leg.instructions) {
+                                leg.instructions.forEach(instruction => {
+                                    instructions.push({
+                                        message: instruction.message,
+                                        roadName: instruction.roadName,
+                                        distance: instruction.routeOffsetInMeters,
+                                        maneuver: instruction.maneuver
+                                    });
+                                });
+                            }
+                        });
+                    }
+                    
+                    // If no points were found, use the start, waypoints, and end coordinates
+                    if (routePoints.length === 0) {
+                        routePoints = [startCoords];
+                        waypoints.forEach(wp => routePoints.push(wp));
+                        routePoints.push(destCoords);
+                    }
+                    
+                    // Create the route data object
+                    const routeData = {
+                        distance: distance,
+                        travelTimes: {
+                            car: distance / 60,
+                            bus: distance / 40,
+                            train: distance / 80,
+                            flight: distance / 500 + 0.5
+                        },
+                        costs: {
+                            bus: {
+                                min: Math.round(distance * 1.5),
+                                max: Math.round(distance * 3.5)
+                            },
+                            train: {
+                                min: Math.round(distance * 2),
+                                max: Math.round(distance * 6)
+                            },
+                            car: {
+                                min: Math.round(distance * 5),
+                                max: Math.round(distance * 10)
+                            },
+                            flight: {
+                                min: Math.round(distance * 15),
+                                max: Math.round(distance * 30)
+                            }
+                        },
+                        coordinates: [startCoords, destCoords],
+                        routePoints: routePoints,
+                        instructions: instructions
+                    };
+                    
+                    // Display the route
+                    currentRouteData = routeData;
+                    displayRouteOnMap(routeData);
+                    updateTravelInfo(routeData);
+                    generateDirections(startPoint, destination, routeData);
+                    updateAttractions(destination);
+                    
+                    document.querySelector('.loading-indicator').classList.remove('active');
+                })
+                .catch(error => {
+                    console.error('Error fetching route from TomTom API:', error);
+                    
+                    // Fallback to predefined route with manual waypoints
+                    const manualWaypoints = generateManualWaypoints(startCoords, destCoords);
+                    const formattedPoints = [startCoords, ...manualWaypoints, destCoords];
+                    
+                    // Calculate total distance
+                    let totalDistance = 0;
+                    for (let i = 0; i < formattedPoints.length - 1; i++) {
+                        const p1 = formattedPoints[i];
+                        const p2 = formattedPoints[i + 1];
+                        totalDistance += calculateDistance(p1[1], p1[0], p2[1], p2[0]);
+                    }
+                    
+                    // Create route data object
+                    const routeData = {
+                        distance: totalDistance,
+                        travelTimes: {
+                            car: totalDistance / 60,
+                            bus: totalDistance / 40,
+                            train: totalDistance / 80,
+                            flight: totalDistance / 500 + 0.5
+                        },
+                        costs: {
+                            bus: {
+                                min: Math.round(totalDistance * 1.5),
+                                max: Math.round(totalDistance * 3.5)
+                            },
+                            train: {
+                                min: Math.round(totalDistance * 2),
+                                max: Math.round(totalDistance * 6)
+                            },
+                            car: {
+                                min: Math.round(totalDistance * 5),
+                                max: Math.round(totalDistance * 10)
+                            },
+                            flight: {
+                                min: Math.round(totalDistance * 15),
+                                max: Math.round(totalDistance * 30)
+                            }
+                        },
+                        coordinates: [startCoords, destCoords],
+                        routePoints: formattedPoints
+                    };
+                    
+                    // Display the route
+                    currentRouteData = routeData;
+                    displayRouteOnMap(routeData);
+                    updateTravelInfo(routeData);
+                    generateDirections(startPoint, destination, routeData);
+                    updateAttractions(destination);
+                    
+                    document.querySelector('.loading-indicator').classList.remove('active');
+                });
+        }
+
+        function generateIntermediateWaypoints(startCoords, destCoords) {
+            // Calculate the distance between start and destination
+            const distance = calculateDistance(
+                startCoords[1], startCoords[0], 
+                destCoords[1], destCoords[0]
+            );
+            
+            // Determine the number of waypoints based on distance
+            const numWaypoints = Math.min(Math.floor(distance / 300) + 1, 5);
+            
+            // Generate waypoints
+            const waypoints = [];
+            for (let i = 1; i <= numWaypoints; i++) {
+                const ratio = i / (numWaypoints + 1);
+                
+                // Linear interpolation between start and destination
+                const lng = startCoords[0] + ratio * (destCoords[0] - startCoords[0]);
+                const lat = startCoords[1] + ratio * (destCoords[1] - startCoords[1]);
+                
+                // Add some randomness to make the route more realistic
+                // Adjust the jitter amount based on the distance
+                const jitterAmount = distance / 1000; // More jitter for longer distances
+                const jitterLng = (Math.random() - 0.5) * jitterAmount;
+                const jitterLat = (Math.random() - 0.5) * jitterAmount;
+                
+                waypoints.push([lng + jitterLng, lat + jitterLat]);
+            }
+            
+            return waypoints;
+        }
+
+        function generateManualWaypoints(startCoords, destCoords) {
+            // Find the nearest major cities to use as waypoints
+            const startLat = startCoords[1];
+            const startLng = startCoords[0];
+            const destLat = destCoords[1];
+            const destLng = destCoords[0];
+            
+            // Calculate the general direction
+            const isNorth = destLat > startLat;
+            const isEast = destLng > startLng;
+            
+            // Find cities that are in the general direction
+            const potentialWaypoints = [];
+            
+            for (const city in CITY_DATA) {
+                const cityCoords = CITY_DATA[city].coords;
+                const cityLng = cityCoords[0];
+                const cityLat = cityCoords[1];
+                
+                // Check if the city is in the general direction
+                const cityIsNorth = cityLat > startLat;
+                const cityIsEast = cityLng > startLng;
+                
+                // Only consider cities that are in the same general direction
+                if ((isNorth === cityIsNorth) && (isEast === cityIsEast)) {
+                    // Calculate distance from start and destination
+                    const distFromStart = calculateDistance(startLat, startLng, cityLat, cityLng);
+                    const distFromDest = calculateDistance(destLat, destLng, cityLat, cityLng);
+                    
+                    // Only consider cities that are between start and destination
+                    const totalDirectDist = calculateDistance(startLat, startLng, destLat, destLng);
+                    if (distFromStart + distFromDest < totalDirectDist * 1.5) {
+                        potentialWaypoints.push({
+                            city: city,
+                            coords: cityCoords,
+                            distFromStart: distFromStart
+                        });
+                    }
+                }
+            }
+            
+            // Sort waypoints by distance from start
+            potentialWaypoints.sort((a, b) => a.distFromStart - b.distFromStart);
+            
+            // Select up to 3 waypoints
+            const selectedWaypoints = [];
+            const numWaypoints = Math.min(3, potentialWaypoints.length);
+            
+            // Evenly distribute the waypoints
+            for (let i = 0; i < numWaypoints; i++) {
+                const index = Math.floor((i + 1) * potentialWaypoints.length / (numWaypoints + 1));
+                if (index < potentialWaypoints.length) {
+                    selectedWaypoints.push(potentialWaypoints[index].coords);
+                }
+            }
+            
+            return selectedWaypoints;
+        }
+
+        function geocodeLocation(query) {
+            return new Promise((resolve, reject) => {
+                // First try to match with our predefined cities
+                const cityMatch = findCityMatch(query);
+                if (cityMatch) {
+                    console.log(`Using predefined coordinates for ${cityMatch}`);
+                    resolve(CITY_DATA[cityMatch].coords);
+                    return;
+                }
+                
+                // If no match, try the TomTom API
+                // Add "India" to the query to improve results
+                const searchQuery = `${query}, India`;
+                
+                // Use TomTom's geocoding service
+                tt.services.fuzzySearch({
+                    key: API_KEY,
+                    query: searchQuery,
+                    countrySet: 'IN', // Limit to India
+                    limit: 1 // Only get the top result
+                })
+                .then(response => {
+                    if (response && response.results && response.results.length > 0) {
+                        const result = response.results[0];
+                        const position = result.position;
+                        console.log(`Geocoded ${query} to:`, position);
+                        
+                        // Return the coordinates in the format [longitude, latitude]
+                        resolve([position.lng, position.lat]);
+                    } else {
+                        console.warn(`No results found for "${query}"`);
+                        resolve(null);
+                    }
+                })
+                .catch(error => {
+                    console.error('Geocoding error:', error);
+                    // Try fallback one more time
+                    const fallbackCity = findClosestCityName(query);
+                    if (fallbackCity) {
+                        console.log(`Using fallback coordinates for ${fallbackCity}`);
+                        resolve(CITY_DATA[fallbackCity].coords);
+                    } else {
+                        resolve(null);
+                    }
+                });
+            });
+        }
+
+        function findCityMatch(query) {
+            const normalizedQuery = query.trim().toLowerCase();
+            
+            // Try to find an exact match first
+            for (const city in CITY_DATA) {
+                if (city.toLowerCase() === normalizedQuery) {
+                    return city;
+                }
+            }
+            
+            // Then try partial matches
+            for (const city in CITY_DATA) {
+                if (city.toLowerCase().includes(normalizedQuery) || 
+                    normalizedQuery.includes(city.toLowerCase())) {
+                    return city;
+                }
+            }
+            
+            return null;
+        }
+
+        function findClosestCityName(query) {
+            const normalizedQuery = query.trim().toLowerCase();
+            
+            // Simple string similarity - return the city with the most character overlap
+            let bestMatch = null;
+            let highestSimilarity = 0;
+            
+            for (const city in CITY_DATA) {
+                const cityLower = city.toLowerCase();
+                let similarity = 0;
+                
+                // Count matching characters
+                for (let i = 0; i < normalizedQuery.length; i++) {
+                    if (cityLower.includes(normalizedQuery[i])) {
+                        similarity++;
+                    }
+                }
+                
+                if (similarity > highestSimilarity) {
+                    highestSimilarity = similarity;
+                    bestMatch = city;
+                }
+            }
+            
+            // Only return if we have a reasonable match
+            return highestSimilarity > normalizedQuery.length / 3 ? bestMatch : null;
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            // Haversine formula to calculate distance between two points
+            const R = 6371; // Radius of the earth in km
+            const dLat = deg2rad(lat2 - lat1);
+            const dLon = deg2rad(lon2 - lon1);
+            const a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2); 
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            const distance = R * c; // Distance in km
+            return Math.round(distance);
+        }
+
+        function deg2rad(deg) {
+            return deg * (Math.PI/180);
+        }
+
+        function displayRouteOnMap(routeData) {
+            if (!mapLoaded || !map) {
+                console.error('Map is not ready yet');
+                return;
+            }
+            
+            try {
+                console.log('Displaying route on map with', routeData.routePoints.length, 'points');
+                
+                // Clear existing markers
+                markers.forEach(marker => marker.remove());
+                markers = [];
+                
+                // Clear existing route layers
+                clearRouteLayers();
+                
+                const [start, end] = routeData.coordinates;
+                
+                // Create a GeoJSON source with the route data
+                const routeGeoJson = {
+                    'type': 'Feature',
+                    'properties': {},
+                    'geometry': {
+                        'type': 'LineString',
+                        'coordinates': routeData.routePoints
+                    }
+                };
+                
+                // Add the route source to the map
+                map.addSource('route', {
+                    'type': 'geojson',
+                    'data': routeGeoJson
+                });
+                
+                // Add a border to make the route more visible
+                map.addLayer({
+                    'id': 'route-border',
+                    'type': 'line',
+                    'source': 'route',
+                    'layout': {
+                        'line-join': 'round',
+                        'line-cap': 'round'
+                    },
+                    'paint': {
+                        'line-color': '#FFFFFF', // White border
+                        'line-width': 10,
+                        'line-opacity': 0.5
+                    }
+                });
+                
+                // Add the main route layer - Google Maps style
+                map.addLayer({
+                    'id': 'route-main',
+                    'type': 'line',
+                    'source': 'route',
+                    'layout': {
+                        'line-join': 'round',
+                        'line-cap': 'round'
+                    },
+                    'paint': {
+                        'line-color': '#0F9D58', // Google Maps route color
+                        'line-width': 6,
+                        'line-opacity': 0.9
+                    }
+                });
+                
+                // Add animated dash pattern for the route
+                map.addLayer({
+                    'id': 'route-dash',
+                    'type': 'line',
+                    'source': 'route',
+                    'layout': {
+                        'line-join': 'round',
+                        'line-cap': 'round'
+                    },
+                    'paint': {
+                        'line-color': '#FFFFFF',
+                        'line-width': 2,
+                        'line-opacity': 0.8,
+                        'line-dasharray': [2, 4]
+                    },
+                    'filter': ['==', '$type', 'LineString']
+                });
+                
+                // Add waypoint markers if available
+                if (routeData.waypoints) {
+                    routeData.waypoints.forEach((waypoint, index) => {
+                        // Skip first and last points (start and end)
+                        if (index > 0 && index < routeData.waypoints.length - 1) {
+                            const waypointMarker = new tt.Marker({
+                                color: '#4285F4', // Google Maps blue
+                                width: 20,
+                                height: 20
+                            })
+                            .setLngLat([waypoint.lng, waypoint.lat])
+                            .addTo(map);
+                            
+                            markers.push(waypointMarker);
+                        }
+                    });
+                } else {
+                    // Add intermediate markers along the route
+                    const numMarkers = Math.min(3, Math.floor(routeData.routePoints.length / 4));
+                    for (let i = 1; i <= numMarkers; i++) {
+                        const pointIndex = Math.floor(i * routeData.routePoints.length / (numMarkers + 1));
+                        const point = routeData.routePoints[pointIndex];
+                        
+                        const intermediateMarker = new tt.Marker({
+                            color: '#4285F4', // Google Maps blue
+                            width: 20,
+                            height: 20
+                        })
+                        .setLngLat(point)
+                        .addTo(map);
+                        
+                        markers.push(intermediateMarker);
+                    }
+                }
+                
+                // Add distance markers along the route
+                addDistanceMarkers(routeData);
+                
+                // Add markers for start and end
+                const startMarker = new tt.Marker({ 
+                    color: '#0F9D58', // Google Maps green
+                    width: 30,
+                    height: 30
+                })
+                .setLngLat(start)
+                .addTo(map);
+                
+                const endMarker = new tt.Marker({ 
+                    color: '#DB4437', // Google Maps red
+                    width: 30,
+                    height: 30
+                })
+                .setLngLat(end)
+                .addTo(map);
+                
+                markers.push(startMarker, endMarker);
+                
+                // Fit the map to show the entire route
+                const bounds = new tt.LngLatBounds();
+                
+                // Add all route points to the bounds
+                routeData.routePoints.forEach(coord => {
+                    bounds.extend(coord);
+                });
+                
+                // Add some padding to the bounds
+                map.fitBounds(bounds, {
+                    padding: 50,
+                    maxZoom: 10
+                });
+                
+                console.log('Route displayed successfully');
+            } catch (error) {
+                console.error('Error displaying route on map:', error);
+                alert('Error displaying route. Please try again.');
+            }
+        }
+
+        function addDistanceMarkers(routeData) {
+            // Only add distance markers if we have enough points
+            if (routeData.routePoints.length < 10) return;
+            
+            // Add a distance marker every 100km
+            const totalDistance = routeData.distance;
+            const numMarkers = Math.floor(totalDistance / 100);
+            
+            if (numMarkers <= 0) return;
+            
+            // Calculate points to place markers
+            const pointsPerMarker = Math.floor(routeData.routePoints.length / (numMarkers + 1));
+            
+            for (let i = 1; i <= numMarkers; i++) {
+                const pointIndex = i * pointsPerMarker;
+                const markerPoint = routeData.routePoints[pointIndex];
+                const distanceKm = Math.round((i * totalDistance) / (numMarkers + 1));
+                
+                // Create a popup for the distance marker
+                const popup = new tt.Popup({
+                    offset: 25,
+                    closeButton: false,
+                    className: 'distance-popup'
+                }).setHTML(`<div style="text-align:center;font-weight:500;">${distanceKm} km</div>`);
+                
+                // Create a custom HTML element for the marker
+                const el = document.createElement('div');
+                el.className = 'distance-marker';
+                el.style.width = '12px';
+                el.style.height = '12px';
+                el.style.borderRadius = '50%';
+                el.style.backgroundColor = '#4285F4';
+                el.style.border = '2px solid white';
+                el.style.boxShadow = '0 1px 3px rgba(0,0,0,0.3)';
+                
+                // Add the marker to the map
+                const marker = new tt.Marker({
+                    element: el
+                })
+                .setLngLat(markerPoint)
+                .setPopup(popup)
+                .addTo(map);
+                
+                markers.push(marker);
+            }
+        }
+
+        function clearRouteLayers() {
+            // Remove existing route layers
+            const routeLayers = ['route-main', 'route-border', 'route-dash', 'route-markers'];
+            
+            routeLayers.forEach(layer => {
+                if (map.getLayer(layer)) {
+                    map.removeLayer(layer);
+                }
+            });
+            
+            // Remove the route source
+            if (map.getSource('route')) {
+                map.removeSource('route');
+            }
+        }
+
+        function updateTravelInfo(routeData) {
+            // Update distance with comma formatting
+            document.getElementById('distance').textContent = `${routeData.distance.toLocaleString()} km`;
+            
+            // Update travel costs and times
+            document.getElementById('bus-cost').textContent = routeData.costs.bus.min.toLocaleString();
+            document.getElementById('bus-cost-max').textContent = routeData.costs.bus.max.toLocaleString();
+            document.getElementById('bus-time').textContent = routeData.travelTimes.bus.toFixed(1);
+            
+            document.getElementById('train-cost').textContent = routeData.costs.train.min.toLocaleString();
+            document.getElementById('train-cost-max').textContent = routeData.costs.train.max.toLocaleString();
+            document.getElementById('train-time').textContent = routeData.travelTimes.train.toFixed(1);
+            
+            document.getElementById('car-cost').textContent = routeData.costs.car.min.toLocaleString();
+            document.getElementById('car-cost-max').textContent = routeData.costs.car.max.toLocaleString();
+            document.getElementById('car-time').textContent = routeData.travelTimes.car.toFixed(1);
+            
+            document.getElementById('flight-cost').textContent = routeData.costs.flight.min.toLocaleString();
+            document.getElementById('flight-cost-max').textContent = routeData.costs.flight.max.toLocaleString();
+            document.getElementById('flight-time').textContent = routeData.travelTimes.flight.toFixed(1);
+        }
+
+        function updateRouteForMode(mode) {
+            // Update the route display based on the selected travel mode
+            if (!currentRouteData) return;
+            
+            // Change the route color based on the selected mode
+            let routeColor = '#0F9D58'; // Default green for car
+            
+            switch(mode) {
+                case 'train':
+                    routeColor = '#4285F4'; // Blue for train
+                    break;
+                case 'bus':
+                    routeColor = '#F4B400'; // Yellow for bus
+                    break;
+                case 'flight':
+                    routeColor = '#DB4437'; // Red for flight
+                    break;
+            }
+            
+            // Update the route color
+            if (map.getLayer('route-main')) {
+                map.setPaintProperty('route-main', 'line-color', routeColor);
+            }
+            
+            // If flight mode, show a curved arc instead of the road route
+            if (mode === 'flight' && currentRouteData.coordinates.length === 2) {
+                const [start, end] = currentRouteData.coordinates;
+                
+                // Create an arc between the two points
+                const arcPoints = createArc(start, end, 20);
+                
+                // Update the route source with the arc points
+                if (map.getSource('route')) {
+                    map.getSource('route').setData({
+                        'type': 'Feature',
+                        'properties': {},
+                        'geometry': {
+                            'type': 'LineString',
+                            'coordinates': arcPoints
+                        }
+                    });
+                }
+            } else {
+                // For other modes, restore the original route
+                if (map.getSource('route')) {
+                    map.getSource('route').setData({
+                        'type': 'Feature',
+                        'properties': {},
+                        'geometry': {
+                            'type': 'LineString',
+                            'coordinates': currentRouteData.routePoints
+                        }
+                    });
+                }
+            }
+        }
+
+        function createArc(start, end, numPoints) {
+            // Create an arc between two points
+            const points = [];
+            
+            // Convert to radians
+            const startLat = start[1] * Math.PI / 180;
+            const startLng = start[0] * Math.PI / 180;
+            const endLat = end[1] * Math.PI / 180;
+            const endLng = end[0] * Math.PI / 180;
+            
+            // Calculate the great circle distance
+            const d = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin((startLat - endLat) / 2), 2) + 
+                Math.cos(startLat) * Math.cos(endLat) * Math.pow(Math.sin((startLng - endLng) / 2), 2)));
+            
+            // Add points along the arc
+            for (let i = 0; i <= numPoints; i++) {
+                const f = i / numPoints;
+                const A = Math.sin((1 - f) * d) / Math.sin(d);
+                const B = Math.sin(f * d) / Math.sin(d);
+                
+                const x = A * Math.cos(startLat) * Math.cos(startLng) + B * Math.cos(endLat) * Math.cos(endLng);
+                const y = A * Math.cos(startLat) * Math.sin(startLng) + B * Math.cos(endLat) * Math.sin(endLng);
+                const z = A * Math.sin(startLat) + B * Math.sin(endLat);
+                
+                const lat = Math.atan2(z, Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
+                const lng = Math.atan2(y, x);
+                
+                // Convert back to degrees and add to points array
+                points.push([lng * 180 / Math.PI, lat * 180 / Math.PI]);
+            }
+            
+            return points;
+        }
+
+        function generateDirections(startPoint, destination, routeData) {
+            // Generate directions based on the route data
+            const directionsContainer = document.getElementById('directions-list');
+            directionsContainer.innerHTML = '';
+            
+            // Add start point
+            const startStep = document.createElement('div');
+            startStep.className = 'direction-step';
+            startStep.innerHTML = `
+                <div class="direction-icon direction-start"></div>
+                <div class="direction-content">
+                    <h5>Start from ${startPoint}</h5>
+                    <p>Head towards the main road</p>
+                </div>
+            `;
+            directionsContainer.appendChild(startStep);
+            
+            // Generate intermediate steps
+            if (routeData.instructions && routeData.instructions.length > 0) {
+                // Use actual instructions from the API
+                const maxSteps = Math.min(5, routeData.instructions.length);
+                for (let i = 0; i < maxSteps; i++) {
+                    const instruction = routeData.instructions[i];
+                    const directionType = getDirectionType(instruction.maneuver);
+                    
+                    const step = document.createElement('div');
+                    step.className = 'direction-step';
+                    step.innerHTML = `
+                        <div class="direction-icon direction-${directionType}"></div>
+                        <div class="direction-content">
+                            <h5>${instruction.message}</h5>
+                            <p>${instruction.roadName || 'Continue on the current road'}</p>
+                        </div>
+                    `;
+                    directionsContainer.appendChild(step);
+                }
+            } else if (routeData.waypoints) {
+                // Generate directions based on waypoints
+                for (let i = 1; i < routeData.waypoints.length; i++) {
+                    const waypoint = routeData.waypoints[i];
+                    const prevWaypoint = routeData.waypoints[i-1];
+                    
+                    // Determine direction type based on bearing
+                    const bearing = calculateBearing(
+                        prevWaypoint.lat, prevWaypoint.lng,
+                        waypoint.lat, waypoint.lng
+                    );
+                    
+                    const directionType = getDirectionTypeFromBearing(bearing);
+                    
+                    // Find the nearest city to this waypoint
+                    let nearestCity = "next city";
+                    let shortestDistance = Infinity;
+                    
+                    for (const city in CITY_DATA) {
+                        const cityCoords = CITY_DATA[city].coords;
+                        const dist = calculateDistance(
+                            waypoint.lat, waypoint.lng,
+                            cityCoords[1], cityCoords[0]
+                        );
+                        
+                        if (dist < shortestDistance) {
+                            shortestDistance = dist;
+                            nearestCity = city;
+                        }
+                    }
+                    
+                    // Find the nearest highway
+                    const highway = findNearestHighway(waypoint.lat, waypoint.lng);
+                    
+                    const step = document.createElement('div');
+                    step.className = 'direction-step';
+                    step.innerHTML = `
+                        <div class="direction-icon direction-${directionType}"></div>
+                        <div class="direction-content">
+                            <h5>${getDirectionText(directionType)} towards ${nearestCity}</h5>
+                            <p>Follow ${highway} for approximately ${Math.round(shortestDistance)} km</p>
+                        </div>
+                    `;
+                    directionsContainer.appendChild(step);
+                }
+            } else {
+                // Generate synthetic directions based on major highways
+                const highways = ['NH 48', 'NH 27', 'NH 8', 'NH 19'];
+                const directions = ['straight', 'right', 'left'];
+                
+                // Generate 3-5 steps
+                const numSteps = Math.floor(Math.random() * 3) + 3;
+                for (let i = 0; i < numSteps; i++) {
+                    const highway = highways[Math.floor(Math.random() * highways.length)];
+                    const direction = directions[Math.floor(Math.random() * directions.length)];
+                    const distance = Math.floor(Math.random() * 300) + 50;
+                    
+                    const step = document.createElement('div');
+                    step.className = 'direction-step';
+                    step.innerHTML = `
+                        <div class="direction-icon direction-${direction}"></div>
+                        <div class="direction-content">
+                            <h5>${getDirectionText(direction)} onto ${highway}</h5>
+                            <p>Follow ${highway} for ${distance} km</p>
+                        </div>
+                    `;
+                    directionsContainer.appendChild(step);
+                }
+            }
+            
+            // Add end point
+            const endStep = document.createElement('div');
+            endStep.className = 'direction-step';
+            endStep.innerHTML = `
+                <div class="direction-icon direction-end"></div>
+                <div class="direction-content">
+                    <h5>Arrive at ${destination}</h5>
+                    <p>Your destination is on the right</p>
+                </div>
+            `;
+            directionsContainer.appendChild(endStep);
+        }
+
+        function calculateBearing(lat1, lng1, lat2, lng2) {
+            // Convert to radians
+            const startLat = lat1 * Math.PI / 180;
+            const startLng = lng1 * Math.PI / 180;
+            const destLat = lat2 * Math.PI / 180;
+            const destLng = lng2 * Math.PI / 180;
+            
+            // Calculate bearing
+            const y = Math.sin(destLng - startLng) * Math.cos(destLat);
+            const x = Math.cos(startLat) * Math.sin(destLat) -
+                    Math.sin(startLat) * Math.cos(destLat) * Math.cos(destLng - startLng);
+            const bearing = Math.atan2(y, x) * 180 / Math.PI;
+            
+            // Normalize to 0-360
+            return (bearing + 360) % 360;
+        }
+
+        function getDirectionTypeFromBearing(bearing) {
+            // Convert bearing to direction type
+            if (bearing >= 315 || bearing < 45) return 'straight';
+            if (bearing >= 45 && bearing < 135) return 'right';
+            if (bearing >= 135 && bearing < 225) return 'straight';
+            return 'left';
+        }
+
+        function findNearestHighway(lat, lng) {
+            // In a real app, this would query a database of highways
+            // For this demo, just return a random highway
+            const highways = Object.keys(HIGHWAY_DATA);
+            return highways[Math.floor(Math.random() * highways.length)];
+        }
+
+        function getDirectionType(maneuver) {
+            if (!maneuver) return 'straight';
+            
+            const type = maneuver.toLowerCase();
+            
+            if (type.includes('right')) return 'right';
+            if (type.includes('left')) return 'left';
+            if (type.includes('straight') || type.includes('continue')) return 'straight';
+            
+            return 'straight';
+        }
+
+        function getDirectionText(direction) {
+            switch(direction) {
+                case 'right': return 'Turn right';
+                case 'left': return 'Turn left';
+                case 'straight': return 'Continue straight';
+                default: return 'Continue';
+            }
+        }
+
+        function updateAttractions(destination) {
+            try {
+                // Find the city match in our predefined data
+                const cityMatch = findCityMatch(destination);
+                
+                if (cityMatch && CITY_DATA[cityMatch].attractions) {
+                    displayAttractions(CITY_DATA[cityMatch].attractions, cityMatch);
+                    return;
+                }
+                
+                // If no match in predefined data, try to get the city name from geocoding
+                geocodeLocation(destination)
+                    .then(coords => {
+                        if (!coords) {
+                            throw new Error('Location not found');
+                        }
+                        
+                        // Try reverse geocoding to get city name
+                        return tt.services.reverseGeocode({
+                            key: API_KEY,
+                            position: coords.join(',')
+                        });
+                    })
+                    .then(result => {
+                        let cityName = destination;
+                        
+                        // Try to extract city name from the result
+                        if (result && result.addresses && result.addresses.length > 0) {
+                            const address = result.addresses[0].address;
+                            if (address.municipality) {
+                                cityName = address.municipality;
+                            } else if (address.localName) {
+                                cityName = address.localName;
+                            }
+                        }
+                        
+                        // Try to find the city in our predefined data
+                        const cityMatch = findCityMatch(cityName);
+                        
+                        if (cityMatch && CITY_DATA[cityMatch].attractions) {
+                            displayAttractions(CITY_DATA[cityMatch].attractions, cityMatch);
+                        } else {
+                            // Default attractions if city not found
+                            displayAttractions([
+                                'Local Temples', 
+                                'Historical Sites', 
+                                'Local Markets', 
+                                'Nature Parks', 
+                                'Cultural Centers'
+                            ], destination);
+                        }
+                    })
+                    .catch(error => {
+                        console.warn('Error getting attractions:', error);
+                        // Fallback to default attractions
+                        displayAttractions([
+                            'Local Temples', 
+                            'Historical Sites', 
+                            'Local Markets', 
+                            'Nature Parks', 
+                            'Cultural Centers'
+                        ], destination);
+                    });
+            } catch (error) {
+                console.error('Error updating attractions:', error);
+                // Fallback to default attractions
+                displayAttractions([
+                    'Local Temples', 
+                    'Historical Sites', 
+                    'Local Markets', 
+                    'Nature Parks', 
+                    'Cultural Centers'
+                ], destination);
+            }
+        }
+        
+        function displayAttractions(attractions, cityName) {
+            const attractionsContainer = document.querySelector('.attractions-container h4');
+            attractionsContainer.textContent = `Popular Attractions in ${cityName}`;
+            
+            const attractionsList = document.getElementById('attractions-list');
+            attractionsList.innerHTML = '';
+            
+            attractions.forEach(attraction => {
+                const item = document.createElement('div');
+                item.className = 'attraction-item';
+                item.innerHTML = `
+                    <div class="attraction-icon"></div>
+                    <span>${attraction}</span>
+                `;
+                attractionsList.appendChild(item);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,2419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Cuisine - TripToIndia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #ff8e72;
+            --accent-color: #f38181;
+            --text-color: #333;
+            --light-color: #f9f9f9;
+            --dark-color: #333;
+            --border-color: #ddd;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .logo h1 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .mobile-nav-toggle {
+            display: none;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        /* Hero section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1550426735-c33c7ce414ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Search section */
+        .search-section {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: -50px;
+            margin-bottom: 50px;
+            padding: 30px;
+            position: relative;
+            z-index: 100;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .search-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .search-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .search-input input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
+        }
+
+        .search-input i {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .filter-dropdown {
+            min-width: 200px;
+            position: relative;
+        }
+
+        .filter-dropdown select {
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1rem;
+            appearance: none;
+            background-color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-dropdown select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
+        }
+
+        .filter-dropdown::after {
+            content: '\f107';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .search-btn {
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background-color: #ff5252;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .search-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Main content */
+        .cuisine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .cuisine-card {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.5s forwards;
+        }
+
+        .cuisine-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .cuisine-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .cuisine-card:hover .cuisine-img {
+            transform: scale(1.05);
+        }
+
+        .cuisine-details {
+            padding: 20px;
+        }
+
+        .cuisine-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .cuisine-title h3 {
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .cuisine-city {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .cuisine-desc {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .cuisine-facts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .fact-tag {
+            background-color: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #555;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .fact-tag:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .cuisine-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .rating i {
+            color: #ffc107;
+        }
+
+        .rating-count {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .view-recipe {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .view-recipe:hover {
+            color: #ff5252;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            overflow-y: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: block;
+            opacity: 1;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            width: 90%;
+            max-width: 800px;
+            margin: 50px auto;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            transform: translateY(-50px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+            animation: slideInUp 0.5s forwards;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background-size: cover;
+            background-position: center;
+            height: 250px;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .modal-header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7));
+        }
+
+        .modal-title {
+            color: #fff;
+            padding: 30px;
+            position: relative;
+            z-index: 10;
+            width: 100%;
+        }
+
+        .modal-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+
+        .modal-title p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .recipe-info {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .info-card {
+            flex: 1;
+            min-width: 120px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-card i {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .info-card h4 {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .info-card p {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .recipe-description {
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .recipe-ingredients {
+            margin-bottom: 30px;
+        }
+
+        .recipe-ingredients h3, .recipe-steps h3 {
+            margin-bottom: 20px;
+            color: var(--text-color);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .recipe-ingredients h3::after, .recipe-steps h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .ingredients-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .ingredients-list li {
+            padding-left: 25px;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .ingredients-list li:hover {
+            transform: translateX(5px);
+        }
+
+        .ingredients-list li::before {
+            content: '\f058';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        .recipe-steps ol {
+            padding-left: 20px;
+        }
+
+        .recipe-steps li {
+            margin-bottom: 20px;
+            padding-left: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .recipe-steps li:hover {
+            transform: translateX(5px);
+        }
+
+        /* Recommendations section */
+        .recommendations {
+            margin-top: 80px;
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--text-color);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        /* Call to action section */
+        .cta-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-content p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .cta-btn.primary {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .cta-btn.primary:hover {
+            background-color: #ff5252;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-btn.secondary {
+            background-color: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+        }
+
+        .cta-btn.secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: #fff;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .footer-logo h2 {
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .footer-about p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        .footer-links h3, .footer-contact h3, .footer-newsletter h3 {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: #fff;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-links h3::after, .footer-contact h3::after, .footer-newsletter h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .footer-links a i {
+            font-size: 0.8rem;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-info li:hover {
+            transform: translateX(5px);
+        }
+
+        .contact-info i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-top: 3px;
+        }
+
+        .newsletter-form {
+            position: relative;
+        }
+
+        .newsletter-form input {
+            width: 100%;
+            padding: 12px 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            margin-bottom: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .newsletter-form input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .newsletter-form button {
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background-color: #ff5252;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Loading animation */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .loading.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading p {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            animation: pulse 2s infinite;
+        }
+
+        .back-to-top:hover {
+            background-color: #ff5252;
+            transform: translateY(-5px);
+        }
+
+        /* Search suggestions */
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .search-suggestions.active {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .suggestion-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .suggestion-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .highlight {
+            background-color: rgba(255, 107, 107, 0.2);
+            font-weight: 500;
+        }
+
+        /* No results message */
+        .no-results {
+            text-align: center;
+            padding: 30px;
+            font-size: 1.2rem;
+            color: #666;
+            grid-column: 1/-1;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+
+            .modal-title h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: #fff;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                flex-direction: column;
+                gap: 20px;
+                z-index: 100;
+            }
+
+            .nav-links.active {
+                display: flex;
+                animation: fadeIn 0.3s ease-in-out;
+            }
+
+            .mobile-nav-toggle {
+                display: block;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .cta-content h2 {
+                font-size: 2rem;
+            }
+
+            .recipe-info {
+                gap: 10px;
+            }
+
+            .info-card {
+                min-width: 100px;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .cuisine-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-input, .filter-dropdown, .search-btn {
+                width: 100%;
+            }
+
+            .modal-header {
+                height: 200px;
+            }
+
+            .modal-title h2 {
+                font-size: 1.5rem;
+            }
+
+            .recipe-info {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .ingredients-list {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="https://images.unsplash.com/photo-1609587312208-cea54be969e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="TripToIndia Logo">
+                    <h1>TripToIndia</h1>
+                </a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="destination-page.html">Destinations</a></li>
+                    <li><a href="map.html">Map</a></li>
+                    <li><a href="cuisine.html" class="active">Cuisine</a></li>
+                    <li><a href="form.html">Book Now</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+                <button class="mobile-nav-toggle" id="mobileNavToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Discover India's Culinary Treasures</h2>
+            <p>From the spicy street foods of Delhi to the seafood delicacies of Kerala, experience India's diverse and flavorful cuisine that tells stories of its rich cultural heritage.</p>
+        </div>
+    </section>
+
+    <!-- Search section -->
+    <div class="container">
+        <div class="search-section" data-aos="fade-up">
+            <div class="search-container">
+                <div class="search-input">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search for dishes, cuisines or cities...">
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </div>
+                <div class="filter-dropdown">
+                    <select id="regionFilter">
+                        <option value="">All Regions</option>
+                        <option value="North India">North India</option>
+                        <option value="South India">South India</option>
+                        <option value="East India">East India</option>
+                        <option value="West India">West India</option>
+                        <option value="Central India">Central India</option>
+                    </select>
+                </div>
+                <div class="filter-dropdown">
+                    <select id="dietFilter">
+                        <option value="">All Types</option>
+                        <option value="Vegetarian">Vegetarian</option>
+                        <option value="Non-Vegetarian">Non-Vegetarian</option>
+                        <option value="Vegan">Vegan</option>
+                        <option value="Street Food">Street Food</option>
+                        <option value="Dessert">Dessert</option>
+                    </select>
+                </div>
+                <button class="search-btn" id="searchBtn">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </div>
+
+        <!-- Cuisine Grid -->
+        <div class="cuisine-grid" id="cuisineGrid">
+            <!-- Cuisine cards will be loaded here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Popular Cuisine Recommendations -->
+    <section class="recommendations">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>India's Must-Try Delicacies</h2>
+                <p>Experience these iconic dishes that have defined Indian cuisine and captivated food lovers from around the world.</p>
+            </div>
+            <div class="cuisine-grid" id="recommendationsGrid">
+                <!-- Recommendations will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to action section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content" data-aos="fade-up">
+                <h2>Ready for a Culinary Adventure?</h2>
+                <p>Book your food tour now and embark on an unforgettable journey through India's most delicious destinations.</p>
+                <div class="cta-buttons">
+                    <a href="form.html" class="cta-btn primary">Book Food Tour</a>
+                    <a href="destination-page.html" class="cta-btn secondary">Explore Destinations</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <img src="https://images.unsplash.com/photo-1609587312208-cea54be969e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="TripToIndia Logo">
+                        <h2>TripToIndia</h2>
+                    </div>
+                    <p>Discover the beauty and diversity of India with us. From the majestic Himalayas to the serene backwaters of Kerala, we help you create unforgettable experiences.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="destination-page.html"><i class="fas fa-chevron-right"></i> Destinations</a></li>
+                        <li><a href="cuisine.html"><i class="fas fa-chevron-right"></i> Cuisine</a></li>
+                        <li><a href="map.html"><i class="fas fa-chevron-right"></i> Interactive Map</a></li>
+                        <li><a href="form.html"><i class="fas fa-chevron-right"></i> Book Trip</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Travel Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Travel Street, New Delhi, India 110001</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone-alt"></i>
+                            <span>+91 98765 43210</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>info@triptoindia.com</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span>Monday-Saturday: 9:00 AM - 7:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to our newsletter for the latest travel tips and offers.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your Email Address" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 TripToIndia. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Recipe Modal -->
+    <div class="modal" id="recipeModal">
+        <div class="modal-content">
+            <div class="modal-header" id="modalHeader">
+                <div class="modal-header-overlay"></div>
+                <button class="close-modal" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="modal-title">
+                    <h2 id="modalTitle">Dish Name</h2>
+                    <p id="modalSubtitle">City, Region</p>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading animation -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Exploring culinary delights...</p>
+    </div>
+
+    <!-- Back to top button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample cuisine data
+            const cuisineData = [
+                {
+                    id: 1,
+                    name: "Butter Chicken",
+                    city: "Delhi",
+                    region: "North India",
+                    type: "Non-Vegetarian",
+                    description: "Tender chicken cooked in a rich and creamy tomato-based curry, flavored with butter and aromatic spices.",
+                    image: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    rating: 4.8,
+                    reviewCount: 243,
+                    tags: ["Creamy", "Spicy", "Popular"],
+                    prepTime: "30 min",
+                    cookTime: "45 min",
+                    servings: 4,
+                    difficulty: "Medium",
+                    ingredients: [
+                        "500g boneless chicken",
+                        "2 cups tomato puree",
+                        "1/2 cup fresh cream",
+                        "2 tbsp butter",
+                        "1 tbsp ginger-garlic paste",
+                        "1 tsp garam masala",
+                        "1 tsp red chili powder",
+                        "1 tsp kasuri methi (dried fenugreek leaves)",
+                        "Salt to taste",
+                        "1 tbsp honey",
+                        "1/4 cup cashew paste",
+                        "2 tbsp oil"
+                    ],
+                    steps: [
+                        "Marinate chicken with yogurt, ginger-garlic paste, and spices for at least 2 hours.",
+                        "Cook marinated chicken in a tandoor or oven until 80% done.",
+                        "In a separate pan, heat butter and add tomato puree, cooking until oil separates.",
+                        "Add spices, salt, and cashew paste, stirring well.",
+                        "Add pre-cooked chicken pieces and simmer for 10-15 minutes.",
+                        "Finish with fresh cream, honey, and kasuri methi. Serve hot with naan or rice."
+                    ],
+                    history: "Butter Chicken (Murgh Makhani) was created in the 1950s at the Moti Mahal restaurant in Delhi by chef Kundan Lal Gujral. Originally, it was a way to utilize leftover tandoori chicken by cooking it in a rich tomato gravy with butter and cream."
+                },
+                {
+                    id: 2,
+                    name: "Masala Dosa",
+                    city: "Bengaluru",
+                    region: "South India",
+                    type: "Vegetarian",
+                    description: "A crispy fermented crepe made from rice and lentil batter, filled with spiced potato filling and served with coconut chutney and sambar.",
+                    image: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    rating: 4.9,
+                    reviewCount: 318,
+                    tags: ["Crispy", "Breakfast", "Popular"],
+                    prepTime: "8 hrs",
+                    cookTime: "30 min",
+                    servings: 4,
+                    difficulty: "Medium",
+                    ingredients: [
+                        "2 cups rice",
+                        "1 cup urad dal (split black gram)",
+                        "1/4 tsp fenugreek seeds",
+                        "4 potatoes (boiled and mashed)",
+                        "1 onion (finely chopped)",
+                        "2 green chilies (finely chopped)",
+                        "1 tsp mustard seeds",
+                        "1 tsp cumin seeds",
+                        "1 sprig curry leaves",
+                        "1/4 tsp turmeric powder",
+                        "Salt to taste",
+                        "Oil for cooking"
+                    ],
+                    steps: [
+                        "Soak rice, urad dal, and fenugreek seeds separately for 4-6 hours.",
+                        "Grind them to a smooth batter and let it ferment overnight.",
+                        "For the filling, heat oil and add mustard seeds, cumin seeds, and curry leaves.",
+                        "Add chopped onions, green chilies, and sauté until golden brown.",
+                        "Add turmeric powder, salt, and mashed potatoes. Mix well.",
+                        "Heat a dosa pan, pour a ladleful of batter, and spread it in a circular motion.",
+                        "Drizzle oil around the edges, place some potato filling in the center.",
+                        "Fold the dosa and serve hot with coconut chutney and sambar."
+                    ],
+                    history: "Masala Dosa originated in the Udupi region of Karnataka. The plain dosa has been around since the 6th century, but the masala (spiced) version with potato filling became popular in the early 20th century through Udupi restaurants across South India."
+                },
+                {
+                    id: 3,
+                    name: "Vada Pav",
+                    city: "Mumbai",
+                    region: "West India",
+                    type: "Vegetarian",
+                    description: "The iconic Mumbai street food featuring a spicy potato fritter sandwiched in a bread roll with various chutneys.",
+                    image: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    rating: 4.7,
+                    reviewCount: 287,
+                    tags: ["Street Food", "Spicy", "Quick"],
+                    prepTime: "15 min",
+                    cookTime: "20 min",
+                    servings: 4,
+                    difficulty: "Easy",
+                    ingredients: [
+                        "4 potatoes (boiled and mashed)",
+                        "4 pav (bread rolls)",
+                        "1 cup gram flour (besan)",
+                        "1 tsp mustard seeds",
+                        "1 tsp cumin seeds",
+                        "2 green chilies (finely chopped)",
+                        "1 inch ginger (grated)",
+                        "2 cloves garlic (minced)",
+                        "1/4 tsp turmeric powder",
+                        "1 tsp red chili powder",
+                        "1 sprig curry leaves",
+                        "2 tbsp coriander leaves (chopped)",
+                        "Oil for deep frying",
+                        "Salt to taste"
+                    ],
+                    steps: [
+                        "Heat oil in a pan and add mustard seeds, cumin seeds, and curry leaves.",
+                        "Add ginger, garlic, green chilies, and sauté for a minute.",
+                        "Add turmeric powder, red chili powder, and mashed potatoes. Mix well.",
+                        "Add salt and coriander leaves. Let the mixture cool.",
+                        "Make a batter with gram flour, a pinch of turmeric, red chili powder, and salt.",
+                        "Shape the potato mixture into round balls and dip them in the batter.",
+                        "Deep fry until golden brown and crispy.",
+                        "Slit pav horizontally, spread green chutney and tamarind chutney.",
+                        "Place the fried potato vada inside and serve hot with dry garlic chutney."
+                    ],
+                    history: "Vada Pav was invented in 1966 by Ashok Vaidya, who opened a food stall outside Dadar railway station in Mumbai. It was created as a quick, affordable meal for textile mill workers and has since become Mumbai's most iconic street food."
+                },
+                {
+                    id: 4,
+                    name: "Hyderabadi Biryani",
+                    city: "Hyderabad",
+                    region: "South India",
+                    type: "Non-Vegetarian",
+                    description: "Fragrant basmati rice layered with marinated meat and cooked in 'dum' style with aromatic spices, served with raita.",
+                    image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    rating: 4.9,
+                    reviewCount: 356,
+                    tags: ["Aromatic", "Festive", "Royal"],
+                    prepTime: "1 hr",
+                    cookTime: "1.5 hrs",
+                    servings: 6,
+                    difficulty: "Hard",
+                    ingredients: [
+                        "1 kg basmati rice",
+                        "1 kg mutton or chicken",
+                        "2 cups yogurt",
+                        "4 onions (thinly sliced)",
+                        "2 tomatoes (chopped)",
+                        "2 tbsp ginger-garlic paste",
+                        "4-5 green chilies",
+                        "1/4 cup mint leaves",
+                        "1/4 cup coriander leaves",
+                        "2 tbsp lemon juice",
+                        "1 tsp turmeric powder",
+                        "1 tbsp red chili powder",
+                        "1 tbsp biryani masala",
+                        "1 tsp garam masala",
+                        "4-5 strands saffron soaked in milk",
+                        "1/4 cup ghee",
+                        "Salt to taste"
+                    ],
+                    steps: [
+                        "Marinate meat with yogurt, ginger-garlic paste, turmeric, red chili powder, and salt for at least 2 hours.",
+                        "Soak basmati rice for 30 minutes, then parboil it with whole spices until 70% cooked.",
+                        "In a heavy-bottomed pot, layer half of the marinated meat at the bottom.",
+                        "Add a layer of partially cooked rice, followed by fried onions, mint, coriander, and green chilies.",
+                        "Repeat the layers ending with rice on top, and sprinkle saffron milk and ghee.",
+                        "Seal the pot with dough or foil and cook on low heat for 45 minutes (dum cooking).",
+                        "Let it rest for 10 minutes before opening. Gently mix the layers while serving.",
+                        "Serve hot with raita and salan."
+                    ],
+                    history: "Hyderabadi Biryani developed during the Nizam's rule in Hyderabad in the 18th century. It was influenced by both Mughal and Persian cuisines. The 'dum' cooking technique, where meat and rice are cooked together in a sealed pot, is what gives this biryani its distinctive flavor and aroma."
+                },
+                {
+                    id: 5,
+                    name: "Rasgulla",
+                    city: "Kolkata",
+                    region: "East India",
+                    type: "Dessert",
+                    description: "Soft and spongy cottage cheese balls soaked in light sugar syrup, a popular Bengali sweet.",
+                    image: "https://images.unsplash.com/photo-1605197196007-1da58a167192?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    rating: 4.7,
+                    reviewCount: 207,
+                    tags: ["Sweet", "Dessert", "Festive"],
+                    prepTime: "30 min",
+                    cookTime: "30 min",
+                    servings: 15,
+                    difficulty: "Medium",
+                    ingredients: [
+                        "1 liter milk",
+                        "2 tbsp lemon juice or vinegar",
+                        "2 cups sugar",
+                        "4 cups water",
+                        "1/4 cup all-purpose flour",
+                        "1/2 tsp cardamom powder",
+                        "A few strands of saffron (optional)",
+                        "2 tsp rose water (optional)"
+                    ],
+                    steps: [
+                        "Bring milk to a boil and add lemon juice to curdle it.",
+                        "Strain the curdled milk through a muslin cloth and rinse with cold water to remove the sourness.",
+                        "Hang the cloth for 30 minutes to drain excess water from the paneer (cottage cheese).",
+                        "Knead the paneer with all-purpose flour until smooth and without cracks.",
+                        "Divide the dough into small balls, ensuring there are no cracks.",
+                        "In a separate pot, make sugar syrup by boiling water and sugar until the sugar dissolves.",
+                        "Add the paneer balls to the simmering syrup and cover with a lid.",
+                        "Cook for 15-20 minutes until the balls double in size and become soft and spongy.",
+                        "Add cardamom powder, saffron, and rose water to the syrup.",
+                        "Allow the rasgullas to cool in the syrup before serving chilled."
+                    ],
+                    history: "Rasgulla has been a point of sweet debate between West Bengal and Odisha, both claiming its origin. However, the Bengali version popularized by K.C. Das in the late 19th century became famous throughout India. In 2017, West Bengal received the GI (Geographical Indication) tag for 'Banglar Rasgulla'."
+                },
+                {
+                    id: 6,
+                    name: "Chole Bhature",
+                    city: "Amritsar",
+                    region: "North India",
+                    type: "Vegetarian",
+                    description: "Spicy chickpea curry served with deep-fried bread, a popular breakfast and street food in Punjab.",
+                    image: "https://images.unsplash.com/photo-1626102213360-95cbddb9f039?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    rating: 4.8,
+                    reviewCount: 265,
+                    tags: ["Spicy", "Breakfast", "Street Food"],
+                    prepTime: "8 hrs",
+                    cookTime: "1 hr",
+                    servings: 4,
+                    difficulty: "Medium",
+                    ingredients: [
+                        "2 cups chickpeas (soaked overnight)",
+                        "2 onions (finely chopped)",
+                        "2 tomatoes (pureed)",
+                        "2 tbsp ginger-garlic paste",
+                        "2 green chilies (slit)",
+                        "1 tsp cumin seeds",
+                        "1 tsp coriander powder",
+                        "1 tsp red chili powder",
+                        "1 tsp garam masala",
+                        "1 tsp amchur (dry mango) powder",
+                        "1 tsp tea leaves (for color)",
+                        "2 cups all-purpose flour",
+                        "1/2 cup semolina",
+                        "1/2 cup yogurt",
+                        "1 tsp baking powder",
+                        "Oil for deep frying",
+                        "Salt to taste"
+                    ],
+                    steps: [
+                        "Boil soaked chickpeas with salt, tea leaves (in a cloth), and baking soda until soft.",
+                        "Heat oil in a pan and add cumin seeds. When they splutter, add onions and sauté until golden brown.",
+                        "Add ginger-garlic paste and green chilies. Sauté for a minute.",
+                        "Add tomato puree and cook until oil separates from the masala.",
+                        "Add all spices and cook for 2-3 minutes.",
+                        "Add boiled chickpeas and some cooking water. Simmer for 15-20 minutes.",
+                        "For bhature, mix flour, semolina, yogurt, baking powder, and salt.",
+                        "Knead into a soft dough and let it rest for 2-3 hours.",
+                        "Divide the dough into small balls and roll into oval or round shapes.",
+                        "Deep fry until they puff up and become golden brown on both sides.",
+                        "Serve hot chole with bhature, sliced onions, and pickle."
+                    ],
+                    history: "Chole Bhature is said to have originated in the Punjab region of northern India. After the partition in 1947, many Punjabi refugees brought this dish to Delhi, where it became a beloved street food. The dish combines the Punjabi love for hearty legumes and deep-fried bread."
+                },
+                {
+                    id: 7,
+                    name: "Pav Bhaji",
+                    city: "Mumbai",
+                    region: "West India",
+                    type: "Street Food",
+                    description: "Mashed vegetables in a spicy tomato gravy served with butter-toasted bread rolls, a beloved Mumbai street food.",
+                    image: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    rating: 4.7,
+                    reviewCount: 228,
+                    tags: ["Street Food", "Spicy", "Quick"],
+                    prepTime: "20 min",
+                    cookTime: "30 min",
+                    servings: 4,
+                    difficulty: "Easy",
+                    ingredients: [
+                        "2 potatoes (boiled and mashed)",
+                        "1 cauliflower (boiled and mashed)",
+                        "1 capsicum (finely chopped)",
+                        "1 cup green peas",
+                        "2 onions (finely chopped)",
+                        "2 tomatoes (pureed)",
+                        "2 tbsp pav bhaji masala",
+                        "1 tbsp red chili powder",
+                        "1 tsp turmeric powder",
+                        "2 tbsp butter",
+                        "1 lemon",
+                        "8 pav (bread rolls)",
+                        "Coriander leaves for garnish",
+                        "Salt to taste"
+                    ],
+                    steps: [
+                        "Pressure cook potatoes, cauliflower, and peas until soft. Mash them well.",
+                        "Heat butter in a pan and add chopped onions. Sauté until golden brown.",
+                        "Add chopped capsicum and cook for 2-3 minutes.",
+                        "Add tomato puree and cook until oil separates.",
+                        "Add all the spice powders and cook for another 2 minutes.",
+                        "Add the mashed vegetables and mix well. Add salt to taste.",
+                        "Add some water if needed and let it simmer for 10-15 minutes.",
+                        "Mash the vegetables with a potato masher while cooking to get a smooth texture.",
+                        "For the pav, slice them horizontally and toast with butter on a hot pan.",
+                        "Serve hot bhaji garnished with coriander leaves, a dollop of butter, and lemon wedges, alongside buttered pav."
+                    ],
+                    history: "Pav Bhaji was invented in the 1850s as a quick lunch option for textile mill workers in Mumbai. Street vendors created a dish from leftover vegetables, mashed and spiced, served with bread. It gained popularity during the American Civil War when cotton exports from Mumbai to Britain increased, keeping mill workers busy through the night."
+                },
+                {
+                    id: 8,
+                    name: "Rogan Josh",
+                    city: "Srinagar",
+                    region: "North India",
+                    type: "Non-Vegetarian",
+                    description: "A aromatic lamb curry with a deep red color from Kashmiri chilies and rich spices, typically served with rice or naan.",
+                    image: "https://images.unsplash.com/photo-1598866594230-a7c12756260f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    rating: 4.8,
+                    reviewCount: 196,
+                    tags: ["Aromatic", "Slow-cooked", "Kashmiri"],
+                    prepTime: "30 min",
+                    cookTime: "1.5 hrs",
+                    servings: 4,
+                    difficulty: "Medium",
+                    ingredients: [
+                        "1 kg lamb (cut into pieces)",
+                        "2 onions (finely chopped)",
+                        "2 tbsp ginger-garlic paste",
+                        "4 tbsp Kashmiri red chili powder",
+                        "1 tsp cumin powder",
+                        "1 tsp coriander powder",
+                        "1/2 tsp turmeric powder",
+                        "1 tsp garam masala",
+                        "1 cup yogurt",
+                        "1 bay leaf",
+                        "4-5 cloves",
+                        "1 inch cinnamon stick",
+                        "4-5 green cardamoms",
+                        "1 black cardamom",
+                        "4 tbsp ghee or oil",
+                        "Salt to taste"
+                    ],
+                    steps: [
+                        "Heat ghee in a heavy-bottomed pot and add whole spices (bay leaf, cloves, cinnamon, cardamoms).",
+                        "Add chopped onions and sauté until golden brown.",
+                        "Add ginger-garlic paste and cook until the raw smell disappears.",
+                        "Add lamb pieces and cook on high heat until they are browned.",
+                        "Add Kashmiri red chili powder, turmeric, cumin, and coriander powder.",
+                        "Mix well and cook for 2-3 minutes.",
+                        "Add yogurt gradually, stirring continuously to prevent curdling.",
+                        "Add salt, cover, and cook on low heat for about an hour or until the meat is tender.",
+                        "Sprinkle garam masala and let it simmer for another 5-10 minutes.",
+                        "Garnish with fresh coriander and serve hot with rice or naan."
+                    ],
+                    history: "Rogan Josh came to Kashmir with the Mughals in the 15th century. The name 'Rogan Josh' comes from Persian words where 'Rogan' means oil or fat and 'Josh' means heat or passion. The Kashmiri version uses liberal amounts of dried Kashmiri chilies, which give the dish its distinctive color without making it too spicy."
+                },
+                {
+                    id: 9,
+                    name: "Idli Sambar",
+                    city: "Chennai",
+                    region: "South India",
+                    type: "Vegetarian",
+                    description: "Soft steamed rice cakes served with lentil-based vegetable stew and coconut chutney, a staple South Indian breakfast.",
+                    image: "https://images.unsplash.com/photo-1589301951116-39cc0556e434?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    rating: 4.6,
+                    reviewCount: 215,
+                    tags: ["Breakfast", "Healthy", "Steamed"],
+                    prepTime: "8 hrs",
+                    cookTime: "30 min",
+                    servings: 4,
+                    difficulty: "Medium",
+                    ingredients: [
+                        "2 cups idli rice",
+                        "1 cup urad dal (split black gram)",
+                        "1/4 tsp fenugreek seeds",
+                        "Salt to taste",
+                        "1 cup toor dal (pigeon peas)",
+                        "1 onion (chopped)",
+                        "2 tomatoes (chopped)",
+                        "1 carrot (chopped)",
+                        "1 eggplant (chopped)",
+                        "10 drumsticks (cut into pieces)",
+                        "1 tbsp sambar powder",
+                        "1/2 tsp turmeric powder",
+                        "1 tsp mustard seeds",
+                        "1 tsp cumin seeds",
+                        "2 dry red chilies",
+                        "1 sprig curry leaves",
+                        "A pinch of asafoetida",
+                        "2 tbsp oil",
+                        "1 tbsp tamarind paste",
+                        "Coriander leaves for garnish"
+                    ],
+                    steps: [
+                        "Soak idli rice, urad dal, and fenugreek seeds separately for 4-6 hours.",
+                        "Grind them to a smooth batter and let it ferment overnight.",
+                        "Grease idli molds and pour the batter into them.",
+                        "Steam the idlis for 10-12 minutes until they are cooked through.",
+                        "For sambar, pressure cook toor dal until soft and mash it.",
+                        "In a pot, boil all the vegetables with turmeric, sambar powder, and salt until tender.",
+                        "Add tamarind paste and mashed dal to the vegetables and bring to a boil.",
+                        "In a small pan, heat oil and add mustard seeds, cumin seeds, dry red chilies, curry leaves, and asafoetida.",
+                        "Pour this tempering over the sambar and simmer for 5 minutes.",
+                        "Garnish with fresh coriander leaves and serve hot with idlis."
+                    ],
+                    history: "Idli has ancient origins dating back to the 7th century. The combination of idli with sambar became popular in Tamil Nadu. While idli is believed to have originated in present-day Tamil Nadu, sambar has its roots in the kitchen of Thanjavur Marathas ruler Shahuji, named after Sambhaji, the second ruler of the Maratha empire."
+                },
+                {
+                    id: 10,
+                    name: "Ghewar",
+                    city: "Jaipur",
+                    region: "North India",
+                    type: "Dessert",
+                    description: "A disc-shaped sweet cake made with flour and soaked in sugar syrup, traditionally prepared during festivals in Rajasthan.",
+                    image: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    rating: 4.7,
+                    reviewCount: 178,
+                    tags: ["Sweet", "Festive", "Traditional"],
+                    prepTime: "30 min",
+                    cookTime: "45 min",
+                    servings: 8,
+                    difficulty: "Hard",
+                    ingredients: [
+                        "2 cups all-purpose flour",
+                        "1/2 cup ghee (clarified butter)",
+                        "1/2 cup milk",
+                        "1 cup water",
+                        "3 cups sugar",
+                        "1.5 cups water (for sugar syrup)",
+                        "1/4 tsp cardamom powder",
+                        "A few strands of saffron",
+                        "2 tbsp sliced pistachios",
+                        "2 tbsp sliced almonds",
+                        "1 tbsp silver varq (optional)"
+                    ],
+                    steps: [
+                        "Mix flour, milk, and water to make a batter of pouring consistency.",
+                        "Heat ghee in a deep pan or ghewar mold.",
+                        "Pour the batter through a perforated ladle or a bottle with holes in a circular motion into the hot ghee.",
+                        "Cook until the edges turn golden brown.",
+                        "Drain excess ghee and carefully remove the ghewar.",
+                        "For the sugar syrup, boil sugar and water with cardamom powder and saffron until it reaches one-string consistency.",
+                        "Pour the warm syrup over the ghewar and let it soak well.",
+                        "Garnish with sliced nuts and silver varq.",
+                        "Let it cool completely before serving."
+                    ],
+                    history: "Ghewar is a traditional Rajasthani sweet that is an integral part of Teej and other festivals in Rajasthan. It originated in the royal kitchens of Rajasthan and is now a popular sweet across North India. The intricate honeycomb-like pattern is created by pouring the batter in a specific way into hot ghee."
+                },
+                {
+                    id: 11,
+                    name: "Fish Curry",
+                    city: "Kochi",
+                    region: "South India",
+                    type: "Non-Vegetarian",
+                    description: "Spicy and tangy fish curry cooked with coconut milk and a blend of Kerala spices, best enjoyed with rice.",
+                    image: "https://images.unsplash.com/photo-1626102214276-305db59b5a8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    rating: 4.8,
+                    reviewCount: 234,
+                    tags: ["Spicy", "Coastal", "Tangy"],
+                    prepTime: "20 min",
+                    cookTime: "30 min",
+                    servings: 4,
+                    difficulty: "Medium",
+                    ingredients: [
+                        "500g fish (preferably kingfish or pomfret)",
+                        "1 cup thick coconut milk",
+                        "1 cup thin coconut milk",
+                        "2 onions (thinly sliced)",
+                        "2 tomatoes (chopped)",
+                        "1 tbsp ginger-garlic paste",
+                        "2 green chilies (slit)",
+                        "1 tsp turmeric powder",
+                        "1 tbsp red chili powder",
+                        "1 tbsp coriander powder",
+                        "1 tsp fenugreek seeds",
+                        "10-12 curry leaves",
+                        "2 tbsp coconut oil",
+                        "1 tbsp tamarind paste",
+                        "Salt to taste"
+                    ],
+                    steps: [
+                        "Clean and cut fish into medium-sized pieces. Marinate with turmeric, salt, and a little red chili powder.",
+                        "Heat coconut oil in a clay pot or heavy-bottomed pan.",
+                        "Add fenugreek seeds, and when they splutter, add sliced onions and curry leaves.",
+                        "Sauté until onions turn translucent, then add ginger-garlic paste and green chilies.",
+                        "Add chopped tomatoes and cook until they soften.",
+                        "Add all the spice powders and mix well. Cook for 2-3 minutes.",
+                        "Add thin coconut milk and tamarind paste. Bring to a boil.",
+                        "Add the marinated fish pieces carefully and cook on medium heat for 10-12 minutes.",
+                        "Reduce heat and add thick coconut milk. Simmer for 5 minutes (do not boil after adding thick coconut milk).",
+                        "Adjust salt and remove from heat. Serve hot with steamed rice."
+                    ],
+                    history: "Kerala Fish Curry (Meen Curry) is a staple in Kerala's coastal cuisine. The state's long coastline and numerous rivers make fish an important part of the local diet. The traditional use of coconut, tamarind, and curry leaves gives the curry its distinctive taste, reflecting the rich spice trade history of Kerala."
+                },
+                {
+                    id: 12,
+                    name: "Dal Baati Churma",
+                    city: "Jaipur",
+                    region: "North India",
+                    type: "Vegetarian",
+                    description: "A traditional Rajasthani three-in-one dish with lentil curry, baked wheat balls, and sweetened crushed wheat.",
+                    image: "https://images.unsplash.com/photo-1630383249896-696ad18e8199?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    rating: 4.7,
+                    reviewCount: 187,
+                    tags: ["Traditional", "Festive", "Rich"],
+                    prepTime: "1 hr",
+                    cookTime: "1.5 hrs",
+                    servings: 6,
+                    difficulty: "Hard",
+                    ingredients: [
+                        "1 cup toor dal (pigeon peas)",
+                        "1/4 cup chana dal (split chickpeas)",
+                        "1/4 cup moong dal (split green gram)",
+                        "2 cups whole wheat flour",
+                        "1/4 cup semolina",
+                        "1/2 cup ghee",
+                        "1 tsp turmeric powder",
+                        "1 tsp red chili powder",
+                        "1 tsp coriander powder",
+                        "1 tsp cumin seeds",
+                        "1 pinch asafoetida",
+                        "2 dry red chilies",
+                        "1 tbsp ginger-garlic paste",
+                        "1 cup powdered sugar",
+                        "1/4 cup milk",
+                        "Salt to taste"
+                    ],
+                    steps: [
+                        "For dal, wash and pressure cook all the lentils with turmeric and salt until soft.",
+                        "Heat ghee in a pan and add cumin seeds, asafoetida, and dry red chilies.",
+                        "Add ginger-garlic paste and sauté for a minute.",
+                        "Add all the spice powders and cook for 2 minutes.",
+                        "Add the cooked dal and simmer for 10-15 minutes. Adjust consistency and salt.",
+                        "For baati, mix whole wheat flour, semolina, salt, and 1/4 cup ghee to make a stiff dough.",
+                        "Divide the dough into lemon-sized balls and press slightly in the center.",
+                        "Traditionally, these are roasted over cow dung cakes, but you can bake them in an oven at 180°C for 30-35 minutes until golden brown.",
+                        "Dip the hot baatis in ghee before serving.",
+                        "For churma, bake some wheat balls as above, but without the hole in the center.",
+                        "Crush the baked balls finely, mix with powdered sugar, and add ghee and cardamom powder.",
+                        "Serve hot dal with baati and churma on the side."
+                    ],
+                    history: "Dal Baati Churma has its origins in the military camps of Rajputana warriors. The wheat balls were baked on the desert sand under the sun and stored for days. The combination evolved as a complete nutritious meal suitable for the arid region. It later became a royal delicacy in the courts of Rajput rulers."
+                },
+                {
+                    id: 13,
+                    name: "Misal Pav",
+                    city: "Mumbai",
+                    region: "West India",
+                    type: "Street Food",
+                    description: "A spicy curry made of sprouted moth beans topped with farsan (crunchy savories), onions, and served with bread rolls.",
+                    image: "https://images.unsplash.com/photo-1567188040759-fb8a6a7b4404?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    rating: 4.6,
+                    reviewCount: 198,
+                    tags: ["Spicy", "Street Food", "Breakfast"],
+                    prepTime: "8 hrs",
+                    cookTime: "30 min",
+                    servings: 4,
+                    difficulty: "Medium",
+                    ingredients: [
+                        "2 cups moth beans (sprouted)",
+                        "8 pav (bread rolls)",
+                        "2 onions (finely chopped)",
+                        "2 tomatoes (pureed)",
+                        "2 tbsp ginger-garlic paste",
+                        "2 green chilies (chopped)",
+                        "1 tsp turmeric powder",
+                        "2 tbsp red chili powder",
+                        "1 tbsp garam masala",
+                        "1 tsp cumin seeds",
+                        "1 tsp mustard seeds",
+                        "1 sprig curry leaves",
+                        "1 cup farsan (mixture of sev, chivda, etc.)",
+                        "1/2 cup fresh coriander (chopped)",
+                        "1 lemon (cut into wedges)",
+                        "2 tbsp oil",
+                        "Salt to taste"
+                    ],
+                    steps: [
+                        "Pressure cook the sprouted moth beans with salt and turmeric until soft.",
+                        "Heat oil in a pan and add cumin seeds, mustard seeds, and curry leaves.",
+                        "Add chopped onions and sauté until golden brown.",
+                        "Add ginger-garlic paste and green chilies. Cook for a minute.",
+                        "Add tomato puree and cook until oil separates.",
+                        "Add all the spice powders and mix well.",
+                        "Add the cooked moth beans and some water. Simmer for 10-15 minutes.",
+                        "Toast the pav with butter on a hot pan.",
+                        "To serve, place the misal in a bowl, top with farsan, chopped onions, and coriander leaves.",
+                        "Serve hot with buttered pav and lemon wedges on the side."
+                    ],
+                    history: "Misal Pav originated in the Kolhapur region of Maharashtra and later became popular in Mumbai. The dish is known for its spiciness, especially the Kolhapuri version. It's a nutritious meal due to the protein-rich sprouted beans and is often enjoyed as a hearty breakfast or lunch."
+                },
+                {
+                    id: 14,
+                    name: "Dhokla",
+                    city: "Ahmedabad",
+                    region: "West India",
+                    type: "Vegetarian",
+                    description: "A savory steamed cake made from fermented rice and chickpea flour, tempered with mustard seeds and served with chutney.",
+                    image: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    rating: 4.5,
+                    reviewCount: 176,
+                    tags: ["Steamed", "Healthy", "Snack"],
+                    prepTime: "4 hrs",
+                    cookTime: "20 min",
+                    servings: 4,
+                    difficulty: "Easy",
+                    ingredients: [
+                        "2 cups gram flour (besan)",
+                        "1/2 cup semolina",
+                        "1 cup yogurt",
+                        "1 tbsp ginger-green chili paste",
+                        "1 tsp turmeric powder",
+                        "1 tsp Eno fruit salt or baking soda",
+                        "2 tbsp oil",
+                        "1 tsp mustard seeds",
+                        "1 tsp cumin seeds",
+                        "2 green chilies (slit)",
+                        "1 sprig curry leaves",
+                        "2 tbsp fresh coriander (chopped)",
+                        "2 tbsp grated coconut",
+                        "1 tbsp lemon juice",
+                        "Salt to taste"
+                    ],
+                    steps: [
+                        "Mix gram flour, semolina, yogurt, ginger-green chili paste, turmeric, and salt. Add water to make a thick batter.",
+                        "Let the batter ferment for 4 hours.",
+                        "Grease a steaming plate and add Eno fruit salt to the batter. Mix gently.",
+                        "Pour the batter into the plate and steam for 15-20 minutes until a toothpick comes out clean.",
+                        "Let it cool slightly and cut into squares.",
+                        "For tempering, heat oil in a small pan and add mustard seeds, cumin seeds, green chilies, and curry leaves.",
+                        "Pour this tempering over the dhokla and spread evenly.",
+                        "Garnish with fresh coriander and grated coconut.",
+                        "Sprinkle lemon juice before serving.",
+                        "Serve with green chutney and tamarind chutney."
+                    ],
+                    history: "Dhokla is a traditional Gujarati snack that has been a part of the cuisine for centuries. It's believed to have originated from the tribal communities of the region who used fermented rice paste to make steamed cakes. Over time, it evolved into the modern version using gram flour. Dhokla is now popular across India as a healthy snack or breakfast option."
+                },
+                {
+                    id: 15,
+                    name: "Litti Chokha",
+                    city: "Patna",
+                    region: "East India",
+                    type: "Vegetarian",
+                    description: "Wheat balls stuffed with sattu (roasted gram flour) and served with mashed vegetables, a rustic delicacy from Bihar.",
+                    image: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    rating: 4.6,
+                    reviewCount: 165,
+                    tags: ["Rustic", "Traditional", "Spicy"],
+                    prepTime: "1 hr",
+                    cookTime: "45 min",
+                    servings: 4,
+                    difficulty: "Medium",
+                    ingredients: [
+                        "2 cups whole wheat flour",
+                        "1 cup sattu (roasted gram flour)",
+                        "2 tbsp mustard oil",
+                        "1 tbsp pickle masala",
+                        "1 tsp ajwain (carom seeds)",
+                        "2 green chilies (finely chopped)",
+                        "1 inch ginger (grated)",
+                        "2 tbsp fresh coriander (chopped)",
+                        "3 large potatoes (boiled)",
+                        "3 large eggplants (roasted)",
+                        "2 tomatoes (roasted)",
+                        "1 onion (finely chopped)",
+                        "1 tbsp garlic paste",
+                        "1 tsp red chili powder",
+                        "Ghee for serving",
+                        "Salt to taste",
+                        "Lemon juice to taste"
+                    ],
+                    steps: [
+                        "For litti dough, mix wheat flour, salt, and a little oil. Knead into a stiff dough using water as needed.",
+                        "For the filling, mix sattu, pickle masala, ajwain, green chilies, ginger, coriander, mustard oil, and salt.",
+                        "Add a little water to make the filling moist but not wet.",
+                        "Divide the dough into lemon-sized balls. Flatten each ball, place some filling in the center, and seal it completely.",
+                        "Traditionally, littis are roasted over coal, but you can bake them in an oven at 180°C for 30-35 minutes until golden brown.",
+                        "For chokha, mash the boiled potatoes and roasted eggplants and tomatoes.",
+                        "Add chopped onions, garlic paste, green chilies, coriander, mustard oil, salt, and lemon juice. Mix well.",
+                        "Dip the hot littis in ghee and serve with chokha."
+                    ],
+                    history: "Litti Chokha is a traditional dish from Bihar, Jharkhand, and parts of Eastern Uttar Pradesh. It was a staple food for peasants and is known for its long shelf life, making it suitable for travelers and soldiers. During the 1857 revolt, it was a primary food for soldiers due to its easy preparation and nutritional value."
+                },
+                {
+                    id: 16,
+                    name: "Mysore Pak",
+                    city: "Mysore",
+                    region: "South India",
+                    type: "Dessert",
+                    description: "A rich and melt-in-mouth sweet made from gram flour, ghee, and sugar, a royal delicacy from Karnataka.",
+                    image: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                    rating: 4.8,
+                    reviewCount: 210,
+                    tags: ["Sweet", "Rich", "Royal"],
+                    prepTime: "10 min",
+                    cookTime: "30 min",
+                    servings: 20,
+                    difficulty: "Medium",
+                    ingredients: [
+                        "1 cup gram flour (besan)",
+                        "1 cup ghee (clarified butter)",
+                        "2 cups sugar",
+                        "1/2 cup water",
+                        "1/4 tsp cardamom powder"
+                    ],
+                    steps: [
+                        "Sieve the gram flour to remove any lumps.",
+                        "Grease a tray or plate with ghee and keep it ready.",
+                        "In a heavy-bottomed pan, make sugar syrup by dissolving sugar in water and bringing it to a boil.",
+                        "Cook the syrup until it reaches one-string consistency.",
+                        "Reduce the heat to low and add the sieved gram flour gradually, stirring continuously to avoid lumps.",
+                        "Add ghee little by little, stirring continuously.",
+                        "Continue cooking and stirring until the mixture starts leaving the sides of the pan and the ghee starts to separate.",
+                        "Add cardamom powder and mix well.",
+                        "Pour the mixture into the greased tray and level it.",
+                        "Let it cool for 5-10 minutes, then cut into squares or diamonds.",
+                        "Allow it to cool completely before removing the pieces from the tray."
+                    ],
+                    history: "Mysore Pak was created in the royal kitchens of the Mysore Palace during the reign of King Krishna Raja Wadiyar IV. The royal chef, Kakasura Madappa, invented this sweet in the early 1900s when the king asked for a new sweet. The name 'Pak' refers to the sugar syrup used in its preparation."
+                }
+            ];
+
+            // Cities for search suggestions
+            const cities = [...new Set(cuisineData.map(item => item.city))];
+            
+            // Regions for search suggestions
+            const regions = [...new Set(cuisineData.map(item => item.region))];
+            
+            // Food types for search suggestions
+            const foodTypes = [...new Set(cuisineData.map(item => item.type))];
+            
+            // Dish names for search suggestions
+            const dishNames = cuisineData.map(item => item.name);
+
+            // All searchable terms
+            const searchTerms = [...cities, ...regions, ...foodTypes, ...dishNames];
+
+            // Recommendations data (can be a subset of cuisine data)
+            const recommendedCuisines = [1, 2, 3, 4, 6]; // IDs of recommended cuisines
+
+            // DOM elements
+            const cuisineGrid = document.getElementById('cuisineGrid');
+            const recommendationsGrid = document.getElementById('recommendationsGrid');
+            const searchInput = document.getElementById('searchInput');
+            const searchSuggestions = document.getElementById('searchSuggestions');
+            const regionFilter = document.getElementById('regionFilter');
+            const dietFilter = document.getElementById('dietFilter');
+            const searchBtn = document.getElementById('searchBtn');
+            const recipeModal = document.getElementById('recipeModal');
+            const closeModal = document.getElementById('closeModal');
+            const modalHeader = document.getElementById('modalHeader');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalSubtitle = document.getElementById('modalSubtitle');
+            const modalBody = document.getElementById('modalBody');
+            const loading = document.getElementById('loading');
+            const backToTop = document.getElementById('backToTop');
+            const mobileNavToggle = document.getElementById('mobileNavToggle');
+            const navLinks = document.getElementById('navLinks');
+
+            // Initialize AOS animation
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 800,
+                    easing: 'ease-in-out',
+                    once: true,
+                    mirror: false
+                });
+            }
+
+            // Show loading animation
+            function showLoading() {
+                loading.classList.add('active');
+            }
+
+            // Hide loading animation
+            function hideLoading() {
+                setTimeout(() => {
+                    loading.classList.remove('active');
+                }, 500);
+            }
+
+            // Create cuisine cards with animation delay
+            function createCuisineCard(cuisine, index) {
+                const card = document.createElement('div');
+                card.className = 'cuisine-card';
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.setAttribute('data-id', cuisine.id);
+
+                card.innerHTML = `
+                    <img src="${cuisine.image}" alt="${cuisine.name}" class="cuisine-img">
+                    <div class="cuisine-details">
+                        <div class="cuisine-title">
+                            <h3>${cuisine.name}</h3>
+                            <span class="cuisine-city">${cuisine.city}</span>
+                        </div>
+                        <p class="cuisine-desc">${cuisine.description}</p>
+                        <div class="cuisine-facts">
+                            <span class="fact-tag">${cuisine.region}</span>
+                            <span class="fact-tag">${cuisine.type}</span>
+                            ${cuisine.tags.map(tag => `<span class="fact-tag">${tag}</span>`).join('')}
+                        </div>
+                        <div class="cuisine-footer">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>${cuisine.rating}</span>
+                                <span class="rating-count">(${cuisine.reviewCount})</span>
+                            </div>
+                            <a href="#" class="view-recipe">View Recipe</a>
+                        </div>
+                    </div>
+                `;
+
+                card.addEventListener('click', () => {
+                    openRecipeModal(cuisine);
+                });
+
+                return card;
+            }
+
+            // Display all cuisines
+            function displayCuisines(cuisines) {
+                cuisineGrid.innerHTML = '';
+                if (cuisines.length === 0) {
+                    cuisineGrid.innerHTML = '<p class="no-results">No cuisines found matching your criteria. Try a different search.</p>';
+                    return;
+                }
+
+                cuisines.forEach((cuisine, index) => {
+                    cuisineGrid.appendChild(createCuisineCard(cuisine, index));
+                });
+            }
+
+            // Display recommended cuisines
+            function displayRecommendations() {
+                recommendationsGrid.innerHTML = '';
+                recommendedCuisines.forEach((id, index) => {
+                    const cuisine = cuisineData.find(c => c.id === id);
+                    if (cuisine) {
+                        recommendationsGrid.appendChild(createCuisineCard(cuisine, index));
+                    }
+                });
+            }
+
+            // Filter cuisines based on search and filters
+            function filterCuisines() {
+                showLoading();
+                
+                const searchText = searchInput.value.toLowerCase();
+                const regionValue = regionFilter.value;
+                const dietValue = dietFilter.value;
+
+                const filteredCuisines = cuisineData.filter(cuisine => {
+                    // Check if the search text matches any of the cuisine properties
+                    const matchesSearch = 
+                        cuisine.name.toLowerCase().includes(searchText) || 
+                        cuisine.description.toLowerCase().includes(searchText) ||
+                        cuisine.city.toLowerCase().includes(searchText) ||
+                        cuisine.region.toLowerCase().includes(searchText) ||
+                        cuisine.type.toLowerCase().includes(searchText) ||
+                        cuisine.tags.some(tag => tag.toLowerCase().includes(searchText));
+                    
+                    const matchesRegion = regionValue === '' || cuisine.region === regionValue;
+                    const matchesDiet = dietValue === '' || cuisine.type === dietValue;
+
+                    return matchesSearch && matchesRegion && matchesDiet;
+                });
+
+                setTimeout(() => {
+                    displayCuisines(filteredCuisines);
+                    hideLoading();
+                }, 800); // Simulated delay for loading effect
+            }
+
+            // Generate search suggestions
+            function generateSuggestions(query) {
+                if (!query) {
+                    searchSuggestions.classList.remove('active');
+                    return;
+                }
+
+                const matchedTerms = searchTerms.filter(term => 
+                    term.toLowerCase().includes(query.toLowerCase())
+                );
+
+                if (matchedTerms.length === 0) {
+                    searchSuggestions.classList.remove('active');
+                    return;
+                }
+
+                searchSuggestions.innerHTML = '';
+                matchedTerms.slice(0, 5).forEach(term => {
+                    const item = document.createElement('div');
+                    item.className = 'suggestion-item';
+                    
+                    // Highlight the matching part of the term
+                    const regex = new RegExp(`(${query})`, 'gi');
+                    const highlightedTerm = term.replace(regex, '<span class="highlight">$1</span>');
+                    
+                    item.innerHTML = highlightedTerm;
+                    
+                    item.addEventListener('click', () => {
+                        searchInput.value = term;
+                        searchSuggestions.classList.remove('active');
+                        filterCuisines();
+                    });
+                    
+                    searchSuggestions.appendChild(item);
+                });
+                
+                searchSuggestions.classList.add('active');
+            }
+
+            // Open recipe modal
+            function openRecipeModal(cuisine) {
+                modalHeader.style.backgroundImage = `url(${cuisine.image})`;
+                modalTitle.textContent = cuisine.name;
+                modalSubtitle.textContent = `${cuisine.city}, ${cuisine.region}`;
+
+                modalBody.innerHTML = `
+                    <div class="recipe-info">
+                        <div class="info-card">
+                            <i class="fas fa-clock"></i>
+                            <h4>Prep Time</h4>
+                            <p>${cuisine.prepTime}</p>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-fire"></i>
+                            <h4>Cook Time</h4>
+                            <p>${cuisine.cookTime}</p>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-users"></i>
+                            <h4>Servings</h4>
+                            <p>${cuisine.servings}</p>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-chart-line"></i>
+                            <h4>Difficulty</h4>
+                            <p>${cuisine.difficulty}</p>
+                        </div>
+                    </div>
+
+                    <div class="recipe-description">
+                        <p>${cuisine.history}</p>
+                    </div>
+
+                    <div class="recipe-ingredients">
+                        <h3>Ingredients</h3>
+                        <ul class="ingredients-list">
+                            ${cuisine.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="recipe-steps">
+                        <h3>Preparation Steps</h3>
+                        <ol>
+                            ${cuisine.steps.map(step => `<li>${step}</li>`).join('')}
+                        </ol>
+                    </div>
+                `;
+
+                recipeModal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+
+            // Close recipe modal
+            function closeRecipeModal() {
+                recipeModal.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+
+            // Toggle mobile navigation
+            function toggleMobileNav() {
+                navLinks.classList.toggle('active');
+                mobileNavToggle.innerHTML = navLinks.classList.contains('active') ? 
+                    '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            }
+
+            // Scroll to top function
+            function scrollToTop() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+
+            // Check scroll position for back to top button
+            function checkScrollPosition() {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            }
+
+            // Event listeners
+            searchBtn.addEventListener('click', filterCuisines);
+            searchInput.addEventListener('keyup', event => {
+                if (event.key === 'Enter') {
+                    filterCuisines();
+                    searchSuggestions.classList.remove('active');
+                } else {
+                    generateSuggestions(searchInput.value);
+                }
+            });
+
+            // Close suggestions when clicking outside
+            document.addEventListener('click', event => {
+                if (!event.target.closest('.search-input')) {
+                    searchSuggestions.classList.remove('active');
+                }
+            });
+
+            regionFilter.addEventListener('change', filterCuisines);
+            dietFilter.addEventListener('change', filterCuisines);
+            closeModal.addEventListener('click', closeRecipeModal);
+            window.addEventListener('click', event => {
+                if (event.target === recipeModal) {
+                    closeRecipeModal();
+                }
+            });
+            backToTop.addEventListener('click', scrollToTop);
+            window.addEventListener('scroll', checkScrollPosition);
+            mobileNavToggle.addEventListener('click', toggleMobileNav);
+
+            // Initialize
+            showLoading();
+            setTimeout(() => {
+                displayCuisines(cuisineData);
+                displayRecommendations();
+                hideLoading();
+            }, 1000); // Simulated delay for initial loading
+
+            // Add escape key functionality for modal
+            document.addEventListener('keydown', event => {
+                if (event.key === 'Escape' && recipeModal.classList.contains('active')) {
+                    closeRecipeModal();
+                }
+            });
+
+            // Add animated scroll effect to navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Add animation to cuisine cards on scroll
+            function animateOnScroll() {
+                const cards = document.querySelectorAll('.cuisine-card');
+                cards.forEach(card => {
+                    const cardTop = card.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    if (cardTop < windowHeight - 100) {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', animateOnScroll);
+            // Initial check for elements in view
+            setTimeout(animateOnScroll, 100);
+        });
+    </script>
+</body>
+</html>
